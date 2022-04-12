@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <title>Gaylian: Schule</title>
+
+    <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+
+    <style>
+        progress {
+            width: 20cm; 
+            height: 2cm; 
+            appearance: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        progress::-moz-progress-bar {
+            background: linear-gradient(to right, rgb(0, 90, 89), rgb(0, 192, 189));
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Bitte haben Sie einen Augenblick Geduld...</h1>
+        <progress id="bar" value="0" max="100"></progress>
+    </center>
+
+    <script>
+        progress();
+
+        async function progress() {
+            var pb = document.getElementById('bar');
+
+            for (i = 0; i < 100; i++) {
+                pb.value = i;
+                await sleep(50);
+            }
+
+            window.location.replace("");
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+
+</html>

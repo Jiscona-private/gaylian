@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Gaylian: Cloud - Fileupload</title>
+
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+    </head>
+
+    <body>
+        <p>
+            {{ msg }}
+        </p>
+    
+        <h1>Gaylian: Cloud</h1>
+
+        <form method="post" enctype=multipart/form-data>
+            <input type="file" id="file" name="file">
+            <input type="text" name="filecode" placeholder="Code der Datei">
+            <input type="password" name="authCode" placeholder="Cloud-Code">
+            <input type="submit" value="Hochladen">
+        </form>
+
+        <script>
+            //check if file is too large
+            var uploadField = document.getElementById("file");
+
+            uploadField.onchange = function() {
+                if(this.files[0].size > 20971520){ //20MB, change wirh Cloud Password
+                alert("Die Datei ist zu groß!");
+                this.value = "";
+                };
+            };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gaylian: Markdown</title>
+    
+    <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/markdown-style.css') }}">
+
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
+</head>
+
+<body>
+    <div id="content" class="markdown-body container-fluid">
+{{ content }}
+    </div>
+    <script>
+        var converter = new showdown.Converter();
+        var target = document.getElementById('content');
+
+        target.innerHTML = converter.makeHtml(target.innerHTML);                   
+    </script>
+</body>
+
+</html>
