@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gaylian: Notizen - Schreiben</title>
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+    </head>
+    <body>
+        {{ error }}
+        <form method="post">
+            <textarea name="content" placeholder="Nachricht"></textarea>
+            <input type="submit" value="Notiz speichern">
+        </form>
+    </body>    
+</html>
