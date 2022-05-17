@@ -1,11 +1,11 @@
 from enum import auto
-import numbers
-import random, os 
+import random, os
 from os.path import exists
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
+#from flask_bcrypt import Bcrypt
 
 # path preparation
 UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/cloud/files'
@@ -19,12 +19,15 @@ db = SQLAlchemy(app)
 
 ##### DATAMODELS #####
 
-class CloudUser(db.Model):
+class user(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    authCode = db.Column(db.String(120), unique=True, nullable=False)
+    authDigit = db.Column(db.String(1), nullable=False)
+    authHash = db.Column(db.String(120), nullable=False)
+    storageUsed = db.Column(db.Integer, nullable=False)
+    storageOwned = db.Column(db.Integer, nullable=False)
 
-class files(db.Model):
+class file(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
     fileformat = db.Column(db.String(8), nullable=False)
@@ -56,15 +59,15 @@ def upload_file():
     if request.method == 'POST':
         # getting authCodes
         usedCode = request.form['authCode']
-        authed = CloudUser.query.filter_by(authCode=usedCode).first()
+        authed = user.query.filter_by(authCode=usedCode).first()
 
         if authed:
             # check if the post request has the file part
-            if 'file' not in request.files:
+            if 'file' not in request.file:
                 flash('No file part')
                 return redirect(request.url)
 
-            file = request.files['file']
+            file = request.file['file']
             # If the user does not select a file, the browser submits an
             # empty file without a filename.
 
@@ -73,9 +76,9 @@ def upload_file():
                 return redirect(request.url)
 
             if file:
-                from webpages import files
+                from webpages import file
                 # check if code is already used
-                codeUsed = files.query.filter_by(fileCode=request.form['filecode']).first()
+                codeUsed = file.query.filter_by(fileCode=request.form['filecode']).first()
                 if codeUsed:
                     return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
 
@@ -86,7 +89,7 @@ def upload_file():
 
                 # adding link to database
                 fileCode = request.form['filecode']
-                newFile = files(fileformat=fileformat, fileCode=fileCode)
+                newFile = file(fileformat=fileformat, fileCode=fileCode)
                 db.session.add(newFile)
                 db.session.commit()
                 db.session.refresh(newFile)
@@ -98,9 +101,9 @@ def upload_file():
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html')
 
-@app.route('/cloud/files/<code>')
+@app.route('/cloud/<code>')
 def download_file(code):
-    file = files.query.filter_by(fileCode=code).first()
+    file = file.query.filter_by(fileCode=code).first()
     fileName = str(file.id)+file.fileformat
     return send_from_directory(app.config["UPLOAD_FOLDER"], fileName)
 
@@ -125,6 +128,28 @@ def write_note():
 @app.route('/notes/<number>')
 def show_note(number):
     return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
+
+@app.route('/user/new', methods=["POST","GET"])
+def createUser():
+    if request.method == "POST":
+        if (request.form['adminName'] == "./admin"):
+            username = request.form['username']
+            pw = username = request.form['password']
+            storage = request.form['storage']
+
+            newUser = user(username=username, authDigit=pw[0], authHash=pw[1:], storageUsed=0, storageOwned=(storage*1024*1024))
+            db.session.add(newUser)
+            db.session.commit()
+            db.session.refresh(newUser)
+
+            return "done"
+    return render_template('createUser.html')
+
+def verify(passcode):
+    user.query.filter_by(authDigit=passcode[0]).all()
+
+    return True
+
 
 if __name__ == '__main__':
     app.run()
