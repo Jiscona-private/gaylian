@@ -9,10 +9,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 # path preparation
 UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/cloud/files'
-notes_folder = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/notes'
+NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/notes'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['NOTES_FOLDER'] = NOTES_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 db = SQLAlchemy(app)
 
@@ -112,10 +113,10 @@ def write_note():
         else:
             # getting highest file-number
             i = 0
-            while (exists(notes_folder+'/'+str(i)+'.txt') == True):
+            while (exists(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt') == True):
                 i=i+1
             
-            with open(notes_folder+'/'+str(i)+'.txt', 'w') as f:
+            with open(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt', 'w') as f:
                 f.write(request.form['content'])
             
             return redirect(url_for('show_note', number=i))
@@ -123,4 +124,7 @@ def write_note():
 
 @app.route('/notes/<number>')
 def show_note(number):
-    return send_from_directory(notes_folder, str(number)+'.txt')
+    return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
+
+if __name__ == '__main__':
+    app.run()
