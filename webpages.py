@@ -11,8 +11,8 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/cloud/files'
-NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/project/notes'
+UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files'
+NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -33,7 +33,7 @@ class Users(db.Model):
 class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
-    fileformat = db.Column(db.String(8), nullable=False)
+    filename = db.Column(db.String(8), nullable=False)
 
 ##### REDIRECTS #####
 # school docs
@@ -79,7 +79,10 @@ def upload_file():
                 from webpages import Files
 
                 # get storageUsed and add filesize
-                uploadUser = getCodeUser(request.form['authCode'])                    
+                uploadUser = getCodeUser(request.form['authCode'])
+
+                if uploadUser.storageOwned < uploadUser.storageUsed:
+                    return render_template('file_upload.html', error="Ihr Speicher ist voll.")            
 
                 # check if code is already used
                 codeUsed = Files.query.filter_by(fileCode=request.form['filecode']).first()
@@ -89,26 +92,28 @@ def upload_file():
 
                 filename = secure_filename(file.filename)
                 # getting file format
-                fileparts = os.path.splitext(filename)
-                fileformat = fileparts[1]
 
                 # adding link to database
                 fileCode = request.form['filecode']
-                newFile = Files(fileformat=fileformat, fileCode=fileCode)
+                newFile = Files(filename=filename, fileCode=fileCode)
                 db.session.add(newFile)
                 db.session.commit()
                 db.session.refresh(newFile)
                 insertedId= newFile.id
 
                 # upload
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+fileformat))
+                os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)))
+                
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
 
-                filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+fileformat)).st_size
-                if uploadUser.storageOwned < (uploadUser.storageUsed + filesize):
-                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+fileformat)) 
-                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+                filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
+
                 uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
                 db.session.commit()
+
+                if uploadUser.storageOwned < uploadUser.storageUsed :
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+fileformat)) 
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
                 return redirect(url_for('download_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html')
@@ -116,8 +121,8 @@ def upload_file():
 @app.route('/cloud/<code>')
 def download_file(code):
     file = Files.query.filter_by(fileCode=code).first()
-    fileName = str(file.id)+file.fileformat
-    return send_from_directory(app.config["UPLOAD_FOLDER"], fileName)
+    filename = file.filename
+    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), filename)
 
 # notes
 @app.route('/notes/new', methods=['GET', 'POST'])
