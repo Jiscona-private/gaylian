@@ -13,10 +13,12 @@ bcrypt = Bcrypt()
 # path preparation
 UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files'
 NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes'
+MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['NOTES_FOLDER'] = NOTES_FOLDER
+app.config['MD_FOLDER'] = MD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 db = SQLAlchemy(app)
 
@@ -35,22 +37,80 @@ class Files(db.Model):
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
     filename = db.Column(db.String(8), nullable=False)
 
+class Markdowns(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fileCode = db.Column(db.String(120), unique=True, nullable=False)
+
 ##### REDIRECTS #####
 # school docs
 
-@app.route("/school/<docName>")
-def schoolDoc(docName):
+@app.route("/school/<code>")
+def schoolDoc(code):
     rand = random.randint(1,100)
     if rand == 1:
         return render_template('progressbar.html')
     else:
-        with open('./markdowns/'+docName+'.md', 'r', encoding='utf-8') as f:
+        file = Markdowns.query.filter_by(fileCode=code).first()
+        docId = file.id
+
+        with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
             lines = f.read()
         return render_template('markdown.html', content=lines)
 
 @app.route("/school")
 def schoolSearch():
     return render_template('school.html')
+
+@app.route('/school/new', methods=['GET', 'POST'])
+def upload_md():
+    if request.method == 'POST':
+        # getting authCodes
+        md = request.form['md']
+        fileCode = request.form['filecode']
+        authCode = request.form['authCode']
+
+        if fileCode == "new":
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
+
+        if verify(request.form['authCode']) == True:
+            if md:
+                from webpages import Markdowns
+
+                # get storageUsed and add filesize
+                uploadUser = getCodeUser(authCode)
+
+                if uploadUser.storageOwned < uploadUser.storageUsed:
+                    return render_template('create_md.html', error="Ihr Speicher ist voll.")            
+
+                # check if code is already used
+                codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
+                if codeUsed:
+                    return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.")
+                # getting file format
+
+                # adding link to database
+                
+                newMD = Markdowns(fileCode = fileCode)
+                db.session.add(newMD)
+                db.session.commit()
+                db.session.refresh(newMD)
+                insertedId= newMD.id
+                
+                with open(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md', 'w', encoding='utf-8') as f:
+                    f.write(md)
+
+                filesize = os.stat(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md').st_size
+
+                uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
+                db.session.commit()
+
+                if uploadUser.storageOwned < uploadUser.storageUsed :
+                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+                return redirect(url_for('schoolDoc', code=fileCode))
+
+        return render_template('create_md.html', error="Code ungültig!")
+    return render_template('create_md.html')
 
 @app.route("/cloud")
 def cloudSearch():
@@ -60,7 +120,11 @@ def cloudSearch():
 @app.route('/cloud/upload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        fileCode = request.form['filecode']
         # getting authCodes
+        if fileCode == "upload":
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
+
         if verify(request.form['authCode']) == True:
             # check if the post request has the file part
             if 'file' not in request.files:
@@ -94,7 +158,6 @@ def upload_file():
                 # getting file format
 
                 # adding link to database
-                fileCode = request.form['filecode']
                 newFile = Files(filename=filename, fileCode=fileCode)
                 db.session.add(newFile)
                 db.session.commit()
@@ -136,7 +199,7 @@ def write_note():
             while (exists(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt') == True):
                 i=i+1
             
-            with open(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt', 'w') as f:
+            with open(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt', 'w', encoding='utf-8') as f:
                 f.write(request.form['content'])
             
             return redirect(url_for('show_note', number=i))
