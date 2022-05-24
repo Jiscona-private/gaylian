@@ -226,6 +226,18 @@ def createUser():
             return "done"
     return render_template('createUser.html')
 
+## === ERROR HANDLER ===
+
+@app.errorhandler(404)
+def not_found(e):
+  return render_template("404.html")
+
+@app.errorhandler(500)
+def server_error(e):
+  return render_template("500.html")
+
+## === DEFS ===
+
 def verify(passcode):
     users = Users.query.filter_by(authDigit=passcode[0]).all()
     for passUser in users:
@@ -242,4 +254,4 @@ def getCodeUser(passcode):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
