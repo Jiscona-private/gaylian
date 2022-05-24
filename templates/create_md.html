@@ -10,9 +10,6 @@
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
     </head>
     <body>
-        <p>
-            {{ error }}
-        </p>
         <nav class="navbar sticky-top navbar-expand-lg" style="background-color: #e3f2fd;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="http://gaylian.net">
@@ -63,5 +60,8 @@
               </div>
             </div>
         </div>
+        <p>
+          {{ error }}
+        </p>
     </body>
 </html>
