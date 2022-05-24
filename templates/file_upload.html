@@ -56,25 +56,13 @@
                     <form method="post" enctype=multipart/form-data>
                         <label for="file" class="form-label">Pack deine Dateien mit Code direkt hier rein:</label>
                         <input class="padding form-control" type="file" id="file" name="file">
-                        <input class="padding form-control me-2" type="text" name="filecode" placeholder="Code der Datei">
-                        <input class="padding form-control me-2" type="password" name="authcode" placeholder="Cloud-Code">
+                        <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                        <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Cloud-Code">
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
                     </form>
                 </div>
               </div>
             </div>
         </div>
-
-        <script>
-            //check if file is too large
-            var uploadField = document.getElementById("file");
-
-            uploadField.onchange = function() {
-                if(this.files[0].size > 20971520){ //20MB, change wirh Cloud Password
-                alert("Die Datei ist zu groß!");
-                this.value = "";
-                };
-            };
-        </script>
     </body>
 </html>

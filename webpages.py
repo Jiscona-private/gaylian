@@ -42,6 +42,10 @@ class Markdowns(db.Model):
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
 
 ##### REDIRECTS #####
+@app.route("/")
+def start():
+    return render_template('index.html')
+
 # school docs
 
 @app.route("/school/<code>")
@@ -65,7 +69,7 @@ def schoolSearch():
 def upload_md():
     if request.method == 'POST':
         # getting authCodes
-        md = request.form['md']
+        md = request.form['markdown']
         fileCode = request.form['filecode']
         authCode = request.form['authCode']
 
@@ -117,12 +121,12 @@ def cloudSearch():
     return render_template('cloud.html')
 
 # cloud
-@app.route('/cloud/upload', methods=['GET', 'POST'])
+@app.route('/cloud/new', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         fileCode = request.form['filecode']
         # getting authCodes
-        if fileCode == "upload":
+        if fileCode == "new":
             return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
 
         if verify(request.form['authCode']) == True:
