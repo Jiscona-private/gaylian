@@ -42,6 +42,11 @@ class Markdowns(db.Model):
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
 
 ##### REDIRECTS #####
+@app.route("/")
+def start():
+    return render_template(index.html)
+    
+
 # school docs
 
 @app.route("/school/<code>")
