@@ -4,6 +4,16 @@ html {
 body {
     color: #F4F9F9;
 }
+body::-webkit-scrollbar {
+	width: 1rem;
+}
+body::-webkit-scrollbar-thumb {
+	background: #AAAAAA;
+}
+body::-webkit-scrollbar-track {
+	background: #f4f9f9c5;
+}
+
 nav {
     opacity: 95%;
 }
