@@ -1,0 +1,49 @@
+html{
+    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+nav {
+    opacity: 95%;
+}
+nav:hover {
+    opacity: 100%;
+}
+.basiertheit {
+    width: 300px;
+    border: 2px solid gray;
+    padding: 50px;
+    margin: 20px;
+    font-size: 150%;
+    text-align: center;
+    
+}
+.based1 {
+    padding-top: 240px;
+    opacity: 0;
+    animation: spacing_tschad 1.5s ease 1s 1 normal forwards;
+}
+@keyframes spacing_tschad {
+	0% {
+		opacity: 0;
+		transform: translateX(-250px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+.based2 {
+    padding-top: 100px;
+    opacity: 0;
+    animation: spacing_pic 3s ease 1.5s 1 normal forwards;
+}
+@keyframes spacing_pic {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+/*padding: 175px 0px 75px 250px;*/
