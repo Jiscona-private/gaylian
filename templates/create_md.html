@@ -8,6 +8,18 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+
+        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.0.1/dist/showdown.min.js"></script>
+        <script>
+          function convert() {
+            var text = document.getElementById('markdown').value,
+            target = document.getElementById('targetDiv'),
+            converter = new showdown.Converter(),
+            html = converter.makeHtml(text);
+              
+            target.innerHTML = html;
+          }
+        </script>
     </head>
     <body>
         <p>
@@ -54,7 +66,10 @@
                 <div class="shadow rounded p-3 border bg-body">
                     <form name="schoolUpload" method="post">
                         <label for="md" class="form-label">Lade deine Schulnotizen gleich hier hoch:</label>
-                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax"></textarea>
+                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" oninput="convert()"></textarea>
+                        <div id="targetDiv">
+                          Umgewandelter Text...
+                        </div>
                         <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
                         <input type="checkbox" name="setPw" value="set">
                         <input type="text" name="filePass" placeholder="Benötigtes Password">
