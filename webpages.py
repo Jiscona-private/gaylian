@@ -134,6 +134,10 @@ def upload_md():
         return render_template('create_md.html', error="Code ungültig!")
     return render_template('create_md.html')
 
+@app.route("/md-syntax")
+def mdSyn():
+    return render_template('md-syntax.html')
+
 @app.route("/cloud")
 def cloudSearch():
     return render_template('cloud.html')

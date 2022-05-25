@@ -75,10 +75,33 @@
                         <input type="text" name="filePass" placeholder="Benötigtes Password">
                         <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
+                        <br>
+                        <a href="../md-syntax" target="_blank">Wie funktioniert Markdown?</a>
                     </form>
                 </div>
               </div>
             </div>
         </div>
+
+        <!-- Enabling tabs -->
+        <script type="text/javascript">
+          var input = document.getElementById("markdown");
+          if(input.addEventListener) {
+            input.addEventListener('keydown',this.keyHandler,false);
+          } else if(input.attachEvent ) {
+            input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+          }
+      
+          function keyHandler(e) {
+              var TABKEY = 9;
+              if(e.keyCode == TABKEY) {
+                  this.value += "    ";
+                  if(e.preventDefault) {
+                      e.preventDefault();
+                  }
+                  return false;
+              }
+          }
+          </script>
     </body>
 </html>
