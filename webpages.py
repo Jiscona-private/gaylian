@@ -1,5 +1,4 @@
-from enum import auto
-import random, os
+import random, os, datetime
 from os.path import exists
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory
@@ -36,10 +35,16 @@ class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
     filename = db.Column(db.String(8), nullable=False)
+    filePass = db.Column(db.String(8), nullable=True)
+    uploadUser = db.Column(db.Integer, nullable=False)
+    uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
 
 class Markdowns(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(120), unique=True, nullable=False)
+    filePass = db.Column(db.String(8), nullable=True)
+    uploadUser = db.Column(db.Integer, nullable=False)
+    uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
 
 ##### REDIRECTS #####
 @app.route("/")
@@ -48,7 +53,7 @@ def start():
 
 # school docs
 
-@app.route("/school/<code>")
+@app.route("/school/<code>", methods=['GET', 'POST'])
 def schoolDoc(code):
     rand = random.randint(1,100)
     if rand == 1:
@@ -57,9 +62,19 @@ def schoolDoc(code):
         file = Markdowns.query.filter_by(fileCode=code).first()
         docId = file.id
 
-        with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
-            lines = f.read()
-        return render_template('markdown.html', content=lines)
+        if request.method == 'POST':
+            if request.form['pw'] == file.filePass:
+                with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
+                    lines = f.read()
+                return render_template('markdown.html', content=lines)
+            return render_template('pw_input.html', error="Falsches Password")
+
+        if (file.filePass == None):   
+            with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
+                lines = f.read()
+            return render_template('markdown.html', content=lines)
+
+        return render_template('pw_input.html')        
 
 @app.route("/school")
 def schoolSearch():
@@ -90,11 +105,14 @@ def upload_md():
                 codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
                 if codeUsed:
                     return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.")
-                # getting file format
+                # set filePass
+                filePass = None
+                if request.form.getlist('setPw'):
+                    filePass = request.form['filePass']
 
                 # adding link to database
                 
-                newMD = Markdowns(fileCode = fileCode)
+                newMD = Markdowns(fileCode = fileCode, filePass=filePass, uploadUser=uploadUser.id)
                 db.session.add(newMD)
                 db.session.commit()
                 db.session.refresh(newMD)
@@ -124,12 +142,15 @@ def cloudSearch():
 @app.route('/cloud/new', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+
         fileCode = request.form['filecode']
+        authCode = request.form['authCode']
         # getting authCodes
         if fileCode == "new":
             return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
 
-        if verify(request.form['authCode']) == True:
+        if verify(authCode) == True:
+
             # check if the post request has the file part
             if 'file' not in request.files:
                 flash('No file part')
@@ -147,22 +168,28 @@ def upload_file():
                 from webpages import Files
 
                 # get storageUsed and add filesize
-                uploadUser = getCodeUser(request.form['authCode'])
+                uploadUser = getCodeUser(authCode)
 
                 if uploadUser.storageOwned < uploadUser.storageUsed:
                     return render_template('file_upload.html', error="Ihr Speicher ist voll.")            
 
                 # check if code is already used
-                codeUsed = Files.query.filter_by(fileCode=request.form['filecode']).first()
+                codeUsed = Files.query.filter_by(fileCode=fileCode).first()
                 if codeUsed:
                     return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
                 
 
                 filename = secure_filename(file.filename)
-                # getting file format
+
+                # checking filepass
+                filePass = None
+                if request.form.getlist('setPw'):
+                    filePass = request.form['filePass']
+
+
 
                 # adding link to database
-                newFile = Files(filename=filename, fileCode=fileCode)
+                newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id)
                 db.session.add(newFile)
                 db.session.commit()
                 db.session.refresh(newFile)
@@ -185,11 +212,18 @@ def upload_file():
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html')
 
-@app.route('/cloud/<code>')
+@app.route('/cloud/<code>', methods=['GET', 'POST'])
 def download_file(code):
     file = Files.query.filter_by(fileCode=code).first()
-    filename = file.filename
-    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), filename)
+    if request.method == 'POST':
+        if request.form['pw'] == file.filePass:
+            return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+        return render_template('pw_input.html', error="Falsches Password")
+
+    if (file.filePass == None):   
+        return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+
+    return render_template('pw_input.html')
 
 # notes
 @app.route('/notes/new', methods=['GET', 'POST'])
