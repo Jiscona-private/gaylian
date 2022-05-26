@@ -1,7 +1,8 @@
 import random, os, datetime
 from os.path import exists
+from time import sleep
 
-from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory
+from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -13,11 +14,13 @@ bcrypt = Bcrypt()
 UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files'
 NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes'
 MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns'
+ADMIN_PW = "GdSk1cktawyo"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['NOTES_FOLDER'] = NOTES_FOLDER
 app.config['MD_FOLDER'] = MD_FOLDER
+app.config['ADMIN_PW'] = ADMIN_PW
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 db = SQLAlchemy(app)
 
@@ -33,18 +36,23 @@ class Users(db.Model):
 
 class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fileCode = db.Column(db.String(120), unique=True, nullable=False)
-    filename = db.Column(db.String(8), nullable=False)
-    filePass = db.Column(db.String(8), nullable=True)
+    fileCode = db.Column(db.String(32), unique=True, nullable=False)
+    filename = db.Column(db.String(120), nullable=False)
+    filePass = db.Column(db.String(132), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
 
 class Markdowns(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fileCode = db.Column(db.String(120), unique=True, nullable=False)
-    filePass = db.Column(db.String(8), nullable=True)
+    fileCode = db.Column(db.String(32), unique=True, nullable=False)
+    filePass = db.Column(db.String(32), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
+
+class Notes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filePass = db.Column(db.String(32), nullable=True)
+    ipAdr = db.Column(db.Integer, nullable=False)    
 
 ##### REDIRECTS #####
 @app.route("/")
@@ -235,26 +243,57 @@ def write_note():
     if request.method == 'POST':
         if len(request.form['content']) > 1000:
             return render_template('write_note.html', error="Zu lang!")
+        # checking if IP already had to many requests
+        from webpages import Notes
+        writtenNotes = Notes.query.filter_by(ipAdr=request.remote_addr).count()
+
+        if (writtenNotes >= 1000):
+            return render_template('write_note.html', error="Sie haben bereits zu viele Notizen verfasst.")
+
         else:
-            # getting highest file-number
-            i = 0
-            while (exists(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt') == True):
-                i=i+1
+            # wait 1 sec (stop dos attacks)
+            sleep(1)
+            # writing database entry
+            # set filePass
+            filePass = None
+            if request.form.getlist('setPw'):
+                filePass = request.form['filePass']
+
+            # adding link to database
+                
+            newNote = Notes(filePass=filePass, ipAdr=request.remote_addr)
+            db.session.add(newNote)
+            db.session.commit()
+            db.session.refresh(newNote)
+            insertedId= newNote.id
             
-            with open(app.config["NOTES_FOLDER"]+'/'+str(i)+'.txt', 'w', encoding='utf-8') as f:
+            with open(app.config["NOTES_FOLDER"]+'/'+str(insertedId)+'.txt', 'w', encoding='utf-8') as f:
                 f.write(request.form['content'])
             
-            return redirect(url_for('show_note', number=i))
+            return redirect(url_for('show_note', number=insertedId))
     return render_template('write_note.html')
 
-@app.route('/notes/<number>')
+@app.route('/notes/<number>', methods=["POST","GET"])
 def show_note(number):
-    return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
+    note = Notes.query.filter_by(id=number).first()
+
+    if (note==None):
+        return render_template('fileNotFound.html')
+
+    if request.method == 'POST':
+        if request.form['pw'] == note.filePass:
+            return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
+        return render_template('pw_input.html', error="Falsches Password")
+
+    if (note.filePass == None):   
+        return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
+    return render_template('pw_input.html')
+    
 
 @app.route('/user/new', methods=["POST","GET"])
 def createUser():
     if request.method == "POST":
-        if (request.form['adminName'] == "./admin" and request.form['adminPassword'] == "GdSk1cktawyo"):
+        if (request.form['adminName'] == "./admin" and request.form['adminPassword'] == app.config['ADMIN_PW']):
             username = request.form['uname']
             pw = request.form['password']
             storage = int(request.form['storage'])
