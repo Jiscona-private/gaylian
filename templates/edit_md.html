@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
+        <script>
+            function convert() {
+              var text = document.getElementById('markdown').value,
+              target = document.getElementById('targetDiv'),
+              converter = new showdown.Converter(),
+              html = converter.makeHtml(text);
+                
+              target.innerHTML = html;
+            }
+          </script>
+    </head>
+    <body>
+      <h3>Achtung: die Datei lässt sich nur mit dem richtigen Gaylian-Nutzer-Code bearbeiten.</h3>
+        <form name="schoolUpload" method="post">
+            <textarea name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
+            <div id="targetDiv">
+              Umgewandelter Text...
+            </div>
+            <input type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+            <input type="checkbox" name="setPw" value="set">
+            <input type="text" name="filePass" maxlength="32" placeholder="Benötigtes Password">
+            <input type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+            <input type="submit" value="Speichern">
+            <br>
+            <a href="../md-syntax" target="_blank">Wie funktioniert Markdown?</a>
+        </form>
+
+        {{ error }}
+
+    <!-- Enabling tabs -->
+    <script type="text/javascript">
+        var input = document.getElementById("markdown");
+        if(input.addEventListener) {
+          input.addEventListener('keydown',this.keyHandler,false);
+        } else if(input.attachEvent ) {
+          input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+        }
+    
+        function keyHandler(e) {
+            var TABKEY = 9;
+            if(e.keyCode == TABKEY) {
+                this.value += "    ";
+                if(e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+            }
+        }
+        </script>
+        
+    </body>
+</html>

@@ -9,7 +9,7 @@
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
 
-        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.0.1/dist/showdown.min.js"></script>
+        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
         <script>
           function convert() {
             var text = document.getElementById('markdown').value,
@@ -66,7 +66,7 @@
                 <div class="shadow rounded p-3 border bg-body">
                     <form name="schoolUpload" method="post">
                         <label for="md" class="form-label">Lade deine Schulnotizen gleich hier hoch:</label>
-                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" oninput="convert()"></textarea>
+                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()"></textarea>
                         <div id="targetDiv">
                           Umgewandelter Text...
                         </div>
