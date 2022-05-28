@@ -147,6 +147,9 @@ def edit_md(code):
     file = Markdowns.query.filter_by(fileCode=code).first()
 
     if (request.method == 'POST'):
+        if request.form['filecode'] == "new":
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")
+
         # getting file and user        
         userId = file.uploadUser
         uploadUser = Users.query.filter_by(id=userId).first()
@@ -166,7 +169,7 @@ def edit_md(code):
 
                 # check if code is already used
                 codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
-                if codeUsed:
+                if (codeUsed and (codeUsed.fileCode != fileCode)) :
                     return render_template('edit_md.html', error="Der Datei-Code wird bereits genutzt.",  mdContent = md)
                 # changing filePass
                 filePass = None
