@@ -52,8 +52,10 @@
                     <form method="post" enctype=multipart/form-data>
                         <label for="file" class="form-label">Pack deine Dateien mit Code direkt hier rein:</label>
                         <input class="padding form-control" type="file" id="file" name="file">
-                        <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
-                        <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Cloud-Code">
+                        <input class="padding form-control me-2" maxlength="32" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                        <input type="checkbox" name="setPw" value="set">
+                        <input type="text" name="filePass" maxlength="32" placeholder="Benötigtes Password">
+                        <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
                     </form>
                 </div>
