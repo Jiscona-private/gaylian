@@ -20,11 +20,28 @@
             target.innerHTML = html;
           }
         </script>
+        <!-- Enabling tabs -->
+        <script type="text/javascript">
+          var input = document.getElementById("markdown");
+          if(input.addEventListener) {
+            input.addEventListener('keydown',this.keyHandler,false);
+          } else if(input.attachEvent ) {
+            input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+          }
+      
+          function keyHandler(e) {
+              var TABKEY = 9;
+              if(e.keyCode == TABKEY) {
+                  this.value += "    ";
+                  if(e.preventDefault) {
+                      e.preventDefault();
+                  }
+                  return false;
+              }
+          }
+         </script>
     </head>
     <body>
-        <p>
-            {{ error }}
-        </p>
         <nav class="navbar sticky-top navbar-expand-lg" style="background-color: #e3f2fd;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="http://gaylian.net">
@@ -82,26 +99,9 @@
               </div>
             </div>
         </div>
-
-        <!-- Enabling tabs -->
-        <script type="text/javascript">
-          var input = document.getElementById("markdown");
-          if(input.addEventListener) {
-            input.addEventListener('keydown',this.keyHandler,false);
-          } else if(input.attachEvent ) {
-            input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
-          }
       
-          function keyHandler(e) {
-              var TABKEY = 9;
-              if(e.keyCode == TABKEY) {
-                  this.value += "    ";
-                  if(e.preventDefault) {
-                      e.preventDefault();
-                  }
-                  return false;
-              }
-          }
-          </script>
+        <p>
+          {{ error }}
+        </p>
     </body>
 </html>
