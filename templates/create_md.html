@@ -19,6 +19,11 @@
               
             target.innerHTML = html;
           }
+          function searchDoc() {
+              var target = document.getElementById('searchDocWithCode');
+              var searchCode = target.value;
+              window.location.href  = "cloud/"+searchCode;
+          }
         </script>
         <!-- Enabling tabs -->
         <script type="text/javascript">
@@ -70,7 +75,7 @@
                   </li>
                 </ul>
                 <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Search Cloudfile" aria-label="Search">
+                  <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
                   <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
                 </form>
               </div>
@@ -78,30 +83,72 @@
         </nav>
         <div class="container px-4" style="padding-top: 15px;">
             <div class="row gx-5">
-                <h1>Gaylian: School</h1>
-              <div class="col based2">
+                <h1>Gaylian: School - Erstelle eine Markdown <a style="color: red;">
+                  {{ error }}
+                </a></h1>
+              <div class="col" style="padding-top: 5px;">
                 <div class="shadow rounded p-3 border bg-body">
                     <form name="schoolUpload" method="post">
-                        <label for="md" class="form-label">Lade deine Schulnotizen gleich hier hoch:</label>
+                        <label for="md" class="form-label fw-semibold">Lade deine Markdown-Texte gleich hier hoch:</label>
                         <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()"></textarea>
-                        <div id="targetDiv">
-                          Umgewandelter Text...
-                        </div>
+                        <hr>
                         <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
-                        <input type="checkbox" name="setPw" value="set">
-                        <input type="text" name="filePass" maxlength="32" placeholder="Benötigtes Password">
+                        <hr>
                         <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                        <hr>
+                        <input class="padding form-control me-2" type="text" name="filePass" placeholder="Optionales Password">
+                        <hr>
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
-                        <br>
-                        <a href="../md-syntax" target="_blank">Wie funktioniert Markdown?</a>
                     </form>
+                </div>
+              </div>
+              <div class="col" style="padding-top: 5px;">
+                <div class="shadow rounded p-3 border bg-body">
+                  <div id="targetDiv">
+                    Umgewandelter Text...
+                  </div>
                 </div>
               </div>
             </div>
         </div>
-      
-        <p>
-          {{ error }}
-        </p>
+        <div class="container px-4" style="padding-top: 20px;">
+          <div class="row gx-5">
+            <div class="col">
+              <div class="shadow rounded p-3 border bg-body">
+                <div class="accordion" id="id_hilfe">
+                  <div class="accordion-item">
+                      <h1 class="accordion-header" id="heading_hilfe">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hilfe" aria-expanded="false" aria-controls="hilfe">
+                          Wie funktioniert Markdown?
+                        </button>
+                      </h1>
+                      <div id="hilfe" class="accordion-collapse collapse" aria-labelledby="heading_hilfe" data-bs-parent="#id_hilfe">
+                        <div class="accordion-body">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Überschriften können mit # H1 erstellt werden. <br> Je mehr ### verwendet werden, desto kleiner bzw. untergeordneter sind die Überschriften dargestellt</li>
+                            <li class="list-group-item"><b>Fetter Text</b> kann mithilfe von **<i>Wort</i>** dagestellt werden.</li>
+                            <li class="list-group-item"><i>Kursiver Text</i> kann mithilfe von *<i>Wort</i>* dagestellt werden.</li>
+                            <li class="list-group-item">Eine Linie kann mit "---" dargestellt werden.</li>
+                            <li class="list-group-item">
+                              Listen können zum einen als geordnete Listen dargestellt werden: <br> 
+                                1. Erstes Element <br>
+                                2. Zweites Element usw.
+                            </li>
+                            <li class="list-group-item">Listen können zum anderen als Ungeordnete Listen dargestellt werden: <br>
+                                * Erstes Element <br>
+                                - Zweites Element </li>
+                            <li class="list-group-item">Programm-Code kann mit `<code>Code</code>` oder ```<code>Code (mehrere Zeilen)</code>``` dargestellt werden.</li>
+                            <li class="list-group-item">Ein Link kann mit [Titel](https://www.example.com) eingebettet werden.</li>
+                            <li class="list-group-item">Ein Bild kann mit ![Alternativer Text](http://gaylian.net/cloud/beispiel-bild) eingebettet werden.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

@@ -12,3 +12,10 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-track {
 	background: #f4f9f9c5;
 }
+nav {
+    opacity: 95%;
+    box-shadow: 0px 3px 30px 1px rgb(163, 163, 163);
+}
+nav:hover {
+    opacity: 100%;
+}
