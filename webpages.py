@@ -115,7 +115,7 @@ def upload_md():
                     return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.")
                 # set filePass
                 filePass = None
-                if request.form.getlist('setPw'):
+                if (request.form['filePass']):
                     filePass = request.form['filePass']
 
                 # adding link to database
@@ -172,9 +172,7 @@ def edit_md(code):
                 if (codeUsed and (codeUsed.fileCode != fileCode)) :
                     return render_template('edit_md.html', error="Der Datei-Code wird bereits genutzt.",  mdContent = md)
                 # changing filePass
-                filePass = None
-                if request.form.getlist('setPw'):
-                    filePass = request.form['filePass']
+                filePass = request.form['filePass']
 
                 # changing link to database
                 
@@ -255,9 +253,9 @@ def upload_file():
 
                 filename = secure_filename(file.filename)
 
-                # checking filepass
+                # set filepass
                 filePass = None
-                if request.form.getlist('setPw'):
+                if request.form['filePass']:
                     filePass = request.form['filePass']
 
 
@@ -318,7 +316,7 @@ def write_note():
             # writing database entry
             # set filePass
             filePass = None
-            if request.form.getlist('setPw'):
+            if request.form['filePass']:
                 filePass = request.form['filePass']
 
             # adding link to database
