@@ -6,6 +6,7 @@ from flask import Flask, render_template, flash, redirect, request, url_for, sen
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_socketio import SocketIO
 
 # general preparation
 bcrypt = Bcrypt()
@@ -22,6 +23,9 @@ app.config['NOTES_FOLDER'] = NOTES_FOLDER
 app.config['MD_FOLDER'] = MD_FOLDER
 app.config['ADMIN_PW'] = ADMIN_PW
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
+app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
+
+socketio = SocketIO(app)
 db = SQLAlchemy(app)
 
 ##### DATAMODELS #####
@@ -198,13 +202,6 @@ def edit_md(code):
     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'r', encoding='utf-8') as f:
         lines = f.read()
     return render_template('edit_md.html', mdContent = lines)
-        
-
-
-
-@app.route("/md-syntax")
-def mdSyn():
-    return render_template('md-syntax.html')
 
 @app.route("/cloud")
 def cloudSearch():
@@ -278,7 +275,7 @@ def upload_file():
                 db.session.commit()
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
-                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+fileformat)) 
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+filename)) 
                     return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
                 return redirect(url_for('download_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
@@ -349,6 +346,7 @@ def show_note(number):
         return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
     return render_template('pw_input.html')
     
+# admin
 
 @app.route('/user/new', methods=["POST","GET"])
 def createUser():

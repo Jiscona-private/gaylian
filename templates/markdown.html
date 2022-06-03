@@ -8,9 +8,16 @@
     <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/markdown-style.css') }}">
 
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
+
+    <script>
+        function edit() {
+            window.location.href  = window.location.href+"/edit";
+        }
+      </script>
 </head>
 
 <body>
+    <input type="button" class="padding btn btn-outline-success" onclick="edit()" value="Bearbeiten">
     <div id="content" class="markdown-body container-fluid">
 {{ content }}
     </div>
