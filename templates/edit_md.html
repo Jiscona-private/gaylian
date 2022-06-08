@@ -15,11 +15,6 @@
                 
               target.innerHTML = html;
             }
-            function searchDoc() {
-              var target = document.getElementById('searchDocWithCode');
-              var searchCode = target.value;
-              window.location.href  = "cloud/"+searchCode;
-            }
           </script>
     </head>
     <body>
@@ -50,9 +45,9 @@
                 <i class="nav-link disabled">more coming soon...</i>
               </li>
             </ul>
-            <form class="d-flex" role="search">
+            <form class="d-flex" role="search" method="post" action="/cloud">
               <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
-              <input type="button" class="btn btn-outline-success" name="search" value="Suchen" onclick="searchDoc()">
+              <input type="submit" class="btn btn-outline-success" name="search" value="Suchen">
             </form>
           </div>
         </div>
@@ -69,8 +64,6 @@
           <div class="shadow rounded p-3 border bg-body">
               <form name="schoolUpload" method="post">
                   <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
-                  <hr>
-                  <input class="padding form-control me-2" type="password" name="pw" id="pw" placeholder="Passwort">
                   <hr>
                   <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
                   <hr>
@@ -130,8 +123,12 @@
           </div>
         </div>
 
+        <script>
+          convert();
+        </script>
+
     <!-- Enabling tabs -->
-    <script type="text/javascript">
+    <script type="text/javascript">     
         var input = document.getElementById("markdown");
         if(input.addEventListener) {
           input.addEventListener('keydown',this.keyHandler,false);

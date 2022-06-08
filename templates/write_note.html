@@ -7,13 +7,6 @@
         <link href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" re>
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
-        <script>
-          function searchDoc() {
-              var target = document.getElementById('searchDocWithCode');
-              var searchCode = target.value;
-              window.location.href  = "cloud/"+searchCode;
-          }
-        </script>
         <style>
           .custom-popover {
             --bs-popover-max-width: 200px;
@@ -57,9 +50,9 @@
                     <i class="nav-link disabled">more coming soon...</i>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
+                <form class="d-flex" role="search" method="post" action="/cloud">
                   <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
-                  <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
+                  <input type="submit" class="btn btn-outline-success" name="search" value="Suchen">
                 </form>
               </div>
             </div>

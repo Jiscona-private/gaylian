@@ -88,9 +88,12 @@ def schoolDoc(code):
 
         return render_template('pw_input.html')        
 
-@app.route("/school")
+@app.route("/school", methods=['GET', 'POST'])
 def schoolSearch():
+    if request.method == 'POST':
+        return redirect(url_for('schoolDoc', code=request.form['code']))
     return render_template('school.html')
+    
 
 @app.route('/school/new', methods=['GET', 'POST'])
 def upload_md():
@@ -101,7 +104,7 @@ def upload_md():
         authCode = request.form['authCode']
 
         if fileCode == "new":
-            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?", )  
 
         if verify(request.form['authCode']) == True:
             if md:
@@ -111,12 +114,12 @@ def upload_md():
                 uploadUser = getCodeUser(authCode)
 
                 if uploadUser.storageOwned < uploadUser.storageUsed:
-                    return render_template('create_md.html', error="Ihr Speicher ist voll.")            
+                    return render_template('create_md.html', error="Ihr Speicher ist voll.", mdContent = md)            
 
                 # check if code is already used
                 codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
                 if codeUsed:
-                    return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.")
+                    return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.", mdContent = md)
                 # set filePass
                 filePass = None
                 if (request.form['filePass']):
@@ -140,10 +143,10 @@ def upload_md():
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
                     os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
-                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
                 return redirect(url_for('schoolDoc', code=fileCode))
 
-        return render_template('create_md.html', error="Code ungültig!")
+        return render_template('create_md.html', error="Code ungültig!", mdContent = md)
     return render_template('create_md.html')
 
 @app.route("/school/<code>/edit", methods=['GET', 'POST'])
@@ -152,7 +155,7 @@ def edit_md(code):
 
     if (request.method == 'POST'):
         if request.form['filecode'] == "new":
-            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?", mdContent = md)
 
         # getting file and user        
         userId = file.uploadUser
@@ -175,12 +178,14 @@ def edit_md(code):
                 codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
                 if (codeUsed and (codeUsed.fileCode != fileCode)) :
                     return render_template('edit_md.html', error="Der Datei-Code wird bereits genutzt.",  mdContent = md)
-                # changing filePass
-                filePass = request.form['filePass']
 
                 # changing link to database
                 
                 file.fileCode = fileCode
+                # getting filepass
+                filePass = None
+                if (request.form['filePass']):
+                    filePass = request.form['filePass']
                 file.filePass = filePass
                 db.session.commit()
                 
@@ -194,17 +199,19 @@ def edit_md(code):
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
                     os.remove(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md') 
-                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
                 return redirect(url_for('schoolDoc', code=fileCode))
                     
-        return render_template('edit_md.html', error="Falsches Password")
+        return render_template('edit_md.html', error="Falsches Password", mdContent = md)
 
     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'r', encoding='utf-8') as f:
         lines = f.read()
     return render_template('edit_md.html', mdContent = lines)
 
-@app.route("/cloud")
+@app.route("/cloud", methods=['GET', 'POST'])
 def cloudSearch():
+    if request.method == 'POST':
+        return redirect(url_for('download_file', code=request.form['code']))
     return render_template('cloud.html')
 
 # cloud
@@ -281,9 +288,24 @@ def upload_file():
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html')
 
-@app.route('/cloud/<code>', methods=['GET', 'POST'])
+@app.route('/cloud/<code>')
+def offer_file(code):
+    file = Files.query.filter_by(fileCode=code).first()
+    if (file == None):
+        return render_template('fileNotFound.html')
+
+    file_split = os.path.splitext(file.filename)
+    if (file_split[1] == '.png'):
+        return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+
+    return render_template('file_offer.html', filename = file.filename)
+
+@app.route('/cloud/<code>/download', methods=['GET', 'POST'])
 def download_file(code):
     file = Files.query.filter_by(fileCode=code).first()
+    if (file == None):
+        return render_template('fileNotFound.html')
+
     if request.method == 'POST':
         if request.form['pw'] == file.filePass:
             return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
@@ -292,14 +314,14 @@ def download_file(code):
     if (file.filePass == None):   
         return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
 
-    return render_template('pw_input.html')
+    
 
 # notes
 @app.route('/notes/new', methods=['GET', 'POST'])
 def write_note():
     if request.method == 'POST':
         if len(request.form['content']) > 1000:
-            return render_template('write_note.html', error="Zu lang!")
+            return render_template('write_note.html', error="Zu lang!", note=request.form['content'])
         # checking if IP already had to many requests
         from webpages import Notes
         writtenNotes = Notes.query.filter_by(ipAdr=request.remote_addr).count()

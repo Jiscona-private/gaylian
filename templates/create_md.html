@@ -19,11 +19,6 @@
               
             target.innerHTML = html;
           }
-          function searchDoc() {
-              var target = document.getElementById('searchDocWithCode');
-              var searchCode = target.value;
-              window.location.href  = "cloud/"+searchCode;
-          }
         </script>
         <!-- Enabling tabs -->
         <script type="text/javascript">
@@ -74,9 +69,9 @@
                     <i class="nav-link disabled">more coming soon...</i>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
+                <form class="d-flex" role="search" method="post" action="/cloud">
                   <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
-                  <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
+                  <input type="submit" class="btn btn-outline-success" name="search" value="Suchen">
                 </form>
               </div>
             </div>
@@ -90,7 +85,7 @@
                 <div class="shadow rounded p-3 border bg-body">
                     <form name="schoolUpload" method="post">
                         <label for="md" class="form-label fw-semibold">Lade deine Markdown-Texte gleich hier hoch:</label>
-                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()"></textarea>
+                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
                         <hr>
                         <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
                         <hr>
@@ -149,6 +144,7 @@
             </div>
           </div>
         </div>
+        <script>convert()</script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

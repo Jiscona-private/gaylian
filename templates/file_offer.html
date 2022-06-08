@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <script>
+            function download_file() {
+                window.location.href  = window.location.href+"/download";
+            }
+        </script>
+
+    </head>
+    <body>
+        Datei: {{ filename }}
+        <input type="button" id="downloadSubmit" onclick="download_file()" value="Anzeigen/Herunterladen">
+    </body>
+</html>
