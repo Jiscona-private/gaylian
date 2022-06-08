@@ -3,6 +3,16 @@ html {
 }
 body {
     color: #F4F9F9;
+    animation: body-start 0.75s ease 0s 1 normal forwards;
+}
+@keyframes body-start {
+	0% {
+		opacity: 0.25;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 body::-webkit-scrollbar {
 	width: 1rem;
@@ -23,9 +33,41 @@ nav:hover {
 }
 .navbar-expand-lg {
     text-align: center;
-}
+}   
 .nav-shadow {
     text-shadow: 2px 2px 4px rgb(172, 172, 172);
+    /*animation: nav-start 1.3s ease 0.1s 1 normal forwards;*/
+}
+.nav-cloud {
+    opacity: 0;
+    animation: nav-start 1.3s ease 0.05s 1 normal forwards;
+}
+.nav-notes {
+    opacity: 0;
+    animation: nav-start 1.3s ease 0.1s 1 normal forwards;
+}
+.nav-school {
+    opacity: 0;
+    animation: nav-start 1.3s ease 0.15s 1 normal forwards;
+}
+.nav-mail {
+    opacity: 0;
+    animation: nav-start 1.3s ease 0.2s 1 normal forwards;
+}
+.nav-coming {
+    opacity: 0;
+    animation: nav-start 1.3s ease 0.2s 1 normal forwards;
+}
+@keyframes nav-start {
+	0% {
+        opacity: 0;
+		transform: scale(0.5);
+	}
+
+	100% {
+        opacity: 1;
+		transform: scale(1);
+	}
 }
 .basiertheit {
     width: 300px;
@@ -100,4 +142,8 @@ animation: target_in 3s ease 0.5s 1 normal forwards;
 		transform: translateX(0);
 	}
 }*/
-/*padding: 175px 0px 75px 250px;*/
+/*padding: 175px 0px 75px 250px;
+
+übergänge zu den Webseiten
+box in die Navbar - also die textdinge reinmachen
+scrollspy*/
