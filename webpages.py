@@ -1,6 +1,7 @@
 import random, os, datetime
 from os.path import exists
 from time import sleep
+from tkinter.messagebox import YES
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
@@ -284,21 +285,37 @@ def upload_file():
                 if uploadUser.storageOwned < uploadUser.storageUsed :
                     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)+filename)) 
                     return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
-                return redirect(url_for('download_file', code=fileCode))
+                return redirect(url_for('offer_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html')
 
-@app.route('/cloud/<code>')
+@app.route('/cloud/<code>', methods=['GET', 'POST'])
 def offer_file(code):
     file = Files.query.filter_by(fileCode=code).first()
     if (file == None):
         return render_template('fileNotFound.html')
 
-    file_split = os.path.splitext(file.filename)
-    if (file_split[1] == '.png'):
-        return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+    passed = False
+    submit = False
 
-    return render_template('file_offer.html', filename = file.filename)
+    if (file.filePass == None):
+        passed = True
+
+    if request.method == 'POST':
+        submit = True
+        if (passed == True or request.form['pw'] == file.filePass):
+            passed = True
+        else:
+            return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes', error="Falsches Passwort!")
+
+    if (passed == True):
+        file_split = os.path.splitext(file.filename)
+        if (file_split[1] == '.png' or submit == True):
+            return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+
+        return render_template('file_offer.html', filename = file.filename, fpNeeded = 'no')     
+
+    return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes')
 
 @app.route('/cloud/<code>/download', methods=['GET', 'POST'])
 def download_file(code):
