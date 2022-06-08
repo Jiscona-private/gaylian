@@ -12,9 +12,9 @@ from flask_socketio import SocketIO
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files'
-NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes'
-MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns'
+UPLOAD_FOLDER = 'E:\AUßERSCHULE\GAYLIAN\GitHub - Repository\gaylian\cloud/files'
+NOTES_FOLDER = 'E:\AUßERSCHULE\GAYLIAN\GitHub - Repository\gaylian/notes'
+MD_FOLDER = 'E:\AUßERSCHULE\GAYLIAN\GitHub - Repository\gaylian\markdown'
 ADMIN_PW = "GdSk1cktawyo"
 
 app = Flask(__name__)
