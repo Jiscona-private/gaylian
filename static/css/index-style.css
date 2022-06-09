@@ -1,7 +1,5 @@
-html {
-    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-}
 body {
+    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
     color: #F4F9F9;
     animation: body-start 0.75s ease 0s 1 normal forwards;
 }
@@ -36,7 +34,6 @@ nav:hover {
 }   
 .nav-shadow {
     text-shadow: 2px 2px 4px rgb(172, 172, 172);
-    /*animation: nav-start 1.3s ease 0.1s 1 normal forwards;*/
 }
 .nav-cloud {
     opacity: 0;
@@ -130,20 +127,8 @@ footer {
     background-color: #e3f2fd;
 }
 /*
-animation: target_in 3s ease 0.5s 1 normal forwards;
-@keyframes target_in {
-	0% {
-		opacity: 0;
-		transform: translateX(-250px);
-	}
-
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}*/
-/*padding: 175px 0px 75px 250px;
-
 übergänge zu den Webseiten
 box in die Navbar - also die textdinge reinmachen
-scrollspy*/
+scrollspy
+footer+inhalt index
+*/

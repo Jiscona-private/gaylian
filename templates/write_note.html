@@ -31,44 +31,44 @@
     </head>
     <body>
         <nav class="navbar sticky-top navbar-expand-lg" style="background-color: #e3f2fd;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="http://gaylian.net">
-                <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
-                </a>
-              <a class="navbar-brand" href="http://gaylian.net" style="padding-top: 2px;">gaylian.net</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="http://gaylian.net/cloud/new">Cloud</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="http://gaylian.net/notes/new">Notes</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://gaylian.net/school/new">School</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="http://gaylian.net/mail">Mail-Service</a>
-                  </li>      
-                  <li class="nav-item">
-                    <i class="nav-link disabled">more coming soon...</i>
-                  </li>
-                </ul>
+          <div class="container-fluid">
+              <a class="navbar-brand" href="http://gaylian.net">
+              <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
+              </a>
+            <a class="navbar-brand fs-3 nav-shadow" href="http://gaylian.net" style="padding-bottom: 10px;">gaylian.net</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link nav-cloud" aria-current="page" href="http://gaylian.net/cloud/new">Cloud</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active nav-notes" href="http://gaylian.net/notes/new">Notes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link nav-school" href="http://gaylian.net/school/new">School</a>
+                </li>
+                <li class="nav-item nav-mail">
+                  <a class="nav-link" href="http://gaylian.net/mail">Mail-Service</a>
+                </li>      
+                <li class="nav-item nav-coming">
+                  <i class="nav-link disabled">more coming soon...</i>
+                </li>
+              </ul>
                 <form class="d-flex" role="search">
                   <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
                   <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
                 </form>
-              </div>
             </div>
+          </div>
         </nav>
           <div class="container px-4" style="padding-top: 15px;">
             <div class="row gx-5">
-                <h1>Gaylian: Notes</h1>
+                <h1>Gaylian: Notes - Notiz verfassen</h1>
               <div class="col based1">
-                <div class="shadow rounded p-3 border bg-body fw-semibold">Willkommen auf gaylian.net/notes. Lade deine Notizen hoch!</div>
+                <div class="shadow rounded p-3 border bg-body fw-semibold">Hau in die Tasten, lade deine Notiz hoch und teile sie mit anderen!</div>
                 <div class="shadow rounded p-3 border bg-body">
                   <form role="search" method="post">
                     <textarea class="form-control me-2" name="content" placeholder="Notiz" maxlength="1000"></textarea>
@@ -76,9 +76,10 @@
                     <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
                     <hr>
                     <input type="submit" class="btn btn-outline-success" value="Notiz speichern">
-                    <a class="fw-normal lh-1" style="font-size: x-small;">Ihre IP-Adresse wird in Zusammenhang mit der von Ihnen geschriebenen Notiz gespeichert. Mit dem Verfassen eines Textes stimmen Sie dieser Richtlinie zu.</a>
+                    <a class="fw-normal lh-1" style="font-size: x-small;"></a>
                 </form>
                 </div>
+                <div class="shadow rounded p-3 border bg-body fw-semibold" style="font-size: x-small;">Ihre IP-Adresse wird in Zusammenhang mit der von Ihnen geschriebenen Notiz gespeichert. Mit dem Verfassen eines Textes stimmen Sie dieser Richtlinie zu.</div>
               </div>
             </div>
           </div>
