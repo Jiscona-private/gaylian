@@ -13,9 +13,9 @@ from flask_socketio import SocketIO
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files'
-NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes'
-MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns'
+UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files/'
+NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes/'
+MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns/'
 ADMIN_PW = "GdSk1cktawyo"
 
 app = Flask(__name__)
@@ -291,6 +291,8 @@ def upload_file():
 
 @app.route('/cloud/<code>', methods=['GET', 'POST'])
 def offer_file(code):
+    showable = ['.PNG', '.PDF', '.JPEG', '.JPG', '.HTML', '.TXT', '.GIF', '.MP4', '.MP3', '.AVI', '.WAV', '.M4A', '.TIFF', '.BMP', '.MOV']
+
     file = Files.query.filter_by(fileCode=code).first()
     if (file == None):
         return render_template('fileNotFound.html')
@@ -310,7 +312,7 @@ def offer_file(code):
 
     if (passed == True):
         file_split = os.path.splitext(file.filename)
-        if (file_split[1] == '.png' or submit == True):
+        if (file_split[1].upper() in showable or submit == True):
             return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
 
         return render_template('file_offer.html', filename = file.filename, fpNeeded = 'no')     
