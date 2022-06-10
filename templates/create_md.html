@@ -81,6 +81,19 @@
             </div>
           </div>
         </nav>
+        {% if error %}
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>Fehler</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            {{ error }}
+          </div>
+        </div>
+        {% endif %}
         <div class="container px-4" style="padding-top: 15px;">
             <div class="row gx-5">
                 <h1>Gaylian: School - Erstelle eine Markdown <a style="color: red;">

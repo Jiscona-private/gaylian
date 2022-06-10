@@ -6,7 +6,6 @@ from flask import Flask, render_template, flash, redirect, request, url_for, sen
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_socketio import SocketIO
 
 # general preparation
 bcrypt = Bcrypt()
@@ -25,7 +24,6 @@ app.config['ADMIN_PW'] = ADMIN_PW
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
 
-socketio = SocketIO(app)
 db = SQLAlchemy(app)
 
 ##### DATAMODELS #####

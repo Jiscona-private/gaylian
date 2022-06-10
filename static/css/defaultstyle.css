@@ -65,3 +65,6 @@ nav:hover {
 		transform: scale(1);
 	}
 }
+.überschrift {
+    padding-left: 5px;
+}
