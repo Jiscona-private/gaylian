@@ -68,3 +68,6 @@ nav:hover {
 .überschrift {
     padding-left: 5px;
 }
+.reset_button {
+    align-content: flex-end;
+}

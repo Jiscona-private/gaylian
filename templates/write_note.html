@@ -73,7 +73,12 @@
                 <form role="search" method="post">
                   <textarea class="form-control me-2" name="content" placeholder="Notiz" maxlength="1000"></textarea>
                   <hr>
-                  <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
+                  <div class="input-group">
+                    <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
+                    <div class="input-group-text rounded">
+                      <input class="form-check-input mt-0" type="checkbox" value="Aktivieren">
+                    </div>
+                  </div>
                   <hr>
                   <input type="submit" class="btn btn-outline-success" value="Notiz speichern">
                   <a class="fw-normal lh-1" style="font-size: x-small;"></a>
