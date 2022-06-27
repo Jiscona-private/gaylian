@@ -1,0 +1,145 @@
+body{
+    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    background-color: #F4F9F9;
+    animation: body-start 0.75s ease 0s 1 normal forwards;
+}
+@keyframes body-start {
+	0% {
+		opacity: 0.25;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+body::-webkit-scrollbar {
+	width: 1rem;
+}
+body::-webkit-scrollbar-thumb {
+	background: #AAAAAA;
+}
+body::-webkit-scrollbar-track {
+	background: #f4f9f9c5;
+}
+nav {
+    opacity: 95%;
+    box-shadow: 0px 3px 30px 1px rgb(163, 163, 163);
+}
+nav:hover {
+    opacity: 100%;
+}
+.navbar-expand-lg {
+    text-align: center;
+}   
+.nav-shadow {
+    text-shadow: 2px 2px 4px rgb(172, 172, 172);
+}
+.nav-cloud {
+    opacity: 0;
+    animation: nav-start 1.2s ease 0.03s 1 normal forwards;
+}
+.nav-notes {
+    opacity: 0;
+    animation: nav-start 1.2s ease 0.14s 1 normal forwards;
+}
+.nav-school {
+    opacity: 0;
+    animation: nav-start 1.2s ease 0.25s 1 normal forwards;
+}
+.nav-mail {
+    opacity: 0;
+    animation: nav-start 1.2s ease 0.34s 1 normal forwards;
+}
+.nav-coming {
+    opacity: 0;
+    animation: nav-start 1.2s ease 0.36s 1 normal forwards;
+}
+@keyframes nav-start {
+	0% {
+        opacity: 0;
+		transform: scale(0.5);
+	}
+
+	100% {
+        opacity: 1;
+		transform: scale(1);
+	}
+}
+.überschrift {
+    padding-left: 5px;
+}
+.reset_button {
+    align-content: flex-end;
+}
+nav .container-fluid div ul {
+    font-size: larger;
+}
+.nav-link {
+    color:rgb(0, 0, 0);
+}
+.small-dinger {
+    font-size: small;
+    position: relative;
+    padding-top: 15.1px;
+    color:rgb(41, 41, 41);
+}
+.navbar-text {
+    padding-right: 2px;
+}
+
+/*
+.extra {
+    position: absolute;
+}
+nav .container-fluid div ul li ul {
+    list-style: none;
+    position: absolute;
+    width: 150px;
+    left: 8.5%;
+    background: none;
+    display: none;
+}
+.nav-oben {
+    padding-top: 20px;
+}
+nav .container-fluid div ul li ul li a {
+    display: block;
+    font-size:80%;
+}
+nav .container-fluid div ul li:focus-within > ul,
+nav .container-fluid div ul li:hover > ul {
+    animation: nav-eingerückt 1s ease 0.1s 1 alternate forwards;
+    display: initial;
+    opacity: 0;
+}
+nav .container-fluid div ul li ul:hover {
+    display: initial;
+    opacity: 0.8;
+}
+@keyframes nav-eingerückt {
+	0% {
+		opacity: 0;
+		transform: translateY(-15px);
+	}
+
+	100% {
+		opacity: 0.8;
+		transform: translateY(0);
+	}
+}
+
+            .nav-more {
+                animation: nav-start 1.3s ease 0.2s 1 normal forwards;
+            }
+            @keyframes nav-start {
+	0% {
+        opacity: 0;
+		transform: scale(0.5);
+	}
+
+	100% {
+        opacity: 1;
+		transform: scale(1);
+	}
+            }
+*/

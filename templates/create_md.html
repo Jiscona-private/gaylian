@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta charset="UTF-8">
-
         <title>Gaylian: Schule - Upload</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -45,60 +44,12 @@
               }
           }
          </script>
+         <script src="../static/js/nav-markdown.js"></script>
     </head>
     <body>
-        <nav class="navbar sticky-top navbar-expand-lg" style="background-color: #e3f2fd;">
-          <div class="container-fluid">
-              <a class="navbar-brand" href="http://gaylian.net">
-              <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
-              </a>
-            <a class="navbar-brand fs-3 nav-shadow" href="http://gaylian.net" style="padding-bottom: 10px;">gaylian.net</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link nav-cloud" aria-current="page" href="http://gaylian.net/cloud/new">Cloud</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link nav-notes" href="http://gaylian.net/notes/new">Notes</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active nav-school" href="http://gaylian.net/school/new">School</a>
-                </li>
-                <li class="nav-item nav-mail">
-                  <a class="nav-link" href="http://gaylian.net/mail">Mail-Service</a>
-                </li>      
-                <li class="nav-item nav-coming">
-                  <i class="nav-link disabled">more coming soon...</i>
-                </li>
-              </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
-                  <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
-                </form>
-            </div>
-          </div>
-        </nav>
-        {% if error %}
-        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
-            <strong class="me-auto">Bootstrap</strong>
-            <small>Fehler</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-            {{ error }}
-          </div>
-        </div>
-        {% endif %}
         <div class="container px-4" style="padding-top: 15px;">
             <div class="row gx-5">
-                <h1>Gaylian: School - Erstelle eine Markdown <a style="color: red;">
-                  {{ error }}
-                </a></h1>
+                <h1>Gaylian: School - Erstelle eine Markdown</h1>
               <div class="col" style="padding-top: 5px;">
                 <div class="shadow rounded p-3 border bg-body">
                     <form name="schoolUpload" method="post">
@@ -145,6 +96,7 @@
                       <div id="hilfe" class="accordion-collapse collapse" aria-labelledby="heading_hilfe" data-bs-parent="#id_hilfe">
                         <div class="accordion-body">
                           <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Neue Zeilen können mit <i>zwei Leerzeichen</i> hinter dem Absatz dargestellt werden.</li>
                             <li class="list-group-item">Überschriften können mit <mark># H1</mark> erstellt werden. <br> Je mehr ### verwendet werden, desto kleiner bzw. untergeordneter sind die Überschriften dargestellt.</li>
                             <li class="list-group-item">Neue Zeilen bzw. altuelle Befehle werden mit <mark>zwei Leerzeichen</mark> am Ende einer Zeile aufgelöst.</li>
                             <li class="list-group-item"><b>Fetter Text</b> kann mithilfe von <mark>**<i>Wort</i>**</mark> dagestellt werden.</li>
@@ -169,6 +121,22 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="container px-4" style="padding-top: 15px;">
+          {% if error %}
+          <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+              <strong class="me-auto">gaylian-fehlermeldung</strong>
+              <small class="text-muted">Schließen</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Das hat nicht funktioniert :( <br> Der Fehler lautet:
+              <a style="color: red;">{{ error }}</a>  
+            </div>
+          </div>
+          {% endif %}
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
