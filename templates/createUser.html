@@ -2,17 +2,38 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Gaylian: Schule</title>
+
+        <title>Gaylian: Backend</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
     </head>
     <body>
-        <form name="userInfo" method="post">            
-            <input type="text" name="uname" id="uname" placeholder="Nutzername">
-            <input type="password" name="password" id="password" placeholder="Nutzer-Passwort">            
-            <input type="number" name="storage" id="storage" placeholder="Verfügbarer Speicher in MB">
-            <br>
-            <input type="text" name="adminName" id="adminName" placeholder="Admin-Name">
-            <input type="password" name="adminPassword" id="adminPassword" placeholder="Admin-Passwort">
-            <input type="submit">
-        </form>
+        <div class="container px-4" style="padding-top: 15px;">
+            <div class="row gx-5 überschrift">
+                <h1>Gaylian: Backend - User Erstellung</h1>
+                <div class="col based1">
+                    <div class="shadow rounded p-3 border bg-body fw-semibold">
+                        <form name="userInfo" method="post">
+                            <input class="form-control me-2" type="text" name="uname" id="uname" placeholder="Nutzername">
+                            <hr>
+                            <input class="form-control me-2" type="password" name="password" id="password" placeholder="Nutzer-Passwort">            
+                            <hr>
+                            <input class="form-control me-2" type="number" name="storage" id="storage" placeholder="Verfügbarer Speicher in MB">
+                            <hr>    
+                            <input class="form-control me-2" type="text" name="adminName" id="adminName" placeholder="gaylian-Admin-Name">
+                            <hr>
+                            <input class="form-control me-2" type="password" name="adminPassword" id="adminPassword" placeholder="gaylian-Admin-Passwort">
+                            <hr>
+                            <input class="btn btn-outline-success" type="submit" value="Speichern">
+                            <input class="btn btn-sm btn-outline-dark" type="reset">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
