@@ -11,7 +11,20 @@ from flask_bcrypt import Bcrypt
 # general preparation
 bcrypt = Bcrypt()
 
+# path preparation
+UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files/'
+NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes/'
+MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns/'
+ADMIN_PW = "GdSk1cktawyo"
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['NOTES_FOLDER'] = NOTES_FOLDER
+app.config['MD_FOLDER'] = MD_FOLDER
+app.config['ADMIN_PW'] = ADMIN_PW
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
+app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
+
 db = SQLAlchemy(app)
 
 ##### DATAMODELS #####
