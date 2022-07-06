@@ -14,7 +14,7 @@
                     <td>{{file.size}} Byte</td>
                     <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                     <td>
-                        <form action="/cloud/{{file.fileCode}}/delete" method="post">
+                        <form action="/cloud/{{file.fileCode}}/delete" method="get">
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
@@ -36,7 +36,7 @@
                     <td>{{doc.size}} Byte</td>
                     <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
                     <td>
-                        <form action="/school/{{file.fileCode}}/delete" method="post">
+                        <form action="/school/{{doc.fileCode}}/delete" method="get">
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>

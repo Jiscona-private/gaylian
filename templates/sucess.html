@@ -1,5 +1,15 @@
 <html>
     {% if goal == 'delete'%}
-    <h1>Die Datei wurde erfolgreich gelöscht.</h1>
+        <h1>Die Datei wurde erfolgreich gelöscht.</h1>
+        <script>
+            //check if request from /user/files and redirect
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var requestFrom = url.searchParams.get("delButton");
+            if (requestFrom) {
+                window.location.replace('http://gaylian.net/user/files');
+            }
+        </script>
     {% endif %}
+
 </html>

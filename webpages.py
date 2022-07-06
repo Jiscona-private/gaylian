@@ -88,7 +88,7 @@ def schoolDoc(code):
 
         if request.method == 'POST':
             if request.form['pw'] == file.filePass:
-                with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
+                with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
                     lines = f.read()
                 return render_template('markdown.html', content=lines)
             return render_template('pw_input.html', error="Falsches Password")
@@ -155,7 +155,7 @@ def upload_md():
                 filesize = os.stat(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md').st_size
 
                 # save size
-                uploadedFile = Files.query.filter_by(id = insertedId).first()
+                uploadedFile = Markdowns.query.filter_by(id = insertedId).first()
                 uploadedFile.size = filesize
 
                 uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
@@ -367,7 +367,7 @@ def offer_file(code):
 
     return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes')
 
-@app.route('/cloud/<code>/delete', methods=['GET', 'POST'])#
+@app.route('/cloud/<code>/delete', methods=['GET', 'POST'])
 def delete_file(code):
     file = Files.query.filter_by(fileCode=code).first()
     if (file == None):
@@ -463,8 +463,9 @@ def login():
 @app.route('/user/files', methods=["POST","GET"])
 def view_files():
     if (session.get('user')):
-        files = Files.query.filter_by(uploadUser=session.get("user"))
-        return render_template('show_files.html', files=files)
+        files = Files.query.filter_by(uploadUser=session.get("user")).all()
+        docs = Markdowns.query.filter_by(uploadUser=session.get("user")).all()
+        return render_template('show_files.html', files=files, docs=docs)
     return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
 
 # admin
