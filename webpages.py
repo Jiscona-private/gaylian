@@ -12,9 +12,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files/'
-NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes/'
-MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns/'
+UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
+NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
+MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
 ADMIN_PW = "GdSk1cktawyo"
 
 app = Flask(__name__)
@@ -207,10 +207,14 @@ def edit_md(code):
         lines = f.read()
     return render_template('edit_md.html', mdContent = lines)
 
-@app.route("/cloud", methods=['GET', 'POST'])
+@app.route("/cloud/search", methods=['GET', 'POST'])
 def cloudSearch():
     if request.method == 'POST':
-        return redirect(url_for('download_file', code=request.form['code']))
+        return redirect(url_for('offer_file', code=request.form['code']))
+    return render_template('cloud.html')
+
+@app.route("/cloud")
+def cloudSearchField():
     return render_template('cloud.html')
 
 # cloud
