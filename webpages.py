@@ -75,6 +75,8 @@ def start():
 # school docs
 
 @app.route("/school/<code>", methods=['GET', 'POST'])
+@app.route("/doc/<code>", methods=['GET', 'POST'])
+@app.route("/md/<code>", methods=['GET', 'POST'])
 def schoolDoc(code):
     rand = random.randint(1,100)
     if rand == 1:
@@ -98,6 +100,8 @@ def schoolDoc(code):
         return render_template('pw_input.html')        
 
 @app.route("/school", methods=['GET', 'POST'])
+@app.route("/doc", methods=['GET', 'POST'])
+@app.route("/md", methods=['GET', 'POST'])
 def schoolSearch():
     if request.method == 'POST':
         return redirect(url_for('schoolDoc', code=request.form['code']))
@@ -105,6 +109,8 @@ def schoolSearch():
     
 
 @app.route('/school/new', methods=['GET', 'POST'])
+@app.route('/doc/new', methods=['GET', 'POST'])
+@app.route('/md/new', methods=['GET', 'POST'])
 def upload_md():
     if request.method == 'POST':
         # getting authCodes
@@ -159,6 +165,8 @@ def upload_md():
     return render_template('create_md.html')
 
 @app.route("/school/<code>/edit", methods=['GET', 'POST'])
+@app.route("/doc/<code>/edit", methods=['GET', 'POST'])
+@app.route("/md/<code>/edit", methods=['GET', 'POST'])
 def edit_md(code):
     file = Markdowns.query.filter_by(fileCode=code).first()
 
