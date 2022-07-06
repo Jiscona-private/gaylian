@@ -39,6 +39,9 @@
                 <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
                 <input type="submit" class="btn btn-outline-success" name="search" value="Suchen">
               </form>
+              {% if loggedUser %}
+                Hallo, {{ loggedUser }}!
+              {% endif %}
             </div>
           </div>
       </nav>

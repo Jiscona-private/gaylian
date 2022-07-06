@@ -1,5 +1,8 @@
+from distutils.command.upload import upload
+import math
 import random, os, datetime
 from os.path import exists
+import shutil
 from time import sleep
 from tkinter.messagebox import YES
 
@@ -48,6 +51,7 @@ class Files(db.Model):
     filePass = db.Column(db.String(132), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
+    size = db.Column(db.Integer)
 
 class Markdowns(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +68,8 @@ class Notes(db.Model):
 ##### REDIRECTS #####
 @app.route("/")
 def start():
+    if (session.get('username')):
+        return render_template('index.html', loggedUser=session.get('username'))
     return render_template('index.html')
 
 # school docs
@@ -269,10 +275,8 @@ def upload_file():
                 if request.form['filePass']:
                     filePass = request.form['filePass']
 
-
-
                 # adding link to database
-                newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id)
+                newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
                 db.session.add(newFile)
                 db.session.commit()
                 db.session.refresh(newFile)
@@ -284,6 +288,10 @@ def upload_file():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
 
                 filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
+
+                # save size
+                uploadedFile = Files.query.filter_by(id = insertedId).first()
+                uploadedFile.size = filesize
 
                 uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
                 db.session.commit()
@@ -325,19 +333,26 @@ def offer_file(code):
 
     return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes')
 
-@app.route('/cloud/<code>/download', methods=['GET', 'POST'])
-def download_file(code):
+@app.route('/cloud/<code>/delete', methods=['GET', 'POST'])#
+def delete_file(code):
     file = Files.query.filter_by(fileCode=code).first()
     if (file == None):
         return render_template('fileNotFound.html')
 
-    if request.method == 'POST':
-        if request.form['pw'] == file.filePass:
-            return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
-        return render_template('pw_input.html', error="Falsches Password")
+    if file.uploadUser == session.get('user'):
+        if request.method == 'POST':
+            # delete file
+            shutil.rmtree(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)))
+            # lower used storage
+            user = Users.query.filter_by(id=session.get('user')).first()
+            user.storageUsed = math.ceil(user.storageUsed - (file.size * 0.95))
+            Files.query.filter_by(id = file.id).delete()          
+            db.session.commit()
+            return render_template('sucess.html', goal="delete")
+        return render_template('delete_file.html', name=file.filename)
+    return render_template('login.html', error="Hierfür musst du angemeldet sein.")
+    
 
-    if (file.filePass == None):   
-        return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
 
     
 
@@ -404,12 +419,20 @@ def login():
             if (user):
                 if (pw[0] == user.authDigit and bcrypt.check_password_hash(user.authHash, pw[1:])):
                     session['user'] = user.id
+                    session['username'] = user.username
+                    return redirect(url_for('start'))
                 return render_template('login.html', error="Nutzername oder Passwort falsch.")    
             return render_template('login.html', error="Nutzername oder Passwort falsch.")
         return render_template('login.html', error="Bitte geben Sie Nutzername und Passwort an.")
     return render_template('login.html')
 
 @app.route('/user/files', methods=["POST","GET"])
+def view_files():
+    if (session.get('user')):
+        files = Files.query.filter_by(uploadUser=session.get("user"))
+        return render_template('show_files.html', files=files)
+    return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
+
 # admin
 
 @app.route('/user/new', methods=["POST","GET"])

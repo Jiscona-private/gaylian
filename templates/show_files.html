@@ -8,7 +8,16 @@
                 <th>Löschen</th>
             </tr>
             {% for file in files %}
-
+                <tr>
+                    <td>{{file.filename}}</td>
+                    <td>{{file.size}} Byte</td>
+                    <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
+                    <td>
+                        <form action="/cloud/{{file.fileCode}}/delete" method="post">
+                            <input type="submit" name="delButton" value="Löschen">
+                        </form>
+                    </td>
+                </tr>
             {% endfor %}
         </table>
     </body>
