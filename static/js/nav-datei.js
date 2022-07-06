@@ -32,7 +32,7 @@ document.write(`
             <i class="nav-link disabled">more coming soon...</i>
           </li>
         </ul>
-        <form class="d-flex" role="search" style="margin-block-end: 0em;">
+        <form class="d-flex" role="search" style="margin-block-end: 0em;" method="post" action="/cloud/search">
           <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
           <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
         </form>

@@ -3,7 +3,8 @@ from os.path import exists
 from time import sleep
 from tkinter.messagebox import YES
 
-from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, jsonify
+from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, jsonify, session
+#from flask.ext.session import Session
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -12,10 +13,11 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/cloud/files/'
-NOTES_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/notes/'
-MD_FOLDER = 'F:/Dokumente/Dokumente/Jakob/Gaylian Net/Code/github/gaylian/markdowns/'
+UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
+NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
+MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
 ADMIN_PW = "GdSk1cktawyo"
+SESSION_TYPE = 'redis'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -24,8 +26,10 @@ app.config['MD_FOLDER'] = MD_FOLDER
 app.config['ADMIN_PW'] = ADMIN_PW
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
+app.config.from_object(__name__)
 
 db = SQLAlchemy(app)
+#Session(app)
 
 ##### DATAMODELS #####
 
@@ -207,10 +211,14 @@ def edit_md(code):
         lines = f.read()
     return render_template('edit_md.html', mdContent = lines)
 
-@app.route("/cloud", methods=['GET', 'POST'])
+@app.route("/cloud/search", methods=['GET', 'POST'])
 def cloudSearch():
     if request.method == 'POST':
-        return redirect(url_for('download_file', code=request.form['code']))
+        return redirect(url_for('offer_file', code=request.form['code']))
+    return render_template('cloud.html')
+
+@app.route("/cloud")
+def cloudSearchField():
     return render_template('cloud.html')
 
 # cloud
@@ -384,7 +392,24 @@ def show_note(number):
     if (note.filePass == None):   
         return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
     return render_template('pw_input.html')
-    
+
+# user
+@app.route('/user/login', methods=["POST","GET"])
+def login():
+    if request.method == "POST":
+        if (request.form['uname'] and request.form['password']):
+            username = request.form['uname']
+            pw = request.form['password']
+            user = Users.query.filter_by(username=username).first()
+            if (user):
+                if (pw[0] == user.authDigit and bcrypt.check_password_hash(user.authHash, pw[1:])):
+                    session['user'] = user.id
+                return render_template('login.html', error="Nutzername oder Passwort falsch.")    
+            return render_template('login.html', error="Nutzername oder Passwort falsch.")
+        return render_template('login.html', error="Bitte geben Sie Nutzername und Passwort an.")
+    return render_template('login.html')
+
+@app.route('/user/files', methods=["POST","GET"])
 # admin
 
 @app.route('/user/new', methods=["POST","GET"])
