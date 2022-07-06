@@ -58,7 +58,8 @@ class Markdowns(db.Model):
     fileCode = db.Column(db.String(32), unique=True, nullable=False)
     filePass = db.Column(db.String(32), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
-    uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
+    uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now())
+    size = db.Column(db.Integer)
 
 class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -153,6 +154,10 @@ def upload_md():
 
                 filesize = os.stat(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md').st_size
 
+                # save size
+                uploadedFile = Files.query.filter_by(id = insertedId).first()
+                uploadedFile.size = filesize
+
                 uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
                 db.session.commit()
 
@@ -224,6 +229,27 @@ def edit_md(code):
     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'r', encoding='utf-8') as f:
         lines = f.read()
     return render_template('edit_md.html', mdContent = lines)
+
+@app.route('/school/<code>/delete', methods=['GET', 'POST'])
+@app.route('/doc/<code>/delete', methods=['GET', 'POST'])
+@app.route('/md/<code>/delete', methods=['GET', 'POST'])
+def delete_doc(code):
+    doc = Markdowns.query.filter_by(fileCode=code).first()
+    if (doc == None):
+        return render_template('fileNotFound.html')
+
+    if doc.uploadUser == session.get('user'):
+        if request.method == 'POST':
+            # delete file
+            shutil.rmtree(os.path.join(app.config['UPLOAD_FOLDER'], str(doc.id)))
+            # lower used storage
+            user = Users.query.filter_by(id=session.get('user')).first()
+            user.storageUsed = math.ceil(user.storageUsed - (doc.size * 0.95))
+            Markdowns.query.filter_by(id = doc.id).delete()          
+            db.session.commit()
+            return render_template('sucess.html', goal="delete")
+        return render_template('delete_file.html', name=doc.filename)
+    return render_template('login.html', error="Hierfür musst du angemeldet sein.")
 
 @app.route("/cloud/search", methods=['GET', 'POST'])
 def cloudSearch():

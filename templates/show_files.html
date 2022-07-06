@@ -1,5 +1,6 @@
 <html>
     <body>
+        <h1>Cloud-Dateien</h1>
         <table>
             <tr>
                 <th>Name der Datei</th>
@@ -14,6 +15,28 @@
                     <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                     <td>
                         <form action="/cloud/{{file.fileCode}}/delete" method="post">
+                            <input type="submit" name="delButton" value="Löschen">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h1>Dokumente</h1>
+        <table>
+            <tr>
+                <th>Name des Dokuments</th>
+                <th>Größe</th>
+                <th>Link</th>
+                <th>Löschen</th>
+            </tr>
+            {% for doc in docs %}
+                <tr>
+                    <td>{{doc.fileCode}}</td>
+                    <td>{{doc.size}} Byte</td>
+                    <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
+                    <td>
+                        <form action="/school/{{file.fileCode}}/delete" method="post">
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
