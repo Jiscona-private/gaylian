@@ -4,7 +4,7 @@ import random, os, datetime
 from os.path import exists
 import shutil
 from time import sleep
-from tkinter.messagebox import YES
+from tkinter.messagebox import NO, YES
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, session, make_response
 #from flask.ext.session import Session
@@ -483,6 +483,19 @@ def login():
             return render_template('login.html', error="Nutzername oder Passwort falsch.")
         return render_template('login.html', error="Bitte geben Sie Nutzername und Passwort an.")
     return render_template('login.html')
+
+@app.route('/user/logout', methods=["POST","GET"])
+def logout():
+    if request.method == "POST":
+        # delete cookies
+        resp = make_response(render_template('sucess.html', goal="logout"))
+        resp.set_cookie('user', '', expires=0)
+        resp.set_cookie('username', '', expires=0)
+        # delete session
+        session['user'] = None
+        session['username'] = None
+        return resp
+    return render_template("logout.html")
 
 @app.route('/user/files', methods=["POST","GET"])
 def view_files():
