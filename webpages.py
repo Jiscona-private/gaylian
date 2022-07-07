@@ -6,7 +6,7 @@ import shutil
 from time import sleep
 from tkinter.messagebox import YES
 
-from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, jsonify, session
+from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, session, make_response
 #from flask.ext.session import Session
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
@@ -65,6 +65,13 @@ class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filePass = db.Column(db.String(32), nullable=True)
     ipAdr = db.Column(db.Integer, nullable=False)    
+
+##### INITALIZATION #####
+@app.before_request
+def set_session():
+    if (request.cookies.get('user') and request.cookies.get('username')):
+        session['user'] = request.cookies.get('user')
+        session['username'] = request.cookies.get('username')
 
 ##### REDIRECTS #####
 @app.route("/")
@@ -462,8 +469,15 @@ def login():
             user = Users.query.filter_by(username=username).first()
             if (user):
                 if (pw[0] == user.authDigit and bcrypt.check_password_hash(user.authHash, pw[1:])):
+                    # session
                     session['user'] = user.id
                     session['username'] = user.username
+                    #cookie
+                    if request.form['staySignedIn']:
+                        resp = make_response(url_for('start'))
+                        resp.set_cookie('user', str(user.id), max_age=60*60*24*60)  
+                        resp.set_cookie('username', user.username, max_age=60*60*24*60)   
+                        return resp
                     return redirect(url_for('start'))
                 return render_template('login.html', error="Nutzername oder Passwort falsch.")    
             return render_template('login.html', error="Nutzername oder Passwort falsch.")
@@ -496,6 +510,15 @@ def createUser():
 
             return "done"
     return render_template('createUser.html')
+
+# user information cookies
+@app.route('/cookies')
+def cookiesInform():
+    return render_template('cookies.html')
+
+@app.route('/show-cookies')
+def showCookiesTutorial():
+    return render_template('cookies-tutorial.html')
 
 ## === ERROR HANDLER ===
 
