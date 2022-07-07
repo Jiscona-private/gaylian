@@ -1,0 +1,17 @@
+<html>
+    {% if goal == 'delete'%}
+        <h1>Die Datei wurde erfolgreich gelöscht.</h1>
+        <script>
+            //check if request from /user/files and redirect
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var requestFromShow = url.searchParams.get("delButton");
+            if (requestFromShow) {
+                window.close();
+            }
+        </script>
+    {% elif goal == 'logout'%}
+        <h1>Sie wurden erfolgreich ausgeloggt.</h1>
+    {% endif %}
+
+</html>
