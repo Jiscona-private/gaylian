@@ -1,5 +1,5 @@
-cloud/files/
-markdowns/
+cloud/files/*
+markdowns/*
 notes/
 __pycache__/
 gaylian.db

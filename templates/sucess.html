@@ -5,9 +5,9 @@
             //check if request from /user/files and redirect
             var url_string = window.location.href;
             var url = new URL(url_string);
-            var requestFrom = url.searchParams.get("delButton");
-            if (requestFrom) {
-                window.location.replace('http://gaylian.net/user/files');
+            var requestFromShow = url.searchParams.get("delButton");
+            if (requestFromShow) {
+                window.close();
             }
         </script>
     {% endif %}

@@ -21,7 +21,11 @@
                       <hr>
                       <input class="padding form-control me-2" maxlength="32" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
                       <hr>
-                      <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                      {% if username %}
+                        Ihre Datei wird auf dem Konto {{ username }} gespeichert.
+                      {% else %}                        
+                        <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                      {% endif %}
                       <hr>
                       <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
                       <hr>

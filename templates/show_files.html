@@ -1,6 +1,8 @@
 <html>
     <body>
-        <h1>Cloud-Dateien</h1>
+        <h1>Dateien von {{username}}</h1>
+        {% if files %}
+        <h2>Cloud-Dateien</h2>
         <table>
             <tr>
                 <th>Name der Datei</th>
@@ -14,15 +16,17 @@
                     <td>{{file.size}} Byte</td>
                     <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                     <td>
-                        <form action="/cloud/{{file.fileCode}}/delete" method="get">
+                        <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        {% endif %}
 
-        <h1>Dokumente</h1>
+        {% if docs %}
+        <h2>Dokumente</h2>
         <table>
             <tr>
                 <th>Name des Dokuments</th>
@@ -36,12 +40,13 @@
                     <td>{{doc.size}} Byte</td>
                     <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
                     <td>
-                        <form action="/school/{{doc.fileCode}}/delete" method="get">
+                        <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        {% endif %}
     </body>
 </html>
