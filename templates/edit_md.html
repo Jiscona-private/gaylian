@@ -34,7 +34,7 @@
               <form name="schoolUpload" method="post">
                   <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
                   <hr>
-                  <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                  <input class="padding form-control me-2" type="text" name="filecode" id="filecode" value="{{ filecode }}" placeholder="Code der Datei">
                   <hr>
                   <div class="input-group">
                     <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
@@ -43,7 +43,11 @@
                     </div>
                   </div>
                   <hr>
-                  <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                  {% if username %}
+                    Ihre Datei wird auf dem Konto {{ username }} gespeichert.
+                  {% else %}                        
+                    <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                  {% endif %}
                   <hr>
                   <input type="submit" class="padding btn btn-outline-dark" value="Datei speichern">
               </form>
