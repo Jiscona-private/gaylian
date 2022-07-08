@@ -148,7 +148,7 @@ def upload_md():
                     return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.", mdContent = md)
                 # set filePass
                 filePass = None
-                if (request.form['filePass']):
+                if (request.form.getlist('setNewFilepass') and request.form['filePass']):
                     filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
                 # adding link to database
@@ -218,11 +218,10 @@ def edit_md(code):
                     
                     file.fileCode = fileCode
                     # getting filepass
-                    filePass = None
-                    if (request.form['filePass']):
+                    if (request.form.getlist('setNewFilepass') and request.form['filePass']):
                         filePass = bcrypt.generate_password_hash(request.form['filePass'])
-                    file.filePass = filePass
-                    db.session.commit()
+                        file.filePass = filePass
+                        db.session.commit()
                     
                     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'w', encoding='utf-8') as f:
                         f.write(md)
@@ -236,8 +235,8 @@ def edit_md(code):
                         os.remove(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md') 
                         return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md, username=session.get('username'), filecode=file.fileCode)
                     return redirect(url_for('schoolDoc', code=fileCode))
-                return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)
-            return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)     
+                return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=request.form['fileCode'])
+            return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)   
         return render_template('edit_md.html', error="Falsches Password", mdContent = lines)
     return render_template('edit_md.html', mdContent = lines, username=session.get('username'), filecode=file.fileCode)
 
@@ -323,7 +322,7 @@ def upload_file():
 
                 # set filepass
                 filePass = None
-                if request.form['filePass']:
+                if (request.form.getlist('setNewFilepass') and request.form['filePass']):
                     filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
                 # adding link to database
@@ -426,7 +425,7 @@ def write_note():
             # writing database entry
             # set filePass
             filePass = None
-            if request.form['filePass']:
+            if (request.form.getlist('setNewFilepass') and request.form['filePass']):
                 filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
             # adding link to database
