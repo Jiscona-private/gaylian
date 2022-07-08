@@ -16,9 +16,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/cloud/files/'
-NOTES_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/notes/'
-MD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/markdowns/'
+UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
+NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
+MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
 ADMIN_PW = "GdSk1cktawyo"
 SESSION_TYPE = 'redis'
 
@@ -48,7 +48,7 @@ class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(32), unique=True, nullable=False)
     filename = db.Column(db.String(120), nullable=False)
-    filePass = db.Column(db.String(132), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
     size = db.Column(db.Integer)
@@ -56,14 +56,14 @@ class Files(db.Model):
 class Markdowns(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(32), unique=True, nullable=False)
-    filePass = db.Column(db.String(32), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now())
     size = db.Column(db.Integer)
 
 class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    filePass = db.Column(db.String(32), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     ipAdr = db.Column(db.Integer, nullable=False)    
 
 ##### INITALIZATION #####
@@ -94,7 +94,7 @@ def schoolDoc(code):
         docId = file.id
 
         if request.method == 'POST':
-            if request.form['pw'] == file.filePass:
+            if bcrypt.check_password_hash(file.filePass, request.form['pw']):
                 with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
                     lines = f.read()
                 return render_template('markdown.html', content=lines)
@@ -149,7 +149,7 @@ def upload_md():
                 # set filePass
                 filePass = None
                 if (request.form['filePass']):
-                    filePass = request.form['filePass']
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
                 # adding link to database
                 
@@ -220,7 +220,7 @@ def edit_md(code):
                     # getting filepass
                     filePass = None
                     if (request.form['filePass']):
-                        filePass = request.form['filePass']
+                        filePass = bcrypt.generate_password_hash(request.form['filePass'])
                     file.filePass = filePass
                     db.session.commit()
                     
@@ -324,7 +324,7 @@ def upload_file():
                 # set filepass
                 filePass = None
                 if request.form['filePass']:
-                    filePass = request.form['filePass']
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
                 # adding link to database
                 newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
@@ -370,7 +370,7 @@ def offer_file(code):
 
     if request.method == 'POST':
         submit = True
-        if (passed == True or request.form['pw'] == file.filePass):
+        if (passed == True or bcrypt.check_password_hash(file.filePass, request.form['pw'])):
             passed = True
         else:
             return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes', error="Falsches Passwort!")
@@ -427,7 +427,7 @@ def write_note():
             # set filePass
             filePass = None
             if request.form['filePass']:
-                filePass = request.form['filePass']
+                filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
             # adding link to database
                 
@@ -451,7 +451,7 @@ def show_note(number):
         return render_template('fileNotFound.html')
 
     if request.method == 'POST':
-        if request.form['pw'] == note.filePass:
+        if bcrypt.check_password_hash(note.filePass, request.form['pw']):
             return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
         return render_template('pw_input.html', error="Falsches Password")
 
