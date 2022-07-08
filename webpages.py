@@ -462,7 +462,7 @@ def show_note(number):
 # user
 @app.route('/user/login', methods=["POST","GET"])
 def login():
-    if request.method == "POST":
+    if request.method == 'POST':
         if (request.form['uname'] and request.form['password']):
             username = request.form['uname']
             pw = request.form['password']
@@ -473,8 +473,8 @@ def login():
                     session['user'] = user.id
                     session['username'] = user.username
                     #cookie
-                    if request.form['staySignedIn']:
-                        resp = make_response(url_for('start'))
+                    if request.form.getlist('staySignedIn'):
+                        resp = make_response(redirect(url_for('start')))
                         resp.set_cookie('user', str(user.id), max_age=60*60*24*60)  
                         resp.set_cookie('username', user.username, max_age=60*60*24*60)   
                         return resp
