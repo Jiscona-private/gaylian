@@ -1,7 +1,44 @@
 <html>
-    <h1>Sind Sie sicher, dass die Datei {{name}} gelöscht werden soll?</h1>
-    <h2 style="color:red;">Diese Aktion kann nicht rückgängig gemacht werden.</h2>
-    <form method="post">
-        <input type="submit">
-    </form>
+    <head>
+        <title>Gaylian: User</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
+    </head>
+    <body>
+        <h1>Sind Sie sicher, dass die Datei {{name}} gelöscht werden soll?</h1>
+        <h2 style="color:red;">Diese Aktion kann nicht rückgängig gemacht werden.</h2>
+        <form method="post">
+            <input type="submit">
+        </form>
+
+
+        <div class="container px-4 toast-container position-static">
+          {% if error %}
+          <div class="toast show toast-anzeige bottom-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="../static/img/gaylian_50_yellow.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+              <strong class="me-auto">Datei Löschen</strong>
+              <small class="text-muted">Schließen</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Sind Sie sicher, dass die Datei 
+              <a style="color: red;">{{ name }}</a>
+              endgültig gelöscht werden soll?
+              <div class="mt-2 pt-2 border-top">
+                <form method="post">
+                  <input class="btn btn-outline-danger" placeholder="Datei Löschen!"></input>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+      </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

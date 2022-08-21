@@ -63,6 +63,20 @@
         gaylian.net is powered by Bonarium Holdings.
       </footer>
       <nav class="navbar bg-light">
+
+        {% if error %}
+        {{ error }}
+    {% endif %}
+    <form action="/user/login" method="post">
+        <input type="text" name="uname" placeholder="Nutzername">
+        <input type="password" name="password" placeholder="Passwort">
+        <input type="checkbox" name="staySignedIn"> Angemeldet bleiben (hierfür wird ein <a href="../cookies">Cookie</a> gesetzt.)
+        <input type="submit">
+    </form>
+
+
+
+
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Offcanvas navbar</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">

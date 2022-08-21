@@ -1,14 +1,37 @@
 <html>
+    <head>
+        <title>Gaylian: Deine Dateien</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-name.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
+        <script type="text/javascript" src="../static/js/ltrim.js"></script>
+        <script type="text/javascript" src="../static/js/sort_table.js"></script>
+        <script type="text/javascript" >
+            window.onload = function() {
+                SortTable.init();
+            }
+        </script>
+        <script>
+            SortTable.init().forEach(function(el) {
+                el.sort(spalte); 
+            }
+            )
+       </script>
+    </head>
     <body>
         <h1>Dateien von {{username}}</h1>
         {% if files %}
         <h2>Cloud-Dateien</h2>
-        <table>
+        <table class="sortable">
             <tr>
-                <th>Name der Datei</th>
+                <th title="ignore_case">Name der Datei</th>
                 <th>Größe</th>
                 <th>Link</th>
-                <th>Löschen</th>
+                <th class="no_sort">Löschen</th>
             </tr>
             {% for file in files %}
                 <tr>
@@ -17,7 +40,7 @@
                     <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                     <td>
                         <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                            <input type="submit" name="delButton" value="Löschen">
+                            <input class="btn files_btn" type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
                 </tr>
@@ -27,12 +50,12 @@
 
         {% if docs %}
         <h2>Dokumente</h2>
-        <table>
+        <table class="sortable">
             <tr>
-                <th>Name des Dokuments</th>
+                <th title="ignore_case">Name des Dokuments</th>
                 <th>Größe</th>
                 <th>Link</th>
-                <th>Löschen</th>
+                <th class="no_sort">Löschen</th>
             </tr>
             {% for doc in docs %}
                 <tr>
@@ -44,9 +67,39 @@
                             <input type="submit" name="delButton" value="Löschen">
                         </form>
                     </td>
-                </tr>
+                </tr>                
             {% endfor %}
         </table>
         {% endif %}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container top-0 end-0 p-3">
+                {% if error %}
+                <div class="toast show toast-anzeige bottom-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="../static/img/gaylian_50_yellow.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+                        <strong class="me-auto">Datei Löschen</strong>
+                        <small class="text-muted">Schließen</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                        <div class="toast-body">
+                            Sind Sie sicher, dass die Datei
+                            <a style="color: red;">{{ name }}</a>
+                            endgültig gelöscht werden soll?
+                            <div class="mt-2 pt-2 border-top ">
+                                <form method="post">
+                                    <button type="button" class="btn btn-outline-danger toast-button-1">Datei Löschen!</button>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
+
+javacript sotierung
+einblendung beim Löschen -> keine Löschpage
+Löschpage nur für /delete
+in der Navbar Cookies rein machen, wenn angemeldet -> zum Datenschutzrechtskack

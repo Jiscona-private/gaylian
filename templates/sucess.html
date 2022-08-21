@@ -1,17 +1,37 @@
 <html>
-    {% if goal == 'delete'%}
-        <h1>Die Datei wurde erfolgreich gelöscht.</h1>
-        <script>
-            //check if request from /user/files and redirect
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var requestFromShow = url.searchParams.get("delButton");
-            if (requestFromShow) {
-                window.close();
-            }
-        </script>
-    {% elif goal == 'logout'%}
-        <h1>Sie wurden erfolgreich ausgeloggt.</h1>
-    {% endif %}
-
+    <head>
+        <title>Gaylian: User</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
+    </head>
+    <body>    
+        <div class="wohooo">
+            <b class="fs-1">WOHOOO!</b><hr>
+            {% if goal == 'delete'%}
+                <h1>Die Datei wurde erfolgreich gelöscht.</h1>
+                <script>
+                    //check if request from /user/files and redirect
+                    var url_string = window.location.href;
+                    var url = new URL(url_string);
+                    var requestFromShow = url.searchParams.get("delButton");
+                    if (requestFromShow) {
+                        window.close();
+                    }
+                </script>
+            {% elif goal == 'logout'%}
+                <h1>Sie wurden erfolgreich ausgeloggt.</h1>
+            {% endif %}
+            <hr>
+            <ul class="listee">
+                <li class="liste"><button type="button" class="btn btn-secondary"><a href="http://gaylian.net" style="color: rgb(221, 221, 221);">Zu gaylian.net</a></button></li>
+                <li class="liste"><button type="button" class="btn btn-secondary"><a href="http://gaylian.net/school" style="color: rgb(221, 221, 221);">Markdown Suche</a></button></li>
+                <li class="liste"><button type="button" class="btn btn-secondary"><a href="http://gaylian.net/cloud" style="color: rgb(221, 221, 221);">Cloud Suche</a></button></li>
+            </ul>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        zurück zur letzten Seite button
+    </body>
 </html>
