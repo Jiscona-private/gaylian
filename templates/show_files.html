@@ -23,54 +23,57 @@
        </script>
     </head>
     <body>
-        <h1>Dateien von {{username}}</h1>
-        {% if files %}
-        <h2>Cloud-Dateien</h2>
-        <table class="sortable">
-            <tr>
-                <th title="ignore_case">Name der Datei</th>
-                <th>Größe</th>
-                <th>Link</th>
-                <th class="no_sort">Löschen</th>
-            </tr>
-            {% for file in files %}
+        <div class="main_files">
+            <h1>Dateien von {{username}}</h1>
+            {% if files %}
+            <h2>Cloud-Dateien</h2>
+            <table class="sortable">
                 <tr>
-                    <td>{{file.filename}}</td>
-                    <td>{{file.size}} Byte</td>
-                    <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
-                    <td>
-                        <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                            <input class="btn files_btn" type="submit" name="delButton" value="Löschen">
-                        </form>
-                    </td>
+                    <th title="ignore_case">Name der Datei</th>
+                    <th>Größe</th>
+                    <th>Link</th>
+                    <th class="no_sort">Löschen</th>
                 </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-
-        {% if docs %}
-        <h2>Dokumente</h2>
-        <table class="sortable">
-            <tr>
-                <th title="ignore_case">Name des Dokuments</th>
-                <th>Größe</th>
-                <th>Link</th>
-                <th class="no_sort">Löschen</th>
-            </tr>
-            {% for doc in docs %}
+                {% for file in files %}
+                    <tr>
+                        <td>{{file.filename}}</td>
+                        <td>{{file.size}} Byte</td>
+                        <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
+                        <td>
+                            <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
+                                <input class="btn files_btn" type="submit" name="delButton" value="Löschen">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+            <hr>
+            {% if docs %}
+            <h2>Dokumente</h2>
+            <table class="sortable">
                 <tr>
-                    <td>{{doc.fileCode}}</td>
-                    <td>{{doc.size}} Byte</td>
-                    <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
-                    <td>
-                        <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
-                            <input type="submit" name="delButton" value="Löschen">
-                        </form>
-                    </td>
-                </tr>                
-            {% endfor %}
-        </table>
-        {% endif %}
+                    <th title="ignore_case">Name des Dokuments</th>
+                    <th>Größe</th>
+                    <th>Link</th>
+                    <th class="no_sort">Löschen</th>
+                </tr>
+                {% for doc in docs %}
+                    <tr>
+                        <td>{{doc.fileCode}}</td>
+                        <td>{{doc.size}} Byte</td>
+                        <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
+                        <td>
+                            <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
+                                <input type="submit" name="delButton" value="Löschen">
+                            </form>
+                        </td>
+                    </tr>             
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>        
+        <a style="color: red;">Mein gesamter Speicher:</a>
         <div aria-live="polite" aria-atomic="true" class="position-relative">
             <div class="toast-container top-0 end-0 p-3">
                 {% if error %}
