@@ -31,7 +31,7 @@ nav:hover {
 }
 .navbar-expand-lg {
     text-align: center;
-}   
+}
 .nav-shadow {
     text-shadow: 2px 2px 4px rgb(172, 172, 172);
 }
@@ -100,9 +100,6 @@ nav .container-fluid div ul {
 .liste {
     padding-bottom: 5px;
 }
-.main_files {
-    margin: 10px;
-}
 .main_delete {
     margin: 15px;
 }
@@ -127,14 +124,15 @@ nav .container-fluid div ul {
     --bs-gradient: none;
 }
 .btn-lg_delete {
-    --bs-btn-padding-y: 0.75rem;
-    --bs-btn-padding-x: 1.25rem;
-    --bs-btn-font-size: 2rem;
-    --bs-btn-border-radius: 0.75rem;
+    --bs-btn-padding-y: 0.5rem;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-font-size: 1.25rem;
+    --bs-btn-border-radius: 0.5rem;
 }
 .dwl-button {
     position: relative;
-    margin-top: 10px;
+    margin-bottom: -20px;
+    padding-top: 20px;
 }
 /*Tabellen*/
 table {
@@ -177,9 +175,6 @@ td {
     margin-right: auto;
     width: 70%;
     margin-bottom: -14px;
-}
-.dwl-text {
-    color: black;
 }
 .dwl-symbol {
     text-align: left;
@@ -244,5 +239,11 @@ td {
     border-radius: var(--bs-btn-border-radius);
     background-color: var(--bs-btn-bg);
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-lg_delete {
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 1.25rem;
+    --bs-btn-font-size: 2rem;
+    --bs-btn-border-radius: 0.75rem;
 }
 */
