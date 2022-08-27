@@ -31,7 +31,7 @@ nav:hover {
 }
 .navbar-expand-lg {
     text-align: center;
-}   
+}
 .nav-shadow {
     text-shadow: 2px 2px 4px rgb(172, 172, 172);
 }
@@ -84,7 +84,7 @@ nav .container-fluid div ul {
 /*Toasts/Fehlermeldungen/Forms*/
 
 
-/*krams*/
+/*Schriftkram*/
 .basiertheit {
     width: 300px;
     border: 2px solid gray;
@@ -92,7 +92,6 @@ nav .container-fluid div ul {
     margin: 20px;
     font-size: 150%;
     text-align: center;
-    
 }
 .based1 {
     padding-top: 240px;

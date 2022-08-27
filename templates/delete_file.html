@@ -6,8 +6,6 @@
         <link rel="icon" href="../static/img/gaylian_50_yellow.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
         <script src="../static/js/nav-basiert.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
     </head>
     <body>
         <div class="main_delete">
@@ -17,9 +15,9 @@
               <div class="col based1">
                 <div class="shadow rounded p-3 border bg-body">
                   <form method="post">
-                    <input type="submit" class="btn btn-outline-warning_delete btn-lg_delete btn_delete" value="Datei Löschen!">
+                    <input type="submit" class="btn btn-outline-warning_delete btn-lg_delete btn_delete" value="Datei löschen!">
+                    <span class="cancel_delete">(Diese Aktion kann <b>nicht</b> rückgängig gemacht werden.)</span>
                   </form>
-                  <p>(Diese Aktion kann <b>nicht</b> rückgängig gemacht werden.)</p>
                   <div class="col">
                     <div class="shadow rounded p-3 border bg-body">
                       <input type="submit" class="btn btn-secondary" value="Abbrechen">
