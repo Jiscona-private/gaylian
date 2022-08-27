@@ -172,7 +172,8 @@ def upload_md():
                 db.session.commit()
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
-                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
+                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md')
+                    Markdowns.query.filter_by(id = insertedId).delete()
                     return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
                 return redirect(url_for('schoolDoc', code=fileCode))
 
@@ -249,7 +250,7 @@ def delete_doc(code):
     if (doc == None):
         return render_template('fileNotFound.html')
 
-    if doc.uploadUser == session.get('user'):
+    if str(doc.uploadUser) == str(session.get('user')):
         if request.method == 'POST':
             # delete file
             os.remove(os.path.join(app.config['MD_FOLDER'], str(doc.id))+".md")
@@ -349,6 +350,7 @@ def upload_file():
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
                     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)) 
+                    Files.query.filter_by(id = insertedId).delete()       
                     return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
                 return redirect(url_for('offer_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
@@ -390,7 +392,7 @@ def delete_file(code):
     if (file == None):
         return render_template('fileNotFound.html')
 
-    if file.uploadUser == session.get('user'):
+    if str(file.uploadUser) == str(session.get('user')):
         if request.method == 'POST':
             # delete file
             shutil.rmtree(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)))
