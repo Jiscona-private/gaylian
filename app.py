@@ -284,75 +284,72 @@ def upload_file():
         # getting authCodes
         
 
-        if  session.get('user') or verify(request.form['authCode']) == True:
-
+        if session.get('user') or verify(request.form['authCode']) == True:
+            from app import Files
             # check if the post request has the file part
-            if 'file' not in request.files:
+            if 'file[]' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
 
-            file = request.files['file']
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
+            # check if code is already used
+            codeUsed = Files.query.filter_by(fileCode=fileCode).first()
+            if codeUsed:
+                return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
 
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
+            # read all files
+            for file in request.files.getlist("file[]"):
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect(request.url)
 
-            if file:
-                from app import Files
+                if file:
+                    # get storageUsed and add filesize
+                    uploadUser = None
+                    if (session.get('user')):
+                        uploadUser = Users.query.filter_by(id = session.get('user')).first()
+                    
+                    else:
+                        uploadUser = getCodeUser(request.form['authCode'])
+                    
 
-                # get storageUsed and add filesize
-                uploadUser = None
-                if (session.get('user')):
-                    uploadUser = Users.query.filter_by(id = session.get('user')).first()
-                
-                else:
-                    uploadUser = getCodeUser(request.form['authCode'])
-                
+                    if uploadUser.storageOwned < uploadUser.storageUsed:
+                        return render_template('file_upload.html', error="Ihr Speicher ist voll.")                                
 
-                if uploadUser.storageOwned < uploadUser.storageUsed:
-                    return render_template('file_upload.html', error="Ihr Speicher ist voll.")            
+                    filename = secure_filename(file.filename)
 
-                # check if code is already used
-                codeUsed = Files.query.filter_by(fileCode=fileCode).first()
-                if codeUsed:
-                    return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
-                
+                    # set filepass
+                    filePass = None
+                    if request.form['filePass']:
+                        filePass = request.form['filePass']
 
-                filename = secure_filename(file.filename)
+                    # adding link to database
+                    newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
+                    db.session.add(newFile)
+                    db.session.commit()
+                    db.session.refresh(newFile)
+                    insertedId= newFile.id
 
-                # set filepass
-                filePass = None
-                if request.form['filePass']:
-                    filePass = request.form['filePass']
+                    # upload
+                    os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)))
+                    
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
 
-                # adding link to database
-                newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
-                db.session.add(newFile)
-                db.session.commit()
-                db.session.refresh(newFile)
-                insertedId= newFile.id
+                    filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
 
-                # upload
-                os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)))
-                
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
+                    # save size
+                    uploadedFile = Files.query.filter_by(id = insertedId).first()
+                    uploadedFile.size = filesize
 
-                filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
+                    uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
+                    db.session.commit()
 
-                # save size
-                uploadedFile = Files.query.filter_by(id = insertedId).first()
-                uploadedFile.size = filesize
-
-                uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
-                db.session.commit()
-
-                if uploadUser.storageOwned < uploadUser.storageUsed :
-                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)) 
-                    Files.query.filter_by(id = insertedId).delete()       
-                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
-                return redirect(url_for('offer_file', code=fileCode))
+                    if uploadUser.storageOwned < uploadUser.storageUsed :
+                        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)) 
+                        Files.query.filter_by(id = insertedId).delete()       
+                        return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+            return redirect(url_for('offer_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html', username=session.get('username'))
 
@@ -360,31 +357,44 @@ def upload_file():
 def offer_file(code):
     showable = ['.PNG', '.PDF', '.JPEG', '.JPG', '.HTML', '.TXT', '.GIF', '.MP4', '.MP3', '.AVI', '.WAV', '.M4A', '.TIFF', '.BMP', '.MOV']
 
-    file = Files.query.filter_by(fileCode=code).first()
-    if (file == None):
+    files = Files.query.filter_by(fileCode=code).all()
+    if (files == None):
         return render_template('fileNotFound.html')
+
+    filenames = []
+    fileIds = []
+    for file in files:
+        filenames.append(file.filename)
+        fileIds.append(file.id)
 
     passed = False
     submit = False
 
-    if (file.filePass == None):
+    # if files are secured, it is going to be saved in every file so one can extract it from any
+    if (files[0].filePass == None):
         passed = True
 
     if request.method == 'POST':
         submit = True
-        if (passed == True or request.form['pw'] == file.filePass):
+        if (passed == True): #or request.form['pw'] == files[0].filePass
             passed = True
-        else:
-            return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes', error="Falsches Passwort!")
+            fileId = request.form['fileId']
+            if str(fileId) in str(fileIds):
+                file = Files.query.filter_by(id=fileId).first()
+                file_split = os.path.splitext(file.filename)
+                if (file_split[1].upper() in showable or submit == True):
+                    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+            return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes', error="Du kannst nicht einfach die Nummer ändern 💀")
+        return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes', error="Falsches Passwort!")
 
-    if (passed == True):
+    if (passed == True):    
         file_split = os.path.splitext(file.filename)
         if (file_split[1].upper() in showable or submit == True):
             return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
 
-        return render_template('file_offer.html', filename = file.filename, fpNeeded = 'no')     
+        return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'no')     
 
-    return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes')
+    return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes')
 
 @app.route('/cloud/<code>/delete', methods=['GET', 'POST'])
 def delete_file(code):

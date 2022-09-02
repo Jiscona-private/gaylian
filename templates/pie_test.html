@@ -11,6 +11,21 @@
 
         var ctx = myCanvas.getContext("2d");
 
+        function scaleByte(byte) {
+            if (byte < 1000) {
+                return byte + " Byte";
+            }
+            if (byte / 1000 < 1000) {
+                return Math.round((byte / 1000) * 10) / 10  + " KB";
+            }
+            if (byte / 1000000 < 1000) {
+                return Math.round((byte / 1000000) * 10) / 10  + " MB";
+            }
+            
+            return Math.round((byte / 1000000000) * 10) / 10 + " GB";
+            
+        }
+
         function drawLine(ctx, startX, startY, endX, endY, color) {
             ctx.save();
             ctx.strokeStyle = color;
@@ -157,6 +172,7 @@
             }
 
             drawLegend() {
+                let texts = ["Used storage: "+scaleByte({{fileStorage}}), "Available storage: "+scaleByte({{storageOwned}})+" ("+scaleByte({{storageOwned - fileStorage - deadStorage}})+" free)", "'Dead' storage: "+scaleByte({{deadStorage}})]
                 let pIndex = 0;
                 let legend = document.querySelector("div[for='myCanvas']");
                 let ul = document.createElement("ul");
@@ -168,7 +184,7 @@
                     li.style.borderLeft =
                         "20px solid " + this.colors[pIndex % this.colors.length];
                     li.style.padding = "5px";
-                    li.textContent = ctg;
+                    li.textContent = texts[pIndex];
                     ul.append(li);
                     pIndex++;
                 }
@@ -184,9 +200,9 @@
 
         var myPiechart = new PieChart({            
             data: {
-                "Used storage: {{fileStorage}} Byte": {{fileStorage}},
-                "Available storage: {{storageOwned}} Byte ({{storageOwned-fileStorage-deadStorage}} free)": {{ storageOwned - fileStorage - deadStorage}},
-                "'Dead' storage: {{deadStorage}} Byte": {{deadStorage}},
+                fileStorage: {{fileStorage}},
+                availableStorage: {{storageOwned - fileStorage - deadStorage}},
+                deadStorage: {{deadStorage}},
             },
             canvas: myCanvas,
             seriesName: "Your storage",

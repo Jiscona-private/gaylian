@@ -29,7 +29,28 @@
                         </form>
                     </div>
                     {% endif %}
-                    <p class="fs-5">Datei: {{ filename }}</p> 
+                    
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Herunterladen</th>
+                      </tr>
+                      
+                        {% for i in range(filenames|length) %}
+                        <tr>
+                          <td>{{ filenames[i] }}</td>
+                          <td>
+                            <form method="post">
+                              <input type="submit" value="Herunterladen">
+                              <input type="hidden" name="fileId" value="{{fileIds[i]}}">
+                            </form>
+                            
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      
+                      
+                    </table>
                 </div>
                 <div class="shadow rounded p-3 border bg-body fw-semibold">
                     <form method="post">
