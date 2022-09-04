@@ -8,8 +8,8 @@
         <script src="../static/js/nav-name.js"></script>
         
         <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
-        <script type="text/javascript" src="../static/js/ltrim.js"></script>
-        <script type="text/javascript" src="../static/js/sort_table.js"></script>
+        <script type="text/javascript" src="../static/js/files-ltrim.js"></script>
+        <script type="text/javascript" src="../static/js/files-sort_table.js"></script>
         <script type="text/javascript" >
             window.onload = function() {
                 SortTable.init();
@@ -26,33 +26,41 @@
         <div class="container px-4" style="padding-top: 30px;">
             <div class="row gx-5">
                 <div class="col based1">
-                    <div class="shadow rounded p-3 border bg-body fw-semibold">
+                    <div class="shadow rounded p-3 border bg-body">
                         <h1>Dateien von {{username}}</h1>
                     </div>
                     <div class="shadow rounded p-3 border bg-body">
                         {% if files %}
                         <h2>Cloud-Dateien</h2>
-                        <table class="sortable">
-                            <tr>
-                                <th title="ignore_case">Name der Datei</th>
-                                <th>Größe</th>
-                                <th>Link</th>
-                                <th class="no_sort">Löschen</th>
-                            </tr>
-                            {% for file in files %}
-                                <tr>
-                                    <td>{{file.filename}}</td>
-                                    <td>{{file.size}} Byte</td>
-                                    <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
-                                    <td>
-                                        <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                                            <input class="btn files_btn" type="submit" name="delButton" value="Löschen">
-                                        </form>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                        {% endif %}
+                        <div style="overflow-x:auto;">
+                            <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
+                                <thead>
+                                    <tr>
+                                        <th title="ignore_case" style="width: 35%;">Name der Datei</th>
+                                        <th style="width: 15%;">Datum</th>
+                                        <th style="width: 15%;">Größe</th>
+                                        <th style="width: 20%;">Link</th>
+                                        <th class="no_sort">Löschen</th>
+                                    </tr>
+                                </thead>
+                                {% for file in files %}
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>{{file.fileCode}}</td>
+                                        <td>{{file.date}}</td>
+                                        <td>{{file.size}} Byte</td>
+                                        <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
+                                        <td>
+                                            <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
+                                                <input class="btn btn-files_delete btn-lg-files_delete" type="submit" name="delButton" value="Löschen">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,27 +69,35 @@
                     <div class="shadow rounded p-3 border bg-body">
                         {% if docs %}
                         <h2>Dokumente</h2>
-                        <table class="sortable">
-                            <tr>
-                                <th title="ignore_case">Name des Dokuments</th>
-                                <th>Größe</th>
-                                <th>Link</th>
-                                <th class="no_sort">Löschen</th>
-                            </tr>
-                            {% for doc in docs %}
-                                <tr>
-                                    <td>{{doc.fileCode}}</td>
-                                    <td>{{doc.size}} Byte</td>
-                                    <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
-                                    <td>
-                                        <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
-                                            <input type="submit" name="delButton" value="Löschen">
-                                        </form>
-                                    </td>
-                                </tr>             
-                            {% endfor %}
-                        </table>
-                        {% endif %}
+                        <div style="overflow-x:auto;">
+                            <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
+                                <thead>
+                                    <tr>
+                                        <th title="ignore_case" style="width: 35%;">Name der Datei</th>
+                                        <th style="width: 15%;">Datum</th>
+                                        <th style="width: 15%;">Größe</th>
+                                        <th style="width: 20%;">Link</th>
+                                        <th class="no_sort">Löschen</th>
+                                    </tr>
+                                </thead>
+                                {% for doc in docs %}
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>{{doc.fileCode}}</td>
+                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.size}} Byte</td>
+                                        <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
+                                        <td>
+                                            <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
+                                                <input class="btn btn-files_delete btn-lg-files_delete" type="submit" name="delButton" value="Löschen">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,7 +110,7 @@
                         <h1>Speicher von {{username}}</h1>
                     </div>
                     <div class="shadow rounded p-3 border bg-body">
-                        <i>diagramm</i>
+                        
                     </div>
                 </div>
             </div>

@@ -107,6 +107,12 @@ nav .container-fluid div ul {
     padding-left: 10px;
     padding-top: 7px;
 }
+.main_cookies {
+    margin: 15px;
+}
+.tab-pane {
+    padding-top: 5px;
+}
 /*Buttons*/
 .btn-outline-warning_delete {
     --bs-btn-color: #f70000;
@@ -134,12 +140,54 @@ nav .container-fluid div ul {
     margin-bottom: -20px;
     padding-top: 20px;
 }
+.btn-files_delete {
+    --bs-btn-color: #ee2222;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-border-color: #dfd9d9;
+    --bs-btn-hover-color: rgb(255, 0, 0);
+    --bs-btn-hover-bg: #ececec;
+    --bs-btn-hover-border-color: #b8b9bb;
+    --bs-btn-focus-shadow-rgb: 130,138,145;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #ffffff;
+    --bs-btn-active-border-color: #ffffff;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #ffffff;
+    --bs-btn-disabled-border-color: #ffffff;
+}
+.btn-lg-files_delete {
+    --bs-btn-padding-y: 0.1rem;
+    --bs-btn-padding-x: 0.5rem;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-border-radius: 0.4rem;
+}
+.files_btn {
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    color: rgb(39, 131, 119);
+    outline: #198754 5px;
+}
+.files_btn:hover {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+.padding_delete {
+    margin: auto;
+}
 /*Tabellen*/
 table {
     width: 100%;
 }
 td {
-    border-top: 2px solid #6d6d6d;
+    vertical-align: middle;
+    height: 20px;
 }
 /*Toasts/Fehlermeldungen/Forms*/
 .reset_button {
@@ -180,25 +228,6 @@ td {
     text-align: left;
     padding-bottom: 10px;
     padding-right: 5px;
-}
-.files_btn {
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    color: rgb(39, 131, 119);
-    outline: #198754;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.files_btn:hover {
-    color: #fff;
-    background-color: #198754;
-    border-color: #198754;
-    
 }
 /* Button original von bs
 .btn-outline-success {
