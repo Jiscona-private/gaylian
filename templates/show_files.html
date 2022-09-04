@@ -94,7 +94,8 @@
                         <h1>Speicher von {{username}}</h1>
                     </div>
                     <div class="shadow rounded p-3 border bg-body">
-                        <i>diagramm</i>
+                        <canvas id="pieCanvas"></canvas>
+                        <div id="pieLegend"></div>
                     </div>
                 </div>
             </div>
@@ -124,5 +125,175 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            var pieCanvas = document.getElementById("pieCanvas");
+            pieCanvas.width = 500;
+            pieCanvas.height = 340;
+    
+            var ctx = pieCanvas.getContext("2d");
+    
+            function scaleByte(byte) {
+                if (byte < 1000) {
+                    return byte + " Byte";
+                }
+                if (byte / 1000 < 1000) {
+                    return Math.round((byte / 1000) * 10) / 10  + " KB";
+                }
+                if (byte / 1000000 < 1000) {
+                    return Math.round((byte / 1000000) * 10) / 10  + " MB";
+                }
+                
+                return Math.round((byte / 1000000000) * 10) / 10 + " GB";
+                
+            }
+    
+            function drawLine(ctx, startX, startY, endX, endY, color) {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            function drawArc(ctx, centerX, centerY, radius, startAngle, endAngle, color) {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            function drawPieSlice(
+                ctx,
+                centerX,
+                centerY,
+                radius,
+                startAngle,
+                endAngle,
+                fillColor,
+                strokeColor
+            ) {
+                ctx.save();
+                ctx.fillStyle = fillColor;
+                ctx.strokeStyle = strokeColor;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            class PieChart {
+                constructor(options) {
+                    this.options = options;
+                    this.canvas = options.canvas;
+                    this.ctx = this.canvas.getContext("2d");
+                    this.colors = options.colors;
+                    this.titleOptions = options.titleOptions;
+                    this.totalValue = [...Object.values(this.options.data)].reduce((a, b) => a + b, 0);
+                    this.radius = Math.min(this.canvas.width / 2, this.canvas.height / 2) - options.padding;
+                }
+    
+                drawSlices() {
+                    var colorIndex = 0;
+                    var startAngle = -Math.PI / 2;
+    
+                    for (var categ in this.options.data) {
+                        var val = this.options.data[categ];
+                        var sliceAngle = (2 * Math.PI * val) / this.totalValue;
+    
+                        drawPieSlice(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.radius,
+                            startAngle,
+                            startAngle + sliceAngle,
+                            this.colors[colorIndex % this.colors.length]
+                        );
+    
+                        startAngle += sliceAngle;
+                        colorIndex++;
+                    }
+    
+                    if (this.options.doughnutHoleSize) {
+                        drawPieSlice(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.options.doughnutHoleSize * this.radius,
+                            0,
+                            2 * Math.PI,
+                            "#FFF",
+                            "#FFF"
+                        );
+    
+                        drawArc(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.options.doughnutHoleSize * this.radius,
+                            0,
+                            2 * Math.PI,
+                            "#000"
+                        );
+                    }
+                }
+    
+                drawLegend() {
+                    let texts = ["Verbrauchter Speicherplatz: "+scaleByte({{fileStorage}}), "Verfügbarer Speicherplatz: "+scaleByte({{storageOwned}})+" ("+scaleByte({{storageOwned - fileStorage - deadStorage}})+" free)", "'Toter' Speicherplatz: "+scaleByte({{deadStorage}})]
+                    let pIndex = 0;
+                    //let legend = document.querySelector("div[for='pieCanvas']");
+                    let legend = document.getElementById("pieLegend")
+                    let ul = document.createElement("ul");
+                    legend.append(ul);
+    
+                    for (let ctg of Object.keys(this.options.data)) {
+                        let li = document.createElement("li");
+                        li.style.listStyle = "none";
+                        li.style.borderLeft =
+                            "20px solid " + this.colors[pIndex % this.colors.length];
+                        li.style.padding = "5px";
+                        li.textContent = texts[pIndex];
+                        ul.append(li);
+                        pIndex++;
+                    }
+                }
+    
+                draw() {
+                    this.drawSlices();
+                    this.drawLegend();
+                }
+            }
+    
+            var myPiechart = new PieChart({            
+                data: {
+                    fileStorage: {{fileStorage}},
+                    availableStorage: {{storageOwned - fileStorage - deadStorage}},
+                    deadStorage: {{deadStorage}},
+                },
+                canvas: pieCanvas,
+                seriesName: "",
+                padding: 40,
+                colors: ["#008986", "#00A9A6", "#444444"],
+                titleOptions: {
+                align: "center",
+                fill: "black",
+                font: {
+                    weight: "bold",
+                    size: "50px",
+                    family: "BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;"
+                }
+            }
+            });
+    
+            myPiechart.draw();
+    
+        </script>
     </body>
 </html>

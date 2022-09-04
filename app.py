@@ -514,15 +514,8 @@ def view_files():
     if (session.get('user')):
         files = Files.query.filter_by(uploadUser=session.get("user")).all()
         docs = Markdowns.query.filter_by(uploadUser=session.get("user")).all()
-        return render_template('show_files.html', files=files, docs=docs, username=session.get("username"))
-    return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
 
-@app.route('/user/storage', methods=["POST","GET"])
-def calculate_storage():
-    if (session.get('user')):
-        files = Files.query.filter_by(uploadUser=session.get("user")).all()
-        docs = Markdowns.query.filter_by(uploadUser=session.get("user")).all()
-
+        # calculating storage
         storageOwned = Users.query.filter_by(id=session.get("user")).first().storageOwned
         storageUsed = Users.query.filter_by(id=session.get("user")).first().storageUsed
         fileStorage = 0
@@ -530,7 +523,7 @@ def calculate_storage():
             fileStorage += file.size
         for doc in docs:
             fileStorage += doc.size
-        return render_template('pie_test.html', fileStorage=fileStorage, storageOwned=storageOwned, deadStorage=storageUsed-fileStorage)
+        return render_template('show_files.html', files=files, docs=docs, fileStorage=fileStorage, storageOwned=storageOwned, deadStorage=storageUsed-fileStorage, username=session.get("username"))
     return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
 
 # admin
