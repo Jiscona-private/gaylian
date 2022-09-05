@@ -1,52 +1,299 @@
 <html>
+    <head>
+        <title>Gaylian: Deine Dateien</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-name.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
+        <script type="text/javascript" src="../static/js/ltrim.js"></script>
+        <script type="text/javascript" src="../static/js/sort_table.js"></script>
+        <script type="text/javascript" >
+            window.onload = function() {
+                SortTable.init();
+            }
+        </script>
+        <script>
+            SortTable.init().forEach(function(el) {
+                el.sort(spalte); 
+            }
+            )
+       </script>
+    </head>
     <body>
-        <h1>Dateien von {{username}}</h1>
-        {% if files %}
-        <h2>Cloud-Dateien</h2>
-        <table>
-            <tr>
-                <th>Name der Datei</th>
-                <th>Größe</th>
-                <th>Link</th>
-                <th>Löschen</th>
-            </tr>
-            {% for file in files %}
-                <tr>
-                    <td>{{file.filename}}</td>
-                    <td>{{file.size}} Byte</td>
-                    <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
-                    <td>
-                        <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                            <input type="submit" name="delButton" value="Löschen">
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-
-        {% if docs %}
-        <h2>Dokumente</h2>
-        <table>
-            <tr>
-                <th>Name des Dokuments</th>
-                <th>Größe</th>
-                <th>Link</th>
-                <th>Löschen</th>
-            </tr>
-            {% for doc in docs %}
-                <tr>
-                    <td>{{doc.fileCode}}</td>
-                    <td>{{doc.size}} Byte</td>
-                    <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
-                    <td>
-                        <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
-                            <input type="submit" name="delButton" value="Löschen">
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
+        <div class="container px-4" style="padding-top: 30px;">
+            <div class="row gx-5">
+                <div class="col based1">
+                    <div class="shadow rounded p-3 border bg-body fw-semibold">
+                        <h1>Dateien von {{username}}</h1>
+                    </div>
+                    <div class="shadow rounded p-3 border bg-body">
+                        {% if files %}
+                        <h2>Cloud-Dateien</h2>
+                        <table class="sortable">
+                            <tr>
+                                <th title="ignore_case">Name der Datei</th>
+                                <th>Größe</th>
+                                <th>Link</th>
+                                <th class="no_sort">Löschen</th>
+                            </tr>
+                            {% for file in files %}
+                                <tr>
+                                    <td>{{file.filename}}</td>
+                                    <td>{{file.size}} Byte</td>
+                                    <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
+                                    <td>
+                                        <form action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
+                                            <input class="btn files_btn" type="submit" name="delButton" value="Löschen">
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-5">
+                <div class="col based1">
+                    <div class="shadow rounded p-3 border bg-body">
+                        {% if docs %}
+                        <h2>Dokumente</h2>
+                        <table class="sortable">
+                            <tr>
+                                <th title="ignore_case">Name des Dokuments</th>
+                                <th>Größe</th>
+                                <th>Link</th>
+                                <th class="no_sort">Löschen</th>
+                            </tr>
+                            {% for doc in docs %}
+                                <tr>
+                                    <td>{{doc.fileCode}}</td>
+                                    <td>{{doc.size}} Byte</td>
+                                    <td><a href="/school/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
+                                    <td>
+                                        <form action="/school/{{doc.fileCode}}/delete" target="_blank" method="get">
+                                            <input type="submit" name="delButton" value="Löschen">
+                                        </form>
+                                    </td>
+                                </tr>             
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin: 25px;">
+        <div class="container px-4">
+            <div class="row gx-5">
+                <div class="col based1">
+                    <div class="shadow rounded p-3 border bg-body fw-semibold">
+                        <h1>Speicher von {{username}}</h1>
+                    </div>
+                    <div class="shadow rounded p-3 border bg-body">
+                        <canvas id="pieCanvas"></canvas>
+                        <div id="pieLegend"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container top-0 end-0 p-3">
+                {% if error %}
+                <div class="toast show toast-anzeige bottom-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="../static/img/gaylian_50_yellow.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+                        <strong class="me-auto">Datei Löschen</strong>
+                        <small class="text-muted">Schließen</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                        <div class="toast-body">
+                            Sind Sie sicher, dass die Datei
+                            <a style="color: red;">{{ name }}</a>
+                            endgültig gelöscht werden soll?
+                            <div class="mt-2 pt-2 border-top ">
+                                <form method="post">
+                                    <button type="button" class="btn btn-outline-danger toast-button-1">Datei löschen!</button>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            var pieCanvas = document.getElementById("pieCanvas");
+            pieCanvas.width = 500;
+            pieCanvas.height = 340;
+    
+            var ctx = pieCanvas.getContext("2d");
+    
+            function scaleByte(byte) {
+                if (byte < 1000) {
+                    return byte + " Byte";
+                }
+                if (byte / 1000 < 1000) {
+                    return Math.round((byte / 1000) * 10) / 10  + " KB";
+                }
+                if (byte / 1000000 < 1000) {
+                    return Math.round((byte / 1000000) * 10) / 10  + " MB";
+                }
+                
+                return Math.round((byte / 1000000000) * 10) / 10 + " GB";
+                
+            }
+    
+            function drawLine(ctx, startX, startY, endX, endY, color) {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            function drawArc(ctx, centerX, centerY, radius, startAngle, endAngle, color) {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            function drawPieSlice(
+                ctx,
+                centerX,
+                centerY,
+                radius,
+                startAngle,
+                endAngle,
+                fillColor,
+                strokeColor
+            ) {
+                ctx.save();
+                ctx.fillStyle = fillColor;
+                ctx.strokeStyle = strokeColor;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            }
+    
+            class PieChart {
+                constructor(options) {
+                    this.options = options;
+                    this.canvas = options.canvas;
+                    this.ctx = this.canvas.getContext("2d");
+                    this.colors = options.colors;
+                    this.titleOptions = options.titleOptions;
+                    this.totalValue = [...Object.values(this.options.data)].reduce((a, b) => a + b, 0);
+                    this.radius = Math.min(this.canvas.width / 2, this.canvas.height / 2) - options.padding;
+                }
+    
+                drawSlices() {
+                    var colorIndex = 0;
+                    var startAngle = -Math.PI / 2;
+    
+                    for (var categ in this.options.data) {
+                        var val = this.options.data[categ];
+                        var sliceAngle = (2 * Math.PI * val) / this.totalValue;
+    
+                        drawPieSlice(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.radius,
+                            startAngle,
+                            startAngle + sliceAngle,
+                            this.colors[colorIndex % this.colors.length]
+                        );
+    
+                        startAngle += sliceAngle;
+                        colorIndex++;
+                    }
+    
+                    if (this.options.doughnutHoleSize) {
+                        drawPieSlice(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.options.doughnutHoleSize * this.radius,
+                            0,
+                            2 * Math.PI,
+                            "#FFF",
+                            "#FFF"
+                        );
+    
+                        drawArc(
+                            this.ctx,
+                            this.canvas.width / 2,
+                            this.canvas.height / 2,
+                            this.options.doughnutHoleSize * this.radius,
+                            0,
+                            2 * Math.PI,
+                            "#000"
+                        );
+                    }
+                }
+    
+                drawLegend() {
+                    let texts = ["Verbrauchter Speicherplatz: "+scaleByte({{fileStorage}}), "Verfügbarer Speicherplatz: "+scaleByte({{storageOwned}})+" ("+scaleByte({{storageOwned - fileStorage - deadStorage}})+" free)", "'Toter' Speicherplatz: "+scaleByte({{deadStorage}})]
+                    let pIndex = 0;
+                    //let legend = document.querySelector("div[for='pieCanvas']");
+                    let legend = document.getElementById("pieLegend")
+                    let ul = document.createElement("ul");
+                    legend.append(ul);
+    
+                    for (let ctg of Object.keys(this.options.data)) {
+                        let li = document.createElement("li");
+                        li.style.listStyle = "none";
+                        li.style.borderLeft =
+                            "20px solid " + this.colors[pIndex % this.colors.length];
+                        li.style.padding = "5px";
+                        li.textContent = texts[pIndex];
+                        ul.append(li);
+                        pIndex++;
+                    }
+                }
+    
+                draw() {
+                    this.drawSlices();
+                    this.drawLegend();
+                }
+            }
+    
+            var myPiechart = new PieChart({            
+                data: {
+                    fileStorage: {{fileStorage}},
+                    availableStorage: {{storageOwned - fileStorage - deadStorage}},
+                    deadStorage: {{deadStorage}},
+                },
+                canvas: pieCanvas,
+                seriesName: "",
+                padding: 40,
+                colors: ["#008986", "#00A9A6", "#444444"],
+                titleOptions: {
+                align: "center",
+                fill: "black",
+                font: {
+                    weight: "bold",
+                    size: "50px",
+                    family: "BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;"
+                }
+            }
+            });
+    
+            myPiechart.draw();
+    
+        </script>
     </body>
 </html>

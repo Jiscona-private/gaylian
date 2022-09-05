@@ -1,16 +1,86 @@
 <html>
     <head>
-
+        <title>Gaylian: Cloud - Download</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
+        <style>
+            .btn_sucess {
+                background-color: green;
+            }
+            .dwl-text {
+                color: black;
+                text-decoration: solid 0.7px;
+            }    
+        </style>
     </head>
-    <body>        
-        <form method="post">
-            {% if (fpNeeded == 'yes') %}
-            Für diese Datei wird ein Passwort benötigt!
-            {{ error }}
-            <input type="password" name="pw" id="pw" placeholder="Benötigtes Passwort">
+    <body>
+        <div class="container px-4">
+            <div class="row">
+              <div class="col offer">
+                <div class="shadow rounded p-3 border bg-body fw-semibold">
+                    {% if (fpNeeded == 'yes') %}
+                    Für diese Datei wird ein Passwort benötigt! <br>
+                    <div class="col-sm-10">
+                        <form method="post">
+                            <input type="password" class="form-control" name="pw" id="pw" placeholder="Benötigtes Passwort">
+                        </form>
+                    </div>
+                    {% endif %}
+                    
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Herunterladen</th>
+                      </tr>
+                      
+                        {% for i in range(filenames|length) %}
+                        <tr>
+                          <td>{{ filenames[i] }}</td>
+                          <td>
+                            <form method="post">
+                              <input type="submit" value="Herunterladen">
+                              <input type="hidden" name="fileId" value="{{fileIds[i]}}">
+                            </form>
+                            
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      
+                      
+                    </table>
+                </div>
+                <div class="shadow rounded p-3 border bg-body fw-semibold">
+                    <form method="post">
+                    <div class="d-grid col-4 mx-auto">
+                        <button class="btn btn-success dwl-button" type="submit" id="downloadSubmit">
+                            <img class="dwl-symbol" src="../static/img/gaylian-download_webs.png" alt="download" width="15%">
+                            <b class="fs-4 dwl-text">Herunterladen</b>
+                        </button>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="container px-4" style="padding-top: 15px;">
+            {% if error %}
+            <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+                <strong class="me-auto">gaylian-Fehlermeldung</strong>
+                <small class="text-muted">Schließen</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                Das hat nicht funktioniert :( <br> Der Fehler lautet:
+                <a style="color: red;">{{ error }}</a>  
+              </div>
+            </div>
             {% endif %}
-            Datei: {{ filename }}
-            <input type="submit" id="downloadSubmit" value="Herunterladen">
-        </form>
+          </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
