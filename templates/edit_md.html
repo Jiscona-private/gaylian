@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <title>Gaylian: Markdown - Edit</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
+        <script>
+            function convert() {
+              var text = document.getElementById('markdown').value,
+              target = document.getElementById('targetDiv'),
+              converter = new showdown.Converter(),
+              html = converter.makeHtml(text);
+                
+              target.innerHTML = html;
+            }
+          </script>
+          <script src="../static/js/nav-markdown.js"></script>
+    </head>
+    <body>
+    <div class="container px-4" style="padding-top: 15px;">
+      <div class="row gx-5">
+          <h1 class="bg-body fw-semibold" style="color: black;">Gaylian: School - Markdown Bearbeitung</h1>
+        <div class="col based1">
+          <div class="shadow rounded p-3 border bg-body fw-semibold">
+            <h8><b>Achtung:</b> Die Datei lässt sich nur mit dem richtigen Gaylian-Nutzer-Code bearbeiten.</h8>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-5">
+        <div class="col based1">
+          <div class="shadow rounded p-3 border bg-body">
+              <form name="schoolUpload" method="post">
+                  <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
+                  <hr>
+                  <input class="padding form-control me-2" type="text" name="filecode" id="filecode" value="{{ filecode }}" placeholder="Code der Datei">
+                  <hr>
+                  <div class="input-group">
+                    <input class="padding form-control me-2" type="text" name="filePass" value="*****" maxlength="32" placeholder="Optionales Password">
+                    <div class="input-group-text rounded">
+                      <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren"> Passwort ändern
+                    </div>
+                  </div>
+                  <hr>
+                  {% if username %}
+                    Ihre Datei wird auf dem Konto {{ username }} gespeichert.
+                  {% else %}                        
+                    <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                  {% endif %}
+                  <hr>
+                  <input type="submit" class="padding btn btn-outline-dark" value="Datei speichern">
+              </form>
+          </div>
+        </div>
+        <div class="col">
+          <div class="shadow rounded p-3 border bg-body">
+            <div id="targetDiv">
+              Umgewandelter Text...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container px-4" style="padding-top: 20px;">
+      <div class="row gx-5">
+        <div class="col">
+          <div class="shadow rounded p-3 border bg-body">
+            <div class="accordion" id="id_hilfe">
+              <div class="accordion-item">
+                  <h1 class="accordion-header" id="heading_hilfe">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hilfe" aria-expanded="false" aria-controls="hilfe">
+                      Wie funktioniert Markdown?
+                    </button>
+                  </h1>
+                  <div id="hilfe" class="accordion-collapse collapse" aria-labelledby="heading_hilfe" data-bs-parent="#id_hilfe">
+                    <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Neue Zeilen können mit <i>zwei Leerzeichen</i> hinter dem Absatz dargestellt werden.</li>
+                        <li class="list-group-item">Überschriften können mit # H1 erstellt werden. <br> Je mehr ### verwendet werden, desto kleiner bzw. untergeordneter sind die Überschriften dargestellt</li>
+                        <li class="list-group-item"><b>Fetter Text</b> kann mithilfe von **<i>Wort</i>** dagestellt werden.</li>
+                        <li class="list-group-item"><i>Kursiver Text</i> kann mithilfe von *<i>Wort</i>* dagestellt werden.</li>
+                        <li class="list-group-item">Eine Linie kann mit "---" dargestellt werden.</li>
+                        <li class="list-group-item">
+                          Listen können zum einen als geordnete Listen dargestellt werden: <br> 
+                            1. Erstes Element <br>
+                            2. Zweites Element usw.
+                        </li>
+                        <li class="list-group-item">Listen können zum anderen als Ungeordnete Listen dargestellt werden: <br>
+                            * Erstes Element <br>
+                            - Zweites Element </li>
+                        <li class="list-group-item">Programm-Code kann mit `<code>Code</code>` oder ```<code>Code (mehrere Zeilen)</code>``` dargestellt werden.</li>
+                        <li class="list-group-item">Ein Link kann mit [Titel](https://www.example.com) eingebettet werden.</li>
+                        <li class="list-group-item">Ein Bild kann mit ![Alternativer Text](http://gaylian.net/cloud/beispiel-bild) eingebettet werden.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container px-4" style="padding-top: 15px;">
+      {% if error %}
+      <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+          <strong class="me-auto">gaylian-fehlermeldung</strong>
+          <small class="text-muted">Schließen</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Das hat nicht funktioniert :( <br> Der Fehler lautet:
+          <a style="color: red;">{{ error }}</a>  
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+        <script>
+          convert();
+        </script>
+
+    <!-- Enabling tabs -->
+    <script type="text/javascript">     
+        var input = document.getElementById("markdown");
+        if(input.addEventListener) {
+          input.addEventListener('keydown',this.keyHandler,false);
+        } else if(input.attachEvent ) {
+          input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+        }
+    
+        function keyHandler(e) {
+            var TABKEY = 9;
+            if(e.keyCode == TABKEY) {
+                this.value += "    ";
+                if(e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+            }
+        }
+        </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

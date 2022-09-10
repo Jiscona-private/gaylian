@@ -2,13 +2,68 @@
 <html>
     <head>
         <title>Gaylian: Notizen - Schreiben</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" re>
+        <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <style>
+          .custom-popover {
+            --bs-popover-max-width: 200px;
+            --bs-popover-border-color: var(--bs-primary);
+            --bs-popover-header-bg: var(--bs-primary);
+            --bs-popover-header-color: var(--bs-white);
+            --bs-popover-body-padding-x: 1rem;
+            --bs-popover-body-padding-y: .5rem;
+          }
+        </style>
+        <script>
+          const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+          const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
+        <script src="../static/js/nav-datei.js"></script>
     </head>
     <body>
-        {{ error }}
-        <form method="post">
-            <textarea name="content" placeholder="Nachricht" maxlength="1000"></textarea>
-            <input type="submit" value="Notiz speichern">
-        </form>
+        <div class="container px-4" style="padding-top: 15px;">
+          <div class="row gx-5">
+              <h1>Gaylian: Notes - Notiz verfassen</h1>
+            <div class="col based1">
+              <div class="shadow rounded p-3 border bg-body fw-semibold">Lade eine Notiz hoch und teile sie mit Anderen!</div>
+              <div class="shadow rounded p-3 border bg-body">
+                <form role="search" method="post">
+                  <textarea class="form-control me-2" name="content" placeholder="Notiz" maxlength="1000"></textarea>
+                  <hr>
+                  <div class="input-group">
+                    <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
+                    <div class="input-group-text rounded">
+                      <input class="form-check-input mt-0" type="checkbox" value="Aktivieren">
+                    </div>
+                  </div>
+                  <hr>
+                  <input type="submit" class="btn btn-outline-dark" value="Notiz speichern">
+                  <a class="fw-normal lh-1" style="font-size: x-small;"></a>
+              </form>
+              </div>
+              <div class="shadow rounded p-3 border bg-body fw-semibold" style="font-size: x-small;">Ihre IP-Adresse wird in Zusammenhang mit der von Ihnen geschriebenen Notiz gespeichert. Mit dem Verfassen eines Textes stimmen Sie dieser Richtlinie zu.</div>
+            </div>
+          </div>
+        </div>
+        <div class="container px-4" style="padding-top: 15px;">
+          {% if error %}
+          <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+              <strong class="me-auto">gaylian-fehlermeldung</strong>
+              <small class="text-muted">Schließen</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Das hat nicht funktioniert :( <br> Der Fehler lautet:
+              <a style="color: red;">{{ error }}</a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>    
 </html>

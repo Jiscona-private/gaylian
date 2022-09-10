@@ -21,7 +21,6 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-track {
 	background: #f4f9f9c5;
 }
-/*Navbar kram*/
 nav {
     opacity: 95%;
     box-shadow: 0px 3px 30px 1px rgb(163, 163, 163);
@@ -31,7 +30,7 @@ nav:hover {
 }
 .navbar-expand-lg {
     text-align: center;
-}
+}   
 .nav-shadow {
     text-shadow: 2px 2px 4px rgb(172, 172, 172);
 }
@@ -66,6 +65,12 @@ nav:hover {
 		transform: scale(1);
 	}
 }
+.überschrift {
+    padding-left: 5px;
+}
+.reset_button {
+    align-content: flex-end;
+}
 nav .container-fluid div ul {
     font-size: larger;
 }
@@ -81,73 +86,60 @@ nav .container-fluid div ul {
 .navbar-text {
     padding-right: 2px;
 }
-/*Toasts/Fehlermeldungen/Forms*/
 
-
-/*Schriftkram*/
-.basiertheit {
-    width: 300px;
-    border: 2px solid gray;
-    padding: 50px;
-    margin: 20px;
-    font-size: 150%;
-    text-align: center;
-}
-.based1 {
-    padding-top: 240px;
-    opacity: 0;
-    animation: spacing_tschad 1.5s ease 1s 1 normal forwards;
-}
-@keyframes spacing_tschad {
-	0% {
-		opacity: 0;
-		transform: translateX(-250px);
-	}
-
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-.based2 {
-    padding-top: 100px;
-    opacity: 0;
-    animation: spacing_pic 3s ease 1.5s 1 normal forwards;
-}
-@keyframes spacing_pic {
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
-.info {
-    text-align: center;
-}
-.list {
-
-    padding-top: 5px;
-}
-.text_target {
-    text-align: center;
-}
-.color_ {
-    background-color: aliceblue;
-    border: 2px solid darkgray;
-}
-footer {
-    display: block;
-    text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: #e3f2fd;
-}
 /*
-übergänge zu den Webseiten
-box in die Navbar - also die textdinge reinmachen
-scrollspy
-carusel für die Bildergalerie
-footer+inhalt index
+.extra {
+    position: absolute;
+}
+nav .container-fluid div ul li ul {
+    list-style: none;
+    position: absolute;
+    width: 150px;
+    left: 8.5%;
+    background: none;
+    display: none;
+}
+.nav-oben {
+    padding-top: 20px;
+}
+nav .container-fluid div ul li ul li a {
+    display: block;
+    font-size:80%;
+}
+nav .container-fluid div ul li:focus-within > ul,
+nav .container-fluid div ul li:hover > ul {
+    animation: nav-eingerückt 1s ease 0.1s 1 alternate forwards;
+    display: initial;
+    opacity: 0;
+}
+nav .container-fluid div ul li ul:hover {
+    display: initial;
+    opacity: 0.8;
+}
+@keyframes nav-eingerückt {
+	0% {
+		opacity: 0;
+		transform: translateY(-15px);
+	}
+
+	100% {
+		opacity: 0.8;
+		transform: translateY(0);
+	}
+}
+
+            .nav-more {
+                animation: nav-start 1.3s ease 0.2s 1 normal forwards;
+            }
+            @keyframes nav-start {
+	0% {
+        opacity: 0;
+		transform: scale(0.5);
+	}
+
+	100% {
+        opacity: 1;
+		transform: scale(1);
+	}
+            }
 */

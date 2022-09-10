@@ -2,51 +2,35 @@
 <html>
     <head>
         <meta charset="UTF-8">
-
         <title>Gaylian: Cloud</title>
-
-        <style>
-            input{
-                font-size: 500%;
-                font-family: Consolas;
-                align-items: center;
-            }
-
-            div.form
-            {
-                display: block;
-                text-align: center;
-            }
-            form
-            {
-                display: inline-block;
-                margin-left: auto;
-                margin-right: auto;
-                text-align: left;
-            }
-
-            body
-            {
-                background: rgb(0,55,105);
-                background: linear-gradient(90deg, rgba(0,55,105,0.5) 0%, rgba(0,17,31,1) 100%);
-            }
-        </style>
-
-        <script>
-            function searchDoc() {
-                var target = document.getElementById('searchDocWithCode');
-                var searchCode = target.value;
-                window.location.href  = "cloud/"+searchCode;
-            }
-        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
     </head>
     <body>
-        <div class="form">
-            <form name="search">
-                <input type="text" name="code" id="searchDocWithCode" placeholder="Code">
-                <input type="button" name="search" value="Suchen" onclick="searchDoc()">
-            </form>
-        </div>
-        
+        <div class="container px-4" style="padding-top: 15px;">
+            <div class="row gx-5 überschrift">
+                <h1>Gaylian: Cloud - Clouddatei suchen</h1>
+                <div class="col based1">
+                    <div class="shadow rounded p-3 border bg-body fw-normal">Du suchst eine Datei aus der gaylian-cloud? Dann suche einfach mit dem <i>cloud-code</i> danach!</div>
+                    <form class="d-flex shadow rounded p-3 border bg-body fw-semibold" role="search" method="post" action="/cloud/search">
+                        <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Code der Datei">
+                        <input type="submit" class="btn btn-outline-success" name="search" value="Suchen">
+                    </form>
+                </div>
+            </div>
+            <div class="row gx-5 überschrift">
+              <div style="text-align: center; margin-top: 20px;">
+                <a href="/cloud/new">
+                    <input type="button" onclick="window.location.href = /cloud/new" class="btn btn-outline-success" value="Eine Datei hochladen"></input>
+                </a>
+                <br>
+                <i>Die Cloud steht Ihnen offen.</i>
+              </div>
+            </div>
+       </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

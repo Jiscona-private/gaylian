@@ -4,10 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Gaylian: Markdown</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="icon" href="../static/img/gaylian_50.png">
     <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/markdown-style.css') }}">
+    <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+
+    <style>
+        .expand-pad {
+            padding-top: 0px;
+        }
+    </style>
 
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
+
+    <script>
+        function edit() {
+            window.location.href  = window.location.href+"/edit";
+        }
+        function searchDoc() {
+                var target = document.getElementById('searchDocWithCode');
+                var searchCode = target.value;
+                window.location.href  = "school/"+searchCode;
+        }
+    </script>
+    <script src="../static/js/nav-markdown_edit.js"></script>
 </head>
 
 <body>
@@ -20,6 +41,7 @@
 
         target.innerHTML = converter.makeHtml(target.innerHTML);                   
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

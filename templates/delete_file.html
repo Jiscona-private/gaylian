@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Gaylian: User</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="icon" href="../static/img/gaylian_50_yellow.png">
+        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <script src="../static/js/nav-basiert.js"></script>
+    </head>
+    <body>
+        <div class="main_delete">
+            <h2>Sind Sie sicher, dass die Datei <a style="color:red;">{{name}}</a> gelöscht werden soll?</h1>
+            
+            <div class="row gx-5">
+              <div class="col based1">
+                <div class="shadow rounded p-3 border bg-body">
+                  <form method="post">
+                    <input type="submit" class="btn btn-outline-warning_delete btn-lg_delete btn_delete" value="Datei löschen!">
+                    <span class="cancel_delete">(Diese Aktion kann <b>nicht</b> rückgängig gemacht werden.)</span>
+                  </form>
+                  <div class="col">
+                    <div class="shadow rounded p-3 border bg-body">
+                      <input type="submit" class="btn btn-secondary" value="Abbrechen">
+                      <a class="cancel_delete"></a> Und besser nochmal überlegen...
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
