@@ -35,5 +35,5 @@ Dieses Repertoire ist flexibel anpassbar und wird zudem ständig erweitert und v
 
 ## Beteiligte
 
-Die Verwaltung und Entwicklung von gaylian.net und dem von dem System genutzten Code erfolgt duch die BT SpiderChris und Jiscona. Ermöglicht wird dieses Projekt durch die Jiscona IT und die Bonarium Fincancial Holdings.  
+Die Verwaltung und Entwicklung von gaylian.net und dem von dem System genutzten Code erfolgt duch die BT SpiderChris und Jiscona. Ermöglicht wird dieses Projekt durch die Jiscona IT und die Bonarium Holdings.  
 Auch Sie können sich an der Verbesserung des Services beteiligen: durch eigene Codeentwicklung, Testen der Plattform, Berichten von Bugs und auch nur der Nutzung der Website unterstützen Sie uns und helfen dabei, ein besseres Internet zu errichten.
