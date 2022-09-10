@@ -24,16 +24,20 @@ body::-webkit-scrollbar-track {
 /*Navbar kram*/
 nav {
     opacity: 95%;
-    box-shadow: 0px 3px 30px 1px rgb(163, 163, 163);
+	box-shadow: 0px 0px 3px 2px #a3a3a3;
+}
+.navbar-expand-lg {
+	text-align: center;
 }
 nav:hover {
     opacity: 100%;
 }
 .nav-shadow {
-    text-shadow: 2px 2px 4px rgb(172, 172, 172);
+    text-shadow: 2px 2px 4px #acacac;
 }
 .nav_all {
 	background-color: #e3f2fd;
+	box-shadow: 0px 3px 25px 1px #a3a3a3;
 }
 .nav-cloud {
     opacity: 0;
@@ -71,52 +75,64 @@ nav .container-fluid div ul {
 }
 nav .container-fluid div ul li {
 	padding-left: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 .btn_nav {
-	--bs-btn-color: #00362f;
-    --bs-btn-bg: #dceffdef;
-    --bs-btn-border-color: #0e7068;
-    --bs-btn-hover-color: #000000;
-    --bs-btn-hover-bg: #e6f3fc;
-    --bs-btn-hover-border-color: #0e7068;
+	--bs-btn-color: #002a3d;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-color: #030303;	
+    --bs-btn-hover-bg: transparent;
+    --bs-btn-hover-border-color: #8d8d8d;
     --bs-btn-focus-shadow-rgb: 130,138,145;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	--bs-btn-padding-y: 0.2rem;
-    --bs-btn-padding-x: 0.3rem;
-    --bs-btn-font-size: 1.1rem;
-    --bs-btn-border-radius: 0.4rem;
-	box-shadow: 3px 3px 7px 1px #a3a3a3;
+	--bs-btn-padding-y: 0.3rem;
+    --bs-btn-padding-x: 0.4rem;
+    --bs-btn-font-size: 1.2rem;
+    --bs-btn-border-radius: 0.5rem;
 }
 .btn_nav2 {
-	--bs-btn-color: #00362f;
-    --bs-btn-bg: #dceffdef;
-    --bs-btn-border-color: #0e7068;
-    --bs-btn-hover-color: #000000;
-    --bs-btn-hover-bg: #e6f3fc;
-    --bs-btn-hover-border-color: #0e7068;
+	--bs-btn-color: #002a3d;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-color: #030303;	
+    --bs-btn-hover-bg: transparent;
+    --bs-btn-hover-border-color: #8d8d8d;
     --bs-btn-focus-shadow-rgb: 130,138,145;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	--bs-btn-padding-y: 0.2rem;
-    --bs-btn-padding-x: 0.3rem;
-    --bs-btn-font-size: 1rem;
-    --bs-btn-border-radius: 0.4rem;
-	box-shadow: 3px 3px 7px 1px #a3a3a3;
+	--bs-btn-padding-y: 0.3rem;
+    --bs-btn-padding-x: 0.4rem;
+    --bs-btn-font-size: 1.2rem;
+    --bs-btn-border-radius: 0.5rem;
+}
+.navbar-toggler {
+	background-color: #dceffdf3;
+	box-shadow: 2px 2px 5px 1px #a3a3a3;
 }
 .navbar-toggler_index {
 	padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
     font-size: var(--bs-navbar-toggler-font-size);
     line-height: 1;
     color: var(--bs-navbar-color);
-    background-color: transparent;
+    background-color: #dceffdf3;
     border: var(--bs-border-width) solid var(--bs-navbar-toggler-border-color);
     border-radius: var(--bs-navbar-toggler-border-radius);
     transition: var(--bs-navbar-toggler-transition);
+	margin: 4px;
+	box-shadow: 2px 2px 5px 1px #a3a3a3;
 }
 .navbar-toggler:hover {
 	background-color: #e6f3fc;
 }
 .navbar-toggler_index:hover {
 	background-color: #e6f3fc;
+}
+.div_nav_cola {
+	padding-bottom: 20px;
+}
+.collapse_content {
+	background-color: #a4dbff;
 }
 /*Animationen*/
 .start_1 {
@@ -143,6 +159,25 @@ nav .container-fluid div ul li {
 		opacity: 1;
 		transform: translateY(0);
 	}
+}
+/*Footer Kram*/
+footer {
+	box-shadow: 4px -3px 8px 1px #a3a3a3;
+}
+.btn_footer {
+	--bs-btn-color: #002a3d;
+    --bs-btn-bg: #e3f2fd;
+    --bs-btn-border-color: #e3f2fd;
+    --bs-btn-hover-color: #030303;	
+    --bs-btn-hover-bg: #e3f2fd;
+    --bs-btn-hover-border-color: #8d8d8d;
+    --bs-btn-focus-shadow-rgb: 130,138,145;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+	--bs-btn-padding-y: 0.2rem;
+    --bs-btn-padding-x: 0.3rem;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-border-radius: 0.4rem;
+	margin: 5px;
 }
 /*Schriftkram*/
 .before_1 {
@@ -218,4 +253,7 @@ footer {
 /*Alg Schriftkram*/
 .margin-auto {
 	margin: auto;
+}
+hr {
+	margin: 10px;
 }

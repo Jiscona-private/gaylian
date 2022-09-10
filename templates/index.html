@@ -9,27 +9,6 @@
     </head>
     <body>
       <div class="nav_all">
-        <div class="collapse" id="navbarToggleExternalContent">
-          <div class="p-4">
-            <h5 class="h4">Informationen zu gaylian.net</h5>
-            <span class="text-muted"><i>huh was hast du denn hier gefunden?</i></span>
-            <p>
-              <div class="container">
-                <div class="row align-items-center">
-                  <div class="col">
-                    Cookies
-                  </div>
-                  <div class="col">
-                    Impressum
-                  </div>
-                  <div class="col">
-                    Stuff
-                  </div>
-                </div>
-              </div>
-            </p>
-          </div>
-        </div>
         <nav class="navbar sticky-top navbar-expand-lg navbar-scroll">
           <div class="container-fluid">
               <a class="navbar-brand" href="http://gaylian.net">
@@ -44,7 +23,7 @@
                   <li class="nav-item">
                     <a class="nav-cloud btn btn_nav" href="https://gaylian.net/cloud/new">Cloud</a>
                   </li>
-                  <li class="nav-item color-dinger">
+                  <li class="nav-item">
                     <a class="nav-cloud btn btn_nav2" href="https://gaylian.net/cloud">Cloud-Suche</a>
                   </li>
                   <li class="nav-item">
@@ -61,13 +40,8 @@
                   </li>
                 </ul>
                 <ul class="navbar-nav" style="padding-right: 5px;">
-                  <li class="nav-item dropdown">
-                    <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Login
-                    </a>
-                    <ul class="dropdown-menu" style="padding-right: 5px;">
-                      <li><a class="dropdown-item" href="https://gaylian.net/login">Login</a></li>
-                    </ul>
+                  <li class="nav-item" style="padding-right: 5px;">
+                    <a class="nav-coming btn btn_nav" href="https://gaylian.net/login">Login</a>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,16 +50,40 @@
                     <ul class="dropdown-menu" style="padding-right: 5px;">
                       <li><a class="dropdown-item" href="https://gaylian.net/user/data">Meine Dateien</a></li>
                       <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="https://gaylian.net/logout">Logout</a></li>
+                      <li><a class="dropdown-item" href="#" data-bs-target="logout">Logout</a></li>
                     </ul>
                   </li>
                 </ul>
-                <button class="navbar-toggler_index navbar-text" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+                <div style="padding-bottom: 1px;">
+                  <button class="navbar-toggler_index navbar-text" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                </div>
               </div>
           </div>
         </nav>
+        <div class="collapse collapse_content" id="navbarToggleExternalContent">
+          <div class="container text-center div_nav_cola">
+            <div class="row align-items-center">
+              <div class="p-4">
+                <h5 class="h4">Informationen zu gaylian.net</h5>
+                <span class="text-muted"><i>huh was hast du denn hier gefunden?</i></span>
+              </div>
+              <div class="col">
+                <a class="btn btn_footer" href="https://gaylian.net/agb">Geschäftsbedingungen (AGB)</a><br>
+                <a class="btn btn_footer btn_footer_p" href="https://gaylian.net/cookies">Cookies</a>
+              </div>
+              <div class="col">
+                © 2022 by Bonarium Holdings. Alle Rechte sind reserviert. <br>
+                gaylian.net ist ein Service von Bonarium Holdings.
+              </div>
+              <div class="col">
+                <a class="btn btn_footer" href="https://gaylian.net/">Auftrag</a><br>
+                <a class="btn btn_footer btn_footer_p" href="https://gaylian.net/impressum">Impressum</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="container-lg text-center">
         <div class="row justify-content-start align-items-center">
