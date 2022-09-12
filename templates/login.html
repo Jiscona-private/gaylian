@@ -9,17 +9,45 @@
         <script src="../static/js/nav-basiert.js"></script>
     </head>
         <body>
-        {% if error %}
-            {{ error }}
-        {% endif %}
-        <form action="/user/login" method="post">
-            <input type="text" name="uname" placeholder="Nutzername">
-            <input type="password" name="password" placeholder="Passwort">
-            <input type="checkbox" name="staySignedIn"> Angemeldet bleiben (hierfür wird ein <a href="../cookies">Cookie</a> gesetzt.)
-            <input type="submit">
-        </form>
+            <div class="container px-4" style="padding-top: 15px;">
+                <div class="row gx-5">
+                    <h1>Gaylian: Anmeldung</h1>
+                  <div class="col based2">
+                    <div class="shadow rounded p-3 border bg-body fw-semibold">Loggen sie sich bitte mit ihrem Nutzernamen und dazugehörigen Passwort ein.</div>
+                      <div class="shadow rounded p-3 border bg-body">
+                        <form action="/user/login" method="post">
+                            <input class="padding form-control me-2" type="text" name="uname" placeholder="Nutzername">
+                            <hr>
+                            <input class="padding form-control me-2" type="password" name="password" placeholder="Passwort">
+                            <hr>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="staySignedIn" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Angemeldet bleiben (hierfür wird ein <a href="../cookies">Cookie</a> gesetzt.)</label>
+                            </div>
+                            <hr>
+                            <input type="submit" class="padding btn btn-outline-success">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        <div class="container px-4" style="padding-top: 15px;">
+            {% if error %}
+            <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
+                <strong class="me-auto">gaylian-Fehlermeldung</strong>
+                <small class="text-muted">Schließen</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                Das hat nicht funktioniert :( <br> Der Fehler lautet:
+                <a style="color: red;">{{ error }}</a>  
+              </div>
+            </div>
+            {% endif %}
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
-
-in die seite integrieren?
-offcanvas beim Chat? einblenden

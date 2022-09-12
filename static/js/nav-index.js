@@ -1,5 +1,5 @@
 document.write(`
-<nav class="navbar sticky-top navbar-expand-lg nav-tabs" style="background-color: #e3f2fd;">
+<nav class="navbar sticky-top navbar-expand-lg" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://gaylian.net">
         <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
@@ -33,11 +33,10 @@ document.write(`
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
+                    Hi {{ Username }}
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Meine Dateien</a></li>
-                    <li><a class="dropdown-item" href="#">Meine Speichermöglichkeiten</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Logout</a></li>
                 </ul>
@@ -45,5 +44,6 @@ document.write(`
         </ul>
         </div>
     </div>
+    buttons
 </nav>
 `)
