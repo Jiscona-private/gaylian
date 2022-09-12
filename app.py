@@ -16,9 +16,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/cloud/files/'
-NOTES_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/notes/'
-MD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/markdowns/'
+UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
+NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
+MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
 ADMIN_PW = "GdSk1cktawyo"
 SESSION_TYPE = 'redis'
 
@@ -48,7 +48,7 @@ class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(32), unique=True, nullable=False)
     filename = db.Column(db.String(120), nullable=False)
-    filePass = db.Column(db.String(132), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now()) 
     size = db.Column(db.Integer)
@@ -56,14 +56,14 @@ class Files(db.Model):
 class Markdowns(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fileCode = db.Column(db.String(32), unique=True, nullable=False)
-    filePass = db.Column(db.String(32), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime(), default=datetime.datetime.now())
     size = db.Column(db.Integer)
 
 class Notes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    filePass = db.Column(db.String(32), nullable=True)
+    filePass = db.Column(db.String(64), nullable=True)
     ipAdr = db.Column(db.Integer, nullable=False)    
 
 ##### INITALIZATION #####
@@ -94,7 +94,7 @@ def schoolDoc(code):
         docId = file.id
 
         if request.method == 'POST':
-            if request.form['pw'] == file.filePass:
+            if bcrypt.check_password_hash(file.filePass, request.form['pw']):
                 with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
                     lines = f.read()
                 return render_template('markdown.html', content=lines)
@@ -129,7 +129,7 @@ def upload_md():
 
         if session.get('user') or verify(request.form['authCode']) == True:
             if md:
-                from app import Markdowns
+                from webpages import Markdowns
 
                 # get storageUsed and add filesize
                 uploadUser = None
@@ -148,8 +148,8 @@ def upload_md():
                     return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.", mdContent = md)
                 # set filePass
                 filePass = None
-                if (request.form['filePass']):
-                    filePass = request.form['filePass']
+                if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
                 # adding link to database
                 
@@ -172,8 +172,7 @@ def upload_md():
                 db.session.commit()
 
                 if uploadUser.storageOwned < uploadUser.storageUsed :
-                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md')
-                    Markdowns.query.filter_by(id = insertedId).delete()
+                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
                     return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
                 return redirect(url_for('schoolDoc', code=fileCode))
 
@@ -219,11 +218,10 @@ def edit_md(code):
                     
                     file.fileCode = fileCode
                     # getting filepass
-                    filePass = None
-                    if (request.form['filePass']):
-                        filePass = request.form['filePass']
-                    file.filePass = filePass
-                    db.session.commit()
+                    if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+                        filePass = bcrypt.generate_password_hash(request.form['filePass'])
+                        file.filePass = filePass
+                        db.session.commit()
                     
                     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'w', encoding='utf-8') as f:
                         f.write(md)
@@ -237,8 +235,8 @@ def edit_md(code):
                         os.remove(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md') 
                         return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md, username=session.get('username'), filecode=file.fileCode)
                     return redirect(url_for('schoolDoc', code=fileCode))
-                return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)
-            return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)     
+                return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=request.form['fileCode'])
+            return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)   
         return render_template('edit_md.html', error="Falsches Password", mdContent = lines)
     return render_template('edit_md.html', mdContent = lines, username=session.get('username'), filecode=file.fileCode)
 
@@ -284,75 +282,72 @@ def upload_file():
         # getting authCodes
         
 
-        if  session.get('user') or verify(request.form['authCode']) == True:
-
+        if session.get('user') or verify(request.form['authCode']) == True:
+            from app import Files
             # check if the post request has the file part
-            if 'file' not in request.files:
+            if 'file[]' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
 
-            file = request.files['file']
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
+            # check if code is already used
+            codeUsed = Files.query.filter_by(fileCode=fileCode).first()
+            if codeUsed:
+                return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
 
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
+            # read all files
+            for file in request.files.getlist("file[]"):
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect(request.url)
 
-            if file:
-                from app import Files
+                if file:
+                    # get storageUsed and add filesize
+                    uploadUser = None
+                    if (session.get('user')):
+                        uploadUser = Users.query.filter_by(id = session.get('user')).first()
+                    
+                    else:
+                        uploadUser = getCodeUser(request.form['authCode'])
+                    
 
-                # get storageUsed and add filesize
-                uploadUser = None
-                if (session.get('user')):
-                    uploadUser = Users.query.filter_by(id = session.get('user')).first()
-                
-                else:
-                    uploadUser = getCodeUser(request.form['authCode'])
-                
+                    if uploadUser.storageOwned < uploadUser.storageUsed:
+                        return render_template('file_upload.html', error="Ihr Speicher ist voll.")                                
 
-                if uploadUser.storageOwned < uploadUser.storageUsed:
-                    return render_template('file_upload.html', error="Ihr Speicher ist voll.")            
-
-                # check if code is already used
-                codeUsed = Files.query.filter_by(fileCode=fileCode).first()
-                if codeUsed:
-                    return render_template('file_upload.html', error="Der Datei-Code wird bereits genutzt.")
-                
-
-                filename = secure_filename(file.filename)
+                    filename = secure_filename(file.filename)
 
                 # set filepass
                 filePass = None
-                if request.form['filePass']:
-                    filePass = request.form['filePass']
+                if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
-                # adding link to database
-                newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
-                db.session.add(newFile)
-                db.session.commit()
-                db.session.refresh(newFile)
-                insertedId= newFile.id
+                    # adding link to database
+                    newFile = Files(filename=filename, fileCode=fileCode, filePass=filePass, uploadUser=uploadUser.id, size=0)
+                    db.session.add(newFile)
+                    db.session.commit()
+                    db.session.refresh(newFile)
+                    insertedId= newFile.id
 
-                # upload
-                os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)))
-                
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
+                    # upload
+                    os.mkdir(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId)))
+                    
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename))
 
-                filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
+                    filesize = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)).st_size
 
-                # save size
-                uploadedFile = Files.query.filter_by(id = insertedId).first()
-                uploadedFile.size = filesize
+                    # save size
+                    uploadedFile = Files.query.filter_by(id = insertedId).first()
+                    uploadedFile.size = filesize
 
-                uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
-                db.session.commit()
+                    uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
+                    db.session.commit()
 
-                if uploadUser.storageOwned < uploadUser.storageUsed :
-                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)) 
-                    Files.query.filter_by(id = insertedId).delete()       
-                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
-                return redirect(url_for('offer_file', code=fileCode))
+                    if uploadUser.storageOwned < uploadUser.storageUsed :
+                        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], str(insertedId), filename)) 
+                        Files.query.filter_by(id = insertedId).delete()       
+                        return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.")
+            return redirect(url_for('offer_file', code=fileCode))
         return render_template('file_upload.html', error="Code ungültig!")
     return render_template('file_upload.html', username=session.get('username'))
 
@@ -360,31 +355,44 @@ def upload_file():
 def offer_file(code):
     showable = ['.PNG', '.PDF', '.JPEG', '.JPG', '.HTML', '.TXT', '.GIF', '.MP4', '.MP3', '.AVI', '.WAV', '.M4A', '.TIFF', '.BMP', '.MOV']
 
-    file = Files.query.filter_by(fileCode=code).first()
-    if (file == None):
+    files = Files.query.filter_by(fileCode=code).all()
+    if (files == None):
         return render_template('fileNotFound.html')
+
+    filenames = []
+    fileIds = []
+    for file in files:
+        filenames.append(file.filename)
+        fileIds.append(file.id)
 
     passed = False
     submit = False
 
-    if (file.filePass == None):
+    # if files are secured, it is going to be saved in every file so one can extract it from any
+    if (files[0].filePass == None):
         passed = True
 
     if request.method == 'POST':
         submit = True
-        if (passed == True or request.form['pw'] == file.filePass):
+        if (passed == True or bcrypt.check_password_hash(file.filePass, request.form['pw'])):
             passed = True
-        else:
-            return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes', error="Falsches Passwort!")
+            fileId = request.form['fileId']
+            if str(fileId) in str(fileIds):
+                file = Files.query.filter_by(id=fileId).first()
+                file_split = os.path.splitext(file.filename)
+                if (file_split[1].upper() in showable or submit == True):
+                    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+            return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes', error="Du kannst nicht einfach die Nummer ändern 💀")
+        return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes', error="Falsches Passwort!")
 
-    if (passed == True):
+    if (passed == True):    
         file_split = os.path.splitext(file.filename)
         if (file_split[1].upper() in showable or submit == True):
             return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
 
-        return render_template('file_offer.html', filename = file.filename, fpNeeded = 'no')     
+        return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'no')     
 
-    return render_template('file_offer.html', filename = file.filename, fpNeeded = 'yes')
+    return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fpNeeded = 'yes')
 
 @app.route('/cloud/<code>/delete', methods=['GET', 'POST'])
 def delete_file(code):
@@ -428,8 +436,8 @@ def write_note():
             # writing database entry
             # set filePass
             filePass = None
-            if request.form['filePass']:
-                filePass = request.form['filePass']
+            if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+                filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
             # adding link to database
                 
@@ -453,7 +461,7 @@ def show_note(number):
         return render_template('fileNotFound.html')
 
     if request.method == 'POST':
-        if request.form['pw'] == note.filePass:
+        if bcrypt.check_password_hash(note.filePass, request.form['pw']):
             return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
         return render_template('pw_input.html', error="Falsches Password")
 
@@ -464,7 +472,7 @@ def show_note(number):
 # user
 @app.route('/user/login', methods=["POST","GET"])
 def login():
-    if request.method == "POST":
+    if request.method == 'POST':
         if (request.form['uname'] and request.form['password']):
             username = request.form['uname']
             pw = request.form['password']
@@ -504,15 +512,8 @@ def view_files():
     if (session.get('user')):
         files = Files.query.filter_by(uploadUser=session.get("user")).all()
         docs = Markdowns.query.filter_by(uploadUser=session.get("user")).all()
-        return render_template('show_files.html', files=files, docs=docs, username=session.get("username"))
-    return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
 
-@app.route('/user/storage', methods=["POST","GET"])
-def calculate_storage():
-    if (session.get('user')):
-        files = Files.query.filter_by(uploadUser=session.get("user")).all()
-        docs = Markdowns.query.filter_by(uploadUser=session.get("user")).all()
-
+        # calculating storage
         storageOwned = Users.query.filter_by(id=session.get("user")).first().storageOwned
         storageUsed = Users.query.filter_by(id=session.get("user")).first().storageUsed
         fileStorage = 0
@@ -520,7 +521,7 @@ def calculate_storage():
             fileStorage += file.size
         for doc in docs:
             fileStorage += doc.size
-        return render_template('pie_test.html', fileStorage=fileStorage, storageOwned=storageOwned, deadStorage=storageUsed-fileStorage)
+        return render_template('show_files.html', files=files, docs=docs, fileStorage=fileStorage, storageOwned=storageOwned, deadStorage=storageUsed-fileStorage, username=session.get("username"))
     return render_template('login.html', error="Für das Einsehen von Dateien musst du angemeldet sein.")
 
 # admin
