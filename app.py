@@ -4,7 +4,6 @@ import random, os, datetime
 from os.path import exists
 import shutil
 from time import sleep
-from tkinter.messagebox import NO, YES
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, session, make_response
 #from flask.ext.session import Session
