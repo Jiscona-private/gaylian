@@ -4,7 +4,7 @@
         <title>Gaylian: Notizen - Schreiben</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" re>
+        <link href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js">
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
         <style>
@@ -21,7 +21,7 @@
           const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
           const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
         </script>
-        <script src="../static/js/nav-datei.js"></script>
+        <script src="../static/js/nav-index.js"></script>
     </head>
     <body>
         <div class="container px-4" style="padding-top: 15px;">
@@ -33,12 +33,7 @@
                 <form role="search" method="post">
                   <textarea class="form-control me-2" name="content" placeholder="Notiz" maxlength="1000"></textarea>
                   <hr>
-                  <div class="input-group">
-                    <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
-                    <div class="input-group-text rounded">
-                      <input class="form-check-input mt-0" type="checkbox" value="Aktivieren">
-                    </div>
-                  </div>
+                  <input class="form-control form-control-sm" type="text" name="filePass" value="*****" maxlength="32" placeholder="Optionales Passwort">
                   <hr>
                   <input type="submit" class="btn btn-outline-dark" value="Notiz speichern">
                   <a class="fw-normal lh-1" style="font-size: x-small;"></a>
@@ -64,6 +59,7 @@
           </div>
           {% endif %}
         </div>
+        <script src="../static/js/footer-std.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>    
 </html>

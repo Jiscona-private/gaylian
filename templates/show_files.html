@@ -5,9 +5,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
-        <script src="../static/js/nav-name.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
+        <script src="../static/js/nav-index.js"></script>
         <script type="text/javascript" src="../static/js/files-ltrim.js"></script>
         <script type="text/javascript" src="../static/js/files-sort_table.js"></script>
         <script type="text/javascript" >
@@ -21,6 +19,8 @@
             }
             )
        </script>
+
+<link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
     </head>
     <body>
         <div class="container px-4" style="padding-top: 30px;">
@@ -38,7 +38,7 @@
                                     <tr>
                                         <th title="ignore_case" style="width: 35%;">Name der Datei</th>
                                         <th style="width: 15%;">Datum</th>
-                                        <th style="width: 15%;">Größe</th>
+                                        <th style="width: 15%;">Dateigröße</th>
                                         <th style="width: 20%;">Link</th>
                                         <th class="no_sort">Löschen</th>
                                     </tr>
@@ -52,7 +52,7 @@
                                         <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                                         <td>
                                             <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                                                <input class="btn btn-files_delete btn-lg-files_delete" type="submit" name="delButton" value="Löschen">
+                                                <input class="btn btn-files_delete" type="submit" name="delButton" value="Löschen">
                                             </form>
                                         </td>
                                     </tr>
@@ -89,7 +89,7 @@
                                         <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
                                         <td>
                                             <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
-                                                <input class="btn btn-files_delete btn-lg-files_delete" type="submit" name="delButton" value="Löschen">
+                                                <input class="btn btn-files_delete" type="submit" name="delButton" value="Löschen">
                                             </form>
                                         </td>
                                     </tr>
@@ -116,6 +116,7 @@
                 </div>
             </div>
         </div>
+        <br>
         <div aria-live="polite" aria-atomic="true" class="position-relative">
             <div class="toast-container top-0 end-0 p-3">
                 {% if error %}
@@ -140,6 +141,7 @@
                 {% endif %}
             </div>
         </div>
+        <script src="../static/js/footer-std.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             var pieCanvas = document.getElementById("pieCanvas");

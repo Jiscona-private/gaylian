@@ -5,7 +5,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
-        <script src="../static/js/nav-basiert.js"></script>
+        <script src="../static/js/nav-index.js"></script>
         <style>
             .btn_sucess {
                 background-color: green;
@@ -13,8 +13,9 @@
             .dwl-text {
                 color: black;
                 text-decoration: solid 0.7px;
-            }    
+            }
         </style>
+        <link rel="stylesheet" type="text/css" href="../static/css/defaultstyle.css">
     </head>
     <body>
         <div class="container px-4">
@@ -29,29 +30,31 @@
                         </form>
                     </div>
                     {% endif %}
-                    
-                    <table>
-                      <tr>
-                        <th>Name</th>
-                        <th>Herunterladen</th>
-                      </tr>
-                      
+                    <table class="table table-hover table-sm" style="table-layout: fixed;">
+                      <thead>
+                        <tr>
+                            <th style="width: 50%;">Name der Datei</th>
+                            <th style="width: 30%;">Dateigröße</th>
+                            <th style="width: 20%;">Herunterladen</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-group-divider">
                         {% for i in range(filenames|length) %}
                         <tr>
                           <td>{{ filenames[i] }}</td>
+                          <td>{{ DATEIGRÖ?E }}</td>
                           <td>
-                            <form method="post">
-                              <input type="submit" value="Herunterladen">
+                            <form class="padding_delete" method="post">
+                              <input class="btn btn-dwl_delete" type="submit" value="Herunterladen">
                               <input type="hidden" name="fileId" value="{{fileIds[i]}}">
                             </form>
-                            
                           </td>
                         </tr>
                         {% endfor %}
-                      
-                      
-                    </table>
+                      </tbody>
+                  </table>
                 </div>
+                <hr>
                 <div class="shadow rounded p-3 border bg-body fw-semibold">
                     <form method="post">
                     <div class="d-grid col-4 mx-auto">
@@ -81,6 +84,7 @@
             </div>
             {% endif %}
         </div>
+        <script src="../static/js/footer-std.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
