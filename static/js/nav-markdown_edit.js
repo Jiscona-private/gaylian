@@ -1,3 +1,21 @@
+//user management element
+user = ""
+
+if (document.cookie) {
+  username = document.cookie.split(";")[1].split("=")[1]
+  user=`
+  <li class="nav-item dropdown">
+    <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Hi ${username}
+    </a>
+    <ul class="dropdown-menu" style="padding-right: 5px;">
+      <li><a class="dropdown-item" href="https://gaylian.net/user/data">Meine Dateien</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>
+    </ul>
+  </li>`
+} 
+
 document.write(`
 <div class="nav_all">
         <nav class="navbar sticky-top navbar-expand-lg navbar-scroll">
@@ -34,16 +52,7 @@ document.write(`
                   <li class="nav-item" style="padding-right: 5px;">
                     <a class="nav-coming btn btn_nav" href="https://gaylian.net/login">Login</a>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Hi {{ Username }}
-                    </a>
-                    <ul class="dropdown-menu" style="padding-right: 5px;">
-                      <li><a class="dropdown-item" href="https://gaylian.net/user/data">Meine Dateien</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#" data-bs-target="logout">Logout</a></li>
-                    </ul>
-                  </li>
+                  ${user}
                 </ul>
                 <div style="padding-bottom: 1px;">
                   <button class="navbar-toggler_index navbar-text" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">

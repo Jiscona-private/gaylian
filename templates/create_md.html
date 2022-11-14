@@ -9,6 +9,12 @@
         <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
         <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
         <script>
+          //making sure user wants to leave
+          window.onbeforeunload = function(e) {
+            return "Sie verlieren ihren Fortschritt.";
+          };
+
+          // markdown conversion
           function convert() {
             var text = document.getElementById('markdown').value,
             target = document.getElementById('targetDiv'),
@@ -18,6 +24,7 @@
             target.innerHTML = html;
           }
         </script>
+      
         <!-- Enabling tabs -->
         <script type="text/javascript">
           var input = document.getElementById("markdown");
@@ -57,7 +64,10 @@
                           <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
                         {% endif %}
                         <hr>
-                        <input class="form-control form-control-sm" type="text" name="filePass" value="*****" maxlength="32" placeholder="Optionales Passwort">
+                          <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
+                          <div class="input-group-text rounded">
+                            <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren"> Passwort setzen
+                          </div>
                         <hr>
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
                     </form>

@@ -184,7 +184,7 @@ def upload_md():
 def edit_md(code):
     file = Markdowns.query.filter_by(fileCode=code).first()
 
-    lines = "Es ist einm Fehler aufgetreten."
+    lines = "Es ist ein Fehler aufgetreten."
     with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'r', encoding='utf-8') as f:
         lines = f.read()
 
@@ -196,47 +196,48 @@ def edit_md(code):
         userId = file.uploadUser
         uploadUser = Users.query.filter_by(id=userId).first()      
 
-        if session.get('user') or (request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
-            if (session.get('user') == uploadUser.id):
-                md = request.form['markdown']
-                fileCode = request.form['filecode']
+        if (session.get('user')  == uploadUser.id) or (request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
+            md = request.form['markdown']
+            fileCode = request.form['filecode']
 
-                sizeBefore = os.stat(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md').st_size
+            sizeBefore = os.stat(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md').st_size
 
-                if md:
-                    # get storageUsed and add filesize
-                    if uploadUser.storageOwned < uploadUser.storageUsed:
-                        return render_template('edit_md.html', error="Ihr Speicher ist voll.", mdContent = md)            
+            if md:
+                # get storageUsed and add filesize
+                if uploadUser.storageOwned < uploadUser.storageUsed:
+                    return render_template('edit_md.html', error="Ihr Speicher ist voll.", mdContent = md)            
 
-                    # check if code is already used
-                    codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
-                    if (codeUsed and (codeUsed.fileCode != fileCode)) :
-                        return render_template('edit_md.html', error="Der Datei-Code wird bereits genutzt.",  mdContent = md)
-
-                    # changing link to database
-                    
+                # check if code is already used
+                codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
+                if (codeUsed and (codeUsed.fileCode != fileCode)) :
+                    return render_template('edit_md.html', error="Der Datei-Code wird bereits genutzt.",  mdContent = md)
+                else:
                     file.fileCode = fileCode
-                    # getting filepass
-                    if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+
+                # changing link to database
+
+                # getting filepass
+                if request.form.getlist('setNewFilepass'):
+                    if request.form['filePass']:
                         filePass = bcrypt.generate_password_hash(request.form['filePass'])
                         file.filePass = filePass
-                        db.session.commit()
-                    
-                    with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'w', encoding='utf-8') as f:
-                        f.write(md)
+                    else:
+                        file.filePass = None
+                                        
+                with open(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md', 'w', encoding='utf-8') as f:
+                    f.write(md)
 
-                    sizeAfter = os.stat(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md').st_size
+                sizeAfter = os.stat(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md').st_size
 
-                    uploadUser.storageUsed = (uploadUser.storageUsed + (sizeAfter - sizeBefore))
-                    db.session.commit()
+                uploadUser.storageUsed = (uploadUser.storageUsed + (sizeAfter - sizeBefore))
+                db.session.commit()
 
-                    if uploadUser.storageOwned < uploadUser.storageUsed :
-                        os.remove(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md') 
-                        return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md, username=session.get('username'), filecode=file.fileCode)
-                    return redirect(url_for('schoolDoc', code=fileCode))
-                return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=request.form['fileCode'])
-            return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)   
-        return render_template('edit_md.html', error="Falsches Password", mdContent = lines)
+                if uploadUser.storageOwned < uploadUser.storageUsed :
+                    os.remove(app.config["MD_FOLDER"]+'/'+str(file.id)+'.md') 
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md, username=session.get('username'), filecode=file.fileCode)
+                return redirect(url_for('schoolDoc', code=fileCode))
+            return render_template('edit_md.html', error="Bitte geben Sie Text ein.", mdContent = lines, username=session.get('username'), filecode=request.form['fileCode'])
+        return render_template('edit_md.html', error="Sie sind mit einem falschen Account angemeldet.", mdContent = lines, username=session.get('username'), filecode=file.fileCode)   
     return render_template('edit_md.html', mdContent = lines, username=session.get('username'), filecode=file.fileCode)
 
 @app.route('/school/<code>/delete', methods=['GET', 'POST'])
