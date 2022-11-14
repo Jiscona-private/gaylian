@@ -45,7 +45,7 @@ class Users(db.Model):
 
 class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fileCode = db.Column(db.String(32), unique=True, nullable=False)
+    fileCode = db.Column(db.String(32), nullable=False)
     filename = db.Column(db.String(120), nullable=False)
     filePass = db.Column(db.String(64), nullable=True)
     uploadUser = db.Column(db.Integer, nullable=False)
@@ -128,7 +128,7 @@ def upload_md():
 
         if session.get('user') or verify(request.form['authCode']) == True:
             if md:
-                from webpages import Markdowns
+                from app import Markdowns
 
                 # get storageUsed and add filesize
                 uploadUser = None
@@ -285,7 +285,7 @@ def upload_file():
             from app import Files
             # check if the post request has the file part
             if 'file[]' not in request.files:
-                flash('No file part')
+                flash('Keine Datei gefunden.')
                 return redirect(request.url)
 
             # check if code is already used
@@ -368,9 +368,11 @@ def offer_file(code):
 
     if request.method == 'GET':
         # if files are secured, it is going to be saved in every file so one can extract it from any
-        if (file.filePass == None):
-            if len(files) == 1 and os.path.splitext(file.filename)[1].upper() in showable:
+        if (files[0].filePass == None):
+            if len(files) == 1 and os.path.splitext(files[0].filename)[1].upper() in showable:
                 return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
+            else:
+                return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes)
         else:
             return render_template("password.html")
     else:
@@ -380,7 +382,7 @@ def offer_file(code):
                 return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes)
             return render_template('password.html', error="Falsches Passwort!")
         # downloading
-        else if "fileId" in request.form:
+        elif "fileId" in request.form:
             fileId = request.form['fileId']
             if str(fileId) in str(fileIds):
                 file = Files.query.filter_by(id=fileId).first()

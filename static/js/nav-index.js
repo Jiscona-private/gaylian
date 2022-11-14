@@ -1,8 +1,8 @@
 //user management element
 user = ""
 
-var username = document.getElementById("navbarJS").getAttribute("username");
-if (username) {
+if (document.cookie) {
+  username = document.cookie.split(";")[1].split("=")[1]
   user=`
   <li class="nav-item dropdown">
     <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
