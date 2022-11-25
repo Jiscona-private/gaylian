@@ -1,7 +1,9 @@
 document.write(`
-<footer>
-    <div class="container text-center">
-        <div class="row align-items-center">
+    <nav class="navbar footer-scroll_down">
+        <div class="container-fluid text-center">
+            <a class="navbar-brand" href="https://gaylian.net">
+                <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
+            </a>
             <div class="col">
                 <a class="btn btn_footer" href="https://gaylian.net/agb">Geschäftsbedingungen (AGB)</a><br>
                 <a class="btn btn_footer" href="https://gaylian.net/cookies">Cookies</a>
@@ -15,6 +17,5 @@ document.write(`
                 <a class="btn btn_footer" href="https://gaylian.net/impressum">Impressum</a>
             </div>
         </div>
-    </div>
-</footer>
+    </nav>
 `)

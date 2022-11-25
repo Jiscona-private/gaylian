@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="icon" href="../static/img/gaylian_50.png">
-        <link rel="stylesheet" type="text/css" href="..{{ url_for('static', filename='css/defaultstyle.css') }}">
+        <link rel="stylesheet" href="../static/css/defaultstyle.css">
         <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
         <script>
           function convert() {
@@ -57,7 +57,7 @@
                           <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
                         {% endif %}
                         <hr>
-                        <input class="form-control form-control-sm" type="text" name="filePass" value="*****" maxlength="32" placeholder="Optionales Passwort">
+                        <input class="form-control form-control-sm" type="text" name="filePass" maxlength="32" placeholder="Optionales Passwort">
                         <hr>
                         <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
                     </form>
@@ -79,60 +79,37 @@
           <div class="row gx-5">
             <div class="col">
               <div class="shadow rounded p-3 border bg-body">
-                <div class="accordion" id="id_hilfe">
-                  <div class="accordion-item">
-                      <h1 class="accordion-header" id="heading_hilfe">
-                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hilfe" aria-expanded="false" aria-controls="hilfe">
-                          Wie funktioniert Markdown?
-                        </button>
-                      </h1>
-                      <div id="hilfe" class="accordion-collapse collapse" aria-labelledby="heading_hilfe" data-bs-parent="#id_hilfe">
-                        <div class="accordion-body">
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Neue Zeilen können mit <i>zwei Leerzeichen</i> hinter dem Absatz dargestellt werden.</li>
-                            <li class="list-group-item">Überschriften können mit <mark># H1</mark> erstellt werden. <br> Je mehr ### verwendet werden, desto kleiner bzw. untergeordneter sind die Überschriften dargestellt.</li>
-                            <li class="list-group-item">Neue Zeilen bzw. altuelle Befehle werden mit <mark>zwei Leerzeichen</mark> am Ende einer Zeile aufgelöst.</li>
-                            <li class="list-group-item"><b>Fetter Text</b> kann mithilfe von <mark>**<i>Wort</i>**</mark> dagestellt werden.</li>
-                            <li class="list-group-item"><i>Kursiver Text</i> kann mithilfe von <mark>*<i>Wort</i>*</mark> dagestellt werden.</li>
-                            <li class="list-group-item">Eine Linie kann mit <mark>---</mark> dargestellt werden.</li>
-                            <li class="list-group-item">
-                              Listen können zum einen als geordnete Listen dargestellt werden: <br> 
-                              <mark>1.</mark> Erstes Element <br>
-                              <mark>2.</mark> Zweites Element usw.
-                            </li>
-                            <li class="list-group-item">Listen können zum anderen als Ungeordnete Listen dargestellt werden: <br>
-                              <mark>*</mark> Erstes Element <br>
-                              <mark>-</mark> Zweites Element </li>
-                            <li class="list-group-item">Programm-Code kann mit <mark>`<code>Code</code>`</mark> oder <mark>```<code>Code (mehrere Zeilen)</code>```</mark> dargestellt werden.</li>
-                            <li class="list-group-item">Ein Link kann mit <mark>[Titel](https://www.example.com)</mark> eingebettet werden.</li>
-                            <li class="list-group-item">Ein Bild kann mit <mark>![Alternativer Text](http://gaylian.net/cloud/beispiel-bild)</mark> eingebettet werden.</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <h3>
+                  Wie funktioniert Markdown?
+                </h3>
+                <div class="shadow rounded">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Neue Zeilen können mit <i>zwei Leerzeichen</i> hinter dem Absatz dargestellt werden.</li>
+                    <li class="list-group-item">Überschriften können mit <span class="colored_text"># H1</span> erstellt werden. <br> Je mehr ### verwendet werden, desto kleiner bzw. untergeordneter sind die Überschriften dargestellt</li>
+                    <li class="list-group-item"><b>Fetter Text</b> kann mithilfe von <span class="colored_text">**<i>Wort</i>**</span> dagestellt werden.</li>
+                    <li class="list-group-item"><i>Kursiver Text</i> kann mithilfe von <span class="colored_text">*<i>Wort</i>*</span> dagestellt werden.</li>
+                    <li class="list-group-item">Eine Linie kann mit <span class="colored_text">"---"</span> dargestellt werden.</li>
+                    <li class="list-group-item">
+                      Listen können zum einen als geordnete Listen dargestellt werden: <br> 
+                        1. Erstes Element <br>
+                        2. Zweites Element usw.
+                    </li>
+                    <li class="list-group-item">Listen können zum anderen als Ungeordnete Listen dargestellt werden: <br>
+                        * Erstes Element <br>
+                        - Zweites Element 
+                    </li>
+                    <li class="list-group-item">Programm-Code kann mit <span class="colored_text">`<code>Code</code>`</span> oder <span class="colored_text">```<code>Code (mehrere Zeilen)</code>```</span> dargestellt werden.</li>
+                    <li class="list-group-item">Ein Link kann mit <span class="colored_text">[Titel](https://www.example.com)</span> eingebettet werden.</li>
+                    <li class="list-group-item">Ein Bild kann mit <span class="colored_text">![Alternativer Text](http://gaylian.net/cloud/beispiel-bild)</span> eingebettet werden.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <script>convert()</script>
-        <div class="container px-4" style="padding-top: 15px;">
-          {% if error %}
-          <div class="toast show toast-anzeige bottom-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-              <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
-              <strong class="me-auto">gaylian-fehlermeldung</strong>
-              <small class="text-muted">Schließen</small>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              Das hat nicht funktioniert<br> Der Fehler lautet:
-              <a style="color: red;">{{ error }}</a>  
-            </div>
-          </div>
-          {% endif %}
-        </div>
-        <script src="../static/js/footer-std.js"></script>
+        <script src="../static/js/toast-error-std.js"></script>
+        <script src="../static/js/footer-scroll_down.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
