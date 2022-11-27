@@ -4,6 +4,7 @@ import random, os, datetime
 from os.path import exists
 import shutil
 from time import sleep
+from zipfile import ZipFile
 
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, session, make_response
 #from flask.ext.session import Session
@@ -377,18 +378,25 @@ def offer_file(code):
         else:
             return render_template("password.html")
     else:
-        # password given
         if "password" in request.form:
             if bcrypt.check_password_hash(file.filePass, request.form['password']):
                 return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes)
-            return render_template('password.html', error="Falsches Passwort!")
+            return render_template('password.html', error="Falsches Passwort!")      
         # downloading
-        elif "fileId" in request.form:
+        elif "fileId" in request.form: # one download
             fileId = request.form['fileId']
             if str(fileId) in str(fileIds):
                 file = Files.query.filter_by(id=fileId).first()
                 return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id)), file.filename)
             return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes, error="Du kannst nicht einfach die Nummer ändern 💀")
+        elif "downloadAll" in request.form:
+            zipPath = os.path.join(app.config['UPLOAD_FOLDER'], str(files[0].id), "") # in folder of first file with code
+            allZip = ZipFile(zipPath+code+".zip", "w")
+            for file in files:
+                allZip.write(os.path.join(app.config['UPLOAD_FOLDER'], str(file.id), file.filename), file.filename)
+            allZip.close()
+            return send_from_directory(zipPath, code+".zip")
+
 
 @app.route('/cloud/<code>/delete', methods=['GET', 'POST'])
 def delete_file(code):

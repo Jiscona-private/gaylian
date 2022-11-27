@@ -115,7 +115,7 @@
             </div>
         </div>
         <br>
-        <script src="../static/js/toast-file_deled-std.js"></script>
+        <!--<script src="../static/js/toast-file_deled-std.js"></script>!-->
         <script src="../static/js/footer-scroll_down.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
         <script>
@@ -239,7 +239,7 @@
                 }
     
                 drawLegend() {
-                    let texts = ["Verbrauchter Speicherplatz: "+scaleByte({{fileStorage}}), "Verfügbarer Speicherplatz: "+scaleByte({{storageOwned}})+" ("+scaleByte({{storageOwned - fileStorage - deadStorage}})+" free)", "'Toter' Speicherplatz: "+scaleByte({{deadStorage}})]
+                    let texts = ["Verbrauchter Speicherplatz: "+scaleByte({{fileStorage}}), "Verfügbarer Speicherplatz: "+scaleByte({{storageOwned}})+" ("+scaleByte({{storageOwned - fileStorage - deadStorage}})+" frei)", "'Toter' Speicherplatz: "+scaleByte({{deadStorage}})]
                     let pIndex = 0;
                     //let legend = document.querySelector("div[for='pieCanvas']");
                     let legend = document.getElementById("pieLegend")
