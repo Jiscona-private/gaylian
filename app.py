@@ -197,7 +197,7 @@ def edit_md(code):
         userId = file.uploadUser
         uploadUser = Users.query.filter_by(id=userId).first()      
 
-        if (session.get('user')  == uploadUser.id) or (request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
+        if (int(session.get('user'))  == uploadUser.id) or ("authCode" in request.form and request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
             md = request.form['markdown']
             fileCode = request.form['filecode']
 
