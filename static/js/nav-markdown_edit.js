@@ -18,7 +18,7 @@ if (document.cookie) {
 
 document.write(`
 <div class="nav_all">
-        <nav class="navbar sticky-top navbar-expand-lg navbar-scroll">
+        <nav class="navbar navbar-expand-lg navbar-scroll">
           <div class="container-fluid">
               <a class="navbar-brand" href="https://gaylian.net">
                 <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
@@ -106,7 +106,7 @@ document.write(`
                 gaylian.net ist ein Service von Bonarium Holdings.
               </div>
               <div class="col">
-                <a class="btn btn_footer" href="https://gaylian.net/">Auftrag</a><br>
+                <a class="btn btn_footer" href="https://gaylian.net/why us">Auftrag</a><br>
                 <a class="btn btn_footer btn_footer_p" href="https://gaylian.net/impressum">Impressum</a>
               </div>
               <hr style="margin-top: 10px;">

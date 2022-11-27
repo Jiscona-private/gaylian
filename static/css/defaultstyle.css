@@ -143,16 +143,21 @@ nav .container-fluid div ul li {
     --bs-btn-hover-border-color: #000000;
 }
 /*Footer Kram*/
-footer {
+.footer-scroll_down {
 	box-shadow: 4px -3px 8px 1px #a3a3a3;
-	display: block;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: #e3f2fd;
-    position: relative;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    margin-top: 10px;
+    background-color: #d6ebfa;
+	position: relative;
+	bottom: 0;
+    width: 100%;
+}
+.footer-only_down {
+	box-shadow: 4px -3px 8px 1px #a3a3a3;
+    margin-top: 10px;
+    background-color: #d6ebfa;
+	position: fixed;
+	bottom: 0;
+    width: 100%;
 }
 .btn_footer {
 	--bs-btn-color: #002a3d;
@@ -172,12 +177,9 @@ footer {
 .text_footer {
 	font-size: 95%;
 }
-/*allgemeiner Schriftkram*/
+/*Schriftkram*/
 .überschrift {
     padding-left: 5px;
-}
-.offer {
-    padding-top: 2.5rem;
 }
 .wohooo {
     padding-top: 35px;
@@ -196,10 +198,13 @@ footer {
     padding-top: 7px;
 }
 .main_cookies {
-    margin: 15px;
+    margin: 5px;
 }
 .tab-pane {
     padding-top: 5px;
+}
+.colored_text {
+    color: rgb(185, 41, 41);
 }
 /*Alg Schriftkram*/
 .margin-auto {
@@ -309,7 +314,7 @@ td {
 .toast-header {
     background-color: #d9f3ee;
 }
-.toast-anzeige {
+.toast-anzeige-1 {
     position: fixed;
     opacity: 0;
     animation: toast-1 01.3s ease 0.2s 1 normal forwards;
@@ -333,6 +338,23 @@ td {
     margin-right: auto;
     width: 70%;
     margin-bottom: -14px;
+}
+.toast-anzeige-2 {
+    position: fixed;
+    opacity: 0;
+    animation: toast-2 01.3s ease 0.2s 1 normal forwards;
+    background-color: #ebfffa;
+    margin-right: 10px;
+}
+@keyframes toast-2 {
+	0% {
+		opacity: 0;
+		transform: translateY(250px);
+	}
+	100% {
+		opacity: 1;
+        transform: translateY(-10px);
+	}
 }
 .dwl-symbol {
     text-align: left;
