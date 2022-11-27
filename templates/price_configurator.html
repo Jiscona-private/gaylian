@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <script>
+            function refresh() {
+                console.log(document.getElementById("storage").value)
+                document.getElementById("storageCount").value = document.getElementById("storage").value;
+                document.getElementById("mailCount").value = document.getElementById("mails").value;
+                document.getElementById("price").value = Math.ceil((document.getElementById("mailCount").value * 0.8 + document.getElementById("storageCount").value * 0.1 + document.getElementById("plus").value * 1)*2)/2;
+            }
+            
+            refresh()
+        </script>
+        <input id="storage" type="range" value="5" min="0" max="50" oninput="refresh()">
+        <output id="storageCount">5</output> GB
+        <input id="mails" type="range" value="1" min="0" max="10" oninput="refresh()">
+        <output id="mailCount">1</output> Mails
+        Ich möchte gaylian.net und dessen basierten Tschads mit <input type="number" id="plus" value="1" min="0" max="20" oninput="refresh()">€ mehr unterstützen.
+        <br>
+        <output id="price">0</output>€ im Monat
+    </body>
+</html>
