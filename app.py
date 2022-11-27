@@ -282,7 +282,7 @@ def upload_file():
         # getting authCodes
         
 
-        if session.get('user') or (request.form['authCode'] and verify(request.form['authCode']) == True):
+        if session.get('user') or (request.form.getlist['authCode'] and verify(request.form['authCode']) == True):
             from app import Files
             # check if the post request has the file part
             if 'file[]' not in request.files:
@@ -432,8 +432,9 @@ def write_note():
             # writing database entry
             # set filePass
             filePass = None
-            if (request.form.getlist('setNewFilepass') and request.form['filePass']):
-                filePass = bcrypt.generate_password_hash(request.form['filePass'])
+            if request.form.getlist('setNewFilepass'):
+                if request.form['filePass']:
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
             # adding link to database
                 
