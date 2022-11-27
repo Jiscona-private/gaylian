@@ -35,7 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th title="ignore_case" style="width: 35%;">Name der Datei</th>
-                                        <th style="width: 15%;">Datum</th>
+                                        <th style="width: 15%;">Zeitpunkt</th>
                                         <th style="width: 15%;">Dateigröße</th>
                                         <th style="width: 20%;">Link</th>
                                         <th class="no_sort">Löschen</th>
@@ -45,7 +45,7 @@
                                 <tbody class="table-group-divider">
                                     <tr>
                                         <td>{{file.fileCode}}</td>
-                                        <td>{{file.date}}</td>
+                                        <td><script>{{file.uploadTime}}</script></td>
                                         <td>{{file.size}} Byte</td>
                                         <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                                         <td>
@@ -72,7 +72,7 @@
                                 <thead>
                                     <tr>
                                         <th title="ignore_case" style="width: 35%;">Name der Datei</th>
-                                        <th style="width: 15%;">Datum</th>
+                                        <th style="width: 15%;">Zeitpunkt</th>
                                         <th style="width: 15%;">Größe</th>
                                         <th style="width: 20%;">Link</th>
                                         <th class="no_sort">Löschen</th>
@@ -82,11 +82,11 @@
                                 <tbody class="table-group-divider">
                                     <tr>
                                         <td>{{doc.fileCode}}</td>
-                                        <td>{{doc.date}}</td>
+                                        <td>{{doc.uploadTime}}</td>
                                         <td>{{doc.size}} Byte</td>
-                                        <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
+                                        <td><a href="/doc/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
                                         <td>
-                                            <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
+                                            <form class="padding_delete" action="/doc/{{doc.fileCode}}/delete" target="_blank" method="get">
                                                 <input class="btn btn-files_delete" type="submit" name="delButton" value="Löschen">
                                             </form>
                                         </td>

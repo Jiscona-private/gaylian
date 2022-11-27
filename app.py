@@ -89,23 +89,26 @@ def schoolDoc(code):
     rand = random.randint(1,100)
     if rand == 1:
         return render_template('progressbar.html')
-    else:
-        file = Markdowns.query.filter_by(fileCode=code).first()
-        docId = file.id
+    
+    file = Markdowns.query.filter_by(fileCode=code).first()
+    if not file:
+        return render_template('fileNotFound.html')
 
-        if request.method == 'POST':
-            if bcrypt.check_password_hash(file.filePass, request.form['pw']):
-                with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
-                    lines = f.read()
-                return render_template('markdown.html', content=lines)
-            return render_template('pw_input.html', error="Falsches Password")
+    docId = file.id
 
-        if (file.filePass == None):   
-            with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
+    if request.method == 'POST':
+        if bcrypt.check_password_hash(file.filePass, request.form['pw']):
+            with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
                 lines = f.read()
             return render_template('markdown.html', content=lines)
+        return render_template('pw_input.html', error="Falsches Password")
 
-        return render_template('pw_input.html')        
+    if (file.filePass == None):   
+        with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
+            lines = f.read()
+        return render_template('markdown.html', content=lines)
+
+    return render_template('pw_input.html')        
 
 @app.route("/school", methods=['GET', 'POST'])
 @app.route("/doc", methods=['GET', 'POST'])
@@ -246,7 +249,7 @@ def edit_md(code):
 @app.route('/md/<code>/delete', methods=['GET', 'POST'])
 def delete_doc(code):
     doc = Markdowns.query.filter_by(fileCode=code).first()
-    if (doc == None):
+    if not doc:
         return render_template('fileNotFound.html')
 
     if str(doc.uploadUser) == str(session.get('user')):
@@ -357,7 +360,7 @@ def offer_file(code):
     showable = ['.PNG', '.PDF', '.JPEG', '.JPG', '.HTML', '.TXT', '.GIF', '.MP4', '.MP3', '.AVI', '.WAV', '.M4A', '.TIFF', '.BMP', '.MOV']
 
     files = Files.query.filter_by(fileCode=code).all()
-    if (files == None):
+    if not files:
         return render_template('fileNotFound.html')
 
     filenames = []
@@ -401,7 +404,7 @@ def offer_file(code):
 @app.route('/cloud/<code>/delete', methods=['GET', 'POST'])
 def delete_file(code):
     file = Files.query.filter_by(fileCode=code).first()
-    if (file == None):
+    if not file:
         return render_template('fileNotFound.html')
 
     if str(file.uploadUser) == str(session.get('user')):
