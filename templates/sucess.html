@@ -45,7 +45,9 @@
                 <li class="liste"><button type="button" class="btn btn-404"><a href="http://gaylian.net">Zu gaylian.net</a></button></li>
                 <li class="liste"><button type="button" class="btn btn-404"><a href="http://gaylian.net/school">Markdown Suche</a></button></li>
                 <li class="liste"><button type="button" class="btn btn-404"><a href="http://gaylian.net/cloud">Cloud Suche</a></button></li>
-                <li class="liste"><button type="button" class="btn btn-404"><a href="http://gaylian.net/show-files">{{ Username }}'s Dateien</a></button></li>
+                {% if goal == 'delete'%}
+                    <li class="liste"><button type="button" class="btn btn-404"><a href="http://gaylian.net/show-files">{{ Username }}'s Dateien</a></button></li>
+                {% endif %}
             </ul>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>

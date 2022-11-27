@@ -18,7 +18,7 @@ if (document.cookie) {
 
 document.write(`
     <div class="nav_all">
-      <nav class="navbar sticky-top navbar-expand-lg navbar-scroll">
+      <nav class="navbar navbar-expand-lg navbar-scroll">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
               <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
@@ -50,7 +50,7 @@ document.write(`
               </ul>
               <ul class="navbar-nav" style="padding-right: 5px;">
                 <li class="nav-item" style="padding-right: 5px;">
-                  <a class="nav-coming btn btn_nav" href="/login">Login</a>
+                  <a class="nav-coming btn btn_nav" href="/user/login">Login</a>
                 </li>
                 ${user}
               </ul>

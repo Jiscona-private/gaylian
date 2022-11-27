@@ -50,7 +50,7 @@ document.write(`
                 </ul>
                 <ul class="navbar-nav" style="padding-right: 5px;">
                   <li class="nav-item" style="padding-right: 5px;">
-                    <a class="nav-coming btn btn_nav" href="/login">Login</a>
+                    <a class="nav-coming btn btn_nav" href="/user/login">Login</a>
                   </li>
                   ${user}
                 </ul>

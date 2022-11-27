@@ -27,8 +27,8 @@
                     <div class="shadow rounded p-3 border bg-body">
                         <h1>Dateien von {{username}}</h1>
                     </div>
+                    {% if files %}
                     <div class="shadow rounded p-3 border bg-body">
-                        {% if files %}
                         <h2>Cloud-Dateien</h2>
                         <div style="overflow-x:auto;">
                             <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
@@ -57,15 +57,15 @@
                                 </tbody>
                                 {% endfor %}
                             </table>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if docs %}
             <div class="row gx-5">
                 <div class="col based1">
                     <div class="shadow rounded p-3 border bg-body">
-                        {% if docs %}
                         <h2>Dokumente</h2>
                         <div style="overflow-x:auto;">
                             <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
@@ -94,11 +94,12 @@
                                 </tbody>
                                 {% endfor %}
                             </table>
-                            {% endif %}
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
         <hr style="margin: 25px;">
         <div class="container px-4">
