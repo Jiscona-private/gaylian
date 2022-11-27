@@ -16,9 +16,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
-NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
-MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
+UPLOAD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian\cloud/files'
+NOTES_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/notes'
+MD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian\markdowns'
 ADMIN_PW = "GdSk1cktawyo"
 SESSION_TYPE = 'redis'
 
@@ -97,7 +97,7 @@ def schoolDoc(code):
     docId = file.id
 
     if request.method == 'POST':
-        if bcrypt.check_password_hash(file.filePass, request.form['pw']):
+        if bcrypt.check_password_hash(file.filePass, request.form['password']):
             with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
                 lines = f.read()
             return render_template('markdown.html', content=lines)
@@ -286,7 +286,7 @@ def upload_file():
         # getting authCodes
         
 
-        if session.get('user') or (request.form.getlist['authCode'] and verify(request.form['authCode']) == True):
+        if session.get('user') or ("authCode" in request.form and verify(request.form['authCode']) == True):
             from app import Files
             # check if the post request has the file part
             if 'file[]' not in request.files:
@@ -379,12 +379,12 @@ def offer_file(code):
             else:
                 return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes)
         else:
-            return render_template("password.html")
+            return render_template("pw_input.html")
     else:
         if "password" in request.form:
             if bcrypt.check_password_hash(file.filePass, request.form['password']):
                 return render_template('file_offer.html', filenames = filenames, fileIds = fileIds, fileSizes = fileSizes)
-            return render_template('password.html', error="Falsches Passwort!")      
+            return render_template('pw_input.html', error="Falsches Passwort!")      
         # downloading
         elif "fileId" in request.form: # one download
             fileId = request.form['fileId']
@@ -469,7 +469,7 @@ def show_note(number):
         return render_template('fileNotFound.html')
 
     if request.method == 'POST':
-        if bcrypt.check_password_hash(note.filePass, request.form['pw']):
+        if bcrypt.check_password_hash(note.filePass, request.form['password']):
             return send_from_directory(app.config["NOTES_FOLDER"], str(number)+'.txt')
         return render_template('pw_input.html', error="Falsches Password")
 
