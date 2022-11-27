@@ -1,7 +1,9 @@
-document.write(`
+error = document.getElementById("error").value
+
+if (error) {
+  document.write(`
     <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container top-0 end-0 p-3" style="padding-top: 15px;">
-            {% if error %}
             <div class="toast show toast-anzeige-2 bottom-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
               <div class="toast-header">
                 <img src="../static/img/gaylian_50_red.png" class="rounded me-2" alt="gaylian: Error" style="width: 13%;">
@@ -11,10 +13,10 @@ document.write(`
               </div>
               <div class="toast-body">
                 Das hat nicht funktioniert :( <br> Der Fehler lautet:
-                <a style="color: red;">{{ error }}</a>  
+                <a style="color: red;">${error}</a>  
               </div>
             </div>
-            {% endif %}
         </div>
     </div>    
-`)
+  `)
+}

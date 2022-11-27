@@ -282,7 +282,7 @@ def upload_file():
         # getting authCodes
         
 
-        if session.get('user') or verify(request.form['authCode']) == True:
+        if session.get('user') or (request.form['authCode'] and verify(request.form['authCode']) == True):
             from app import Files
             # check if the post request has the file part
             if 'file[]' not in request.files:
