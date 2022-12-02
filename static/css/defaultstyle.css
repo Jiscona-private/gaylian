@@ -365,3 +365,18 @@ td {
     padding: .375rem 0.75rem;
     font-size: .750rem;
 }
+.output_price {
+    font-weight: bold;
+}
+.output_price-additonal {
+    height: 3em;
+    width: 5%;
+    border: none;
+}
+.output_final-price {
+    background: rgb(230,234,252);
+    background: linear-gradient(90deg, rgba(230,234,252,1) 0%, rgba(230,243,252,1) 49%, rgba(150,230,252,1) 100%);
+    text-align: center;
+    border: 1px solid #888888;
+    border-radius: 5px;
+}

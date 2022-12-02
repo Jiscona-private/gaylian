@@ -113,6 +113,9 @@ document.write(`
               <div class="p-2">
                 basiert. basierter. gaylian.
               </div>
+              <div class="col">
+              Version: ALPHA <span style='font-size:30px;'>&#128074;</span>
+              </div>
             </div>
           </div>
         </div>
