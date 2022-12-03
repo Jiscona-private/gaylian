@@ -196,73 +196,47 @@ nav .container-fluid div ul li {
 	}
 }
 /*Schriftkram*/
+.style_1 {
+	font-size: 150%; 
+}
 .before_1 {
 	text-align: center;
 	margin: 25px;
 }
-.main_index {
-	opacity: 1;
+.row {
+	padding: 30px;
+	margin: 5px;
+}
+.main_heading {
+	text-align: center;
+	font-size: 250%;
+	font-weight: 500;
+}
+.main_text {
+	margin: 5px;
+	font-size: 130%;
+	font-weight: 400;
+}
+.main_aut{
+	height: 100%;
 }
 .main_index-1 {
-	background-color: #EFD345;
-}
-.main_index-1-text {
-	margin: auto;
-	padding: 10px;
-	padding-top: 20px;
-}
-.main_index-1-1 {
-	background-color: #FFEF82;
-	margin: 20px;
-	padding: 40px;
-}
-.main_index-2-2 {
-	background-color: #6CC4A1;
-	margin: 20px;
-	padding: 40px;
-}
-.main_index-2-text {
-	margin: 5px;
-	padding: 10px;
-	padding-top: 20px;
+	background: rgb(124,185,235);
+	background: linear-gradient(90deg, rgba(124,185,240,1) 0%, rgba(137,207,240,1) 30%, rgba(185,217,235,1) 70%, rgba(230,243,252,1) 100%);
 }
 .main_index-2 {
-	background-color: #4E944F;
+	background: rgb(172,225,175);
+	background: linear-gradient(90deg, rgba(172,225,175,1) 0%, rgba(113,193,110,1) 40%, rgba(103,146,93,1) 80%, rgba(79,121,66,1) 100%);
 }
 .main_index-3 {
-	background-color: #FF5D5D;
-}
-.main_index-3-text {
-	margin: 5px;
-	padding: 10px;
-	padding-top: 20px;
-}
-.main_index-3-3 {
-	background-color: #FF8C8C;
-	margin: 20px;
-	padding: 40px;
-}
-.main_index-4-4 {
-	background-color: #79DAE8;
-	margin: 20px;
-	padding: 50px;
-	padding-top: 70px;
-}
-.main_index-4-text {
-	margin: 5px;
-	padding: 10px;
-	padding-top: 20px;
+	background: rgb(240,75,45);
+	background: linear-gradient(90deg, rgba(240,75,45,1) 0%, rgba(255,99,71,1) 15%, rgba(255,160,122,1) 60%, rgba(251,206,177,1) 100%);
 }
 .main_index-4 {
-	background-color: #0AA1DD;
-}
-.style_1 {
-	font-size: 150%; 
+	background: rgb(230,243,252);
+	background: linear-gradient(90deg, rgba(230,243,252,1) 0%, rgba(185,217,235,1) 30%, rgba(137,207,240,1) 70%, rgba(124,185,235,1) 100%);
 }
 /*Alg Schriftkram*/
-.margin-auto {
-	margin: auto;
-}
 hr {
 	margin: 10px;
 }

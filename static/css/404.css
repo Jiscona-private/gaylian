@@ -39,10 +39,10 @@ ul li {
     padding-bottom: 5px;
 }
 .btn-404 {
-    --bs-btn-color: #000;
+    --bs-btn-color: rgb(0, 132, 255);
     --bs-btn-bg: #d6ebfa;
     --bs-btn-border-color: #055377;
-    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-color: rgb(0, 132, 255);
     --bs-btn-hover-bg: #bbe3ff;
     --bs-btn-hover-border-color: #055377;
     --bs-btn-padding-y: 0.5rem;
@@ -52,4 +52,5 @@ ul li {
 }
 a {
     text-decoration: none;
+    color: rgb(0, 132, 255);
 }

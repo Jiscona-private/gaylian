@@ -282,7 +282,7 @@ def upload_file():
         fileCode = request.form['filecode']
 
         if fileCode == "new":
-            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
+            return render_template('file_upload.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
         # getting authCodes
         
 
