@@ -115,6 +115,14 @@ def schoolSearch():
     if request.method == 'POST':
         return redirect(url_for('schoolDoc', code=request.form['code']))
     return render_template('school.html')
+
+@app.route("/school/search", methods=['GET', 'POST'])
+@app.route("/doc/search", methods=['GET', 'POST'])
+@app.route("/md/search", methods=['GET', 'POST'])
+def docSearch():
+    if request.method == 'POST':
+        return redirect(url_for('schoolDoc', code=request.form['docCode']))
+    return render_template('school.html')
     
 
 @app.route('/school/new', methods=['GET', 'POST'])
@@ -276,7 +284,7 @@ def delete_doc(code):
 @app.route("/cloud/search", methods=['GET', 'POST'])
 def cloudSearch():
     if request.method == 'POST':
-        return redirect(url_for('offer_file', code=request.form['code']))
+        return redirect(url_for('offer_file', code=request.form['fileCode']))
     return render_template('cloud.html')
 
 @app.route("/cloud")

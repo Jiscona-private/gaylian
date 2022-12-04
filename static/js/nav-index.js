@@ -74,14 +74,14 @@ document.write(`
             </div>
             <div class="p-2">
               <form class="d-flex" role="search" method="post" action="/cloud/search">
-                <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Datei suchen" aria-label="Search">
-                <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
+                <input class="form-control me-2" type="text" name="fileCode" id="searchFileWithCode" placeholder="Datei suchen" aria-label="Search">
+                <input type="submit" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
               </form>
             </div>
             <div class="p-2">
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="text" name="code" id="searchDocWithCode" placeholder="Markdown suchen" aria-label="Search">
-                  <input type="button" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
+                <form class="d-flex" role="search" method="post" action="/school/search">
+                  <input class="form-control me-2" type="text" name="docCode" id="searchDocWithCode" placeholder="Markdown suchen" aria-label="Search">
+                  <input type="submit" class="btn btn-outline-success" name="search" value="Search" onclick="searchDoc()">
               </form>
             </div>
           </div>
