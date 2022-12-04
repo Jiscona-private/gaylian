@@ -1,9 +1,9 @@
 //user management element
-user = ""
+headElement = ""
 
 if (document.cookie) {
   username = document.cookie.split(";")[1].split("=")[1]
-  user=`
+  headElement=`
   <li class="nav-item dropdown">
     <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
       Hi ${username}
@@ -15,13 +15,19 @@ if (document.cookie) {
     </ul>
   </li>`
 } 
+else {
+  headElement=
+  `<li class="nav-item" style="padding-right: 5px;">
+    <a class="nav-coming btn btn_nav" href="/user/login">Login</a>
+  </li>`
+}
 
 document.write(`
     <div class="nav_all">
       <nav class="navbar navbar-expand-lg navbar-scroll">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-              <img src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
+              <img id="navLogo" src="../static/img/gaylian_50.png" alt="Logo" width="40" height="40">
             </a>
             <a class="navbar-brand fs-3 nav-shadow" href="/" style="padding-bottom: 10px;">gaylian.net</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,14 +51,11 @@ document.write(`
                   <a class="nav-school btn btn_nav2" href="/school">School-Suche</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-mail btn btn_nav" href="https://mail.gaylian.net">Mail</a>
+                  <a class="nav-mail btn btn_nav" href="/mail">Mail</a>
                 </li>
               </ul>
               <ul class="navbar-nav" style="padding-right: 5px;">
-                <li class="nav-item" style="padding-right: 5px;">
-                  <a class="nav-coming btn btn_nav" href="/user/login">Login</a>
-                </li>
-                ${user}
+                ${headElement}
               </ul>
               <div style="padding-bottom: 1px;">
                 <button class="navbar-toggler_index navbar-text" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -44,8 +44,8 @@
                                 {% for file in files %}
                                 <tbody class="table-group-divider">
                                     <tr>
-                                        <td>{{file.fileCode}}</td>
-                                        <td><script>{{file.uploadTime}}</script></td>
+                                        <td>{{file.filename}}</td>
+                                        <td>{{file.uploadTime}}</td>
                                         <td>{{file.size}} Byte</td>
                                         <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                                         <td>
