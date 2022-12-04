@@ -16,9 +16,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 # path preparation
-UPLOAD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/cloud/files/'
-NOTES_FOLDER = '/home/jakob/Documents/GitHub/gaylian/notes/'
-MD_FOLDER = '/home/jakob/Documents/GitHub/gaylian/markdowns/'
+UPLOAD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian\cloud/files'
+NOTES_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/notes'
+MD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/markdowns'
 ADMIN_PW = "GdSk1cktawyo"
 SESSION_TYPE = 'redis'
 
@@ -577,6 +577,9 @@ def mailStart():
 
 
 # user information
+@app.route('/price')
+def priceConfig():
+    return render_template('price_configurator.html')
 @app.route('/cookies')
 def cookiesInform():
     return render_template('cookies.html')
