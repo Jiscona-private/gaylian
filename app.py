@@ -291,10 +291,9 @@ def upload_file():
         if fileCode:
 
             if fileCode == "new":
-                return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
+                return render_template('file_upload.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")  
             # getting authCodes
             
-
             if session.get('user') or ("authCode" in request.form and verify(request.form['authCode']) == True):
                 from app import Files
                 # check if the post request has the file part
