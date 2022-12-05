@@ -15,6 +15,19 @@
                 text-decoration: solid 0.7px;
             }
         </style>
+        <script type="text/javascript" src="../static/js/files-ltrim.js"></script>
+        <script type="text/javascript" src="../static/js/files-sort_table.js"></script>
+        <script type="text/javascript" >
+            window.onload = function() {
+                SortTable.init();
+            }
+        </script>
+        <script>
+            SortTable.init().forEach(function(el) {
+                el.sort(spalte); 
+            }
+            )
+        </script>
     </head>
     <body>
         <div class="container px-4" style="padding-top: 15px;">
@@ -22,12 +35,13 @@
               <h1>Gaylian: Cloud - Dateidownload</h1>
               <div class="col offer">
                 <div class="shadow rounded p-3 border bg-body fw-semibold">
-                    <table class="table table-hover table-sm" style="table-layout: fixed;">
+                  <div style="overflow-x:auto;">
+                    <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
                       <thead>
                         <tr>
-                            <th style="width: 50%;">Name der Datei</th>
+                            <th title="ignore_case" style="width: 50%;">Name der Datei</th>
                             <th style="width: 30%;">Dateigröße</th>
-                            <th style="width: 20%;">Herunterladen</th>
+                            <th class="no_sort" style="width: 20%;">Herunterladen</th>
                         </tr>
                       </thead>
                       <tbody class="table-group-divider">
@@ -44,7 +58,8 @@
                         </tr>
                         {% endfor %}
                       </tbody>
-                  </table>
+                    </table>
+                  </div>
                 </div>
                 <hr>
                 <div class="shadow rounded p-3 border bg-body fw-semibold">

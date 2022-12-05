@@ -3,8 +3,8 @@
         <title>Gaylian: Markdown - Edit</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link rel="icon" href="../../static/img/gaylian_50.png">
-        <link rel="stylesheet" href="../../static/css/defaultstyle.css">
+        <link rel="icon" href="{{ url_for('static', filename='img/gaylian_50.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/defaultstyle.css') }}">
         <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
         <script>
               //making sure user wants to leave
@@ -22,9 +22,9 @@
               target.innerHTML = html;
             }
         </script>
-        <script src="../../static/js/nav-index.js"></script>
+        <script src="{{ url_for('static', filename='js/nav-index.js') }}"></script>
         <script>
-          document.getElementById("navLogo").src="../../static/img/gaylian_50.png";
+          document.getElementById("navLogo").src="{{ url_for('static', filename='img/gaylian_50.png') }}";
         </script>
     </head>
     <body>
@@ -101,10 +101,13 @@
       </div>
     </div>
     <input type="text" id="error" value="{{ error }}" hidden>
-    <script src="../../static/js/toast-error-std.js"></script>
-        <script>
-          convert();
-        </script>
+    <script src="{{ url_for('static', filename='js/toast-error-std.js') }}"></script>
+    <script>
+      document.getElementById("toastLogo").src="{{ url_for('static', filename='img/gaylian_50_red.png') }}";
+    </script>
+    <script>
+      convert();
+    </script>
     <!-- Enabling tabs -->
     <script type="text/javascript">     
         var input = document.getElementById("markdown");
@@ -125,7 +128,10 @@
             }
         }
         </script>
-        <script src="../../sstatic/js/footer-scroll_down.js"></script>
+                <script src="{{ url_for('static', filename='js/footer-scroll_down.js') }}"></script>
+                <script>
+                  document.getElementById("footerLogo").src="{{ url_for('static', filename='img/gaylian_50.png') }}";
+                </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
