@@ -7,6 +7,14 @@
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" href="../static/css/index-style.css">
         <script src="../static/js/nav-index.js"></script>
+        <style>
+          .row {
+            --bs-gutter-x: 0rem;
+          }
+          .col {
+            --bs-gutter-x: 1.5rem;
+          }
+        </style>
     </head>
     <body>
       <div class="container-lg text-center">
@@ -22,7 +30,13 @@
             <img src="../static/img/gaylian_512.png" style="padding-top: 20px;">
           </div>
           <div class="col-12 start_3">
-            <h2>Der Tschad unter den Webseiten.</h2>
+            <h1>
+              <script>
+                var slogans = ['Basiert!', 'Gaylian vor!', 'Der Tschad unter den Webseiten.', 'Tracking? Doch nicht hier.', 'basiert. basierter. gaylian.', 'Basiert auf Tschadigkeit', 'Grindsettung: 3000'];
+                var index = Math.floor(Math.random() * slogans.length);
+                document.write(slogans[index]);
+              </script>
+            </h1>
           </div>
         </div>
       </div>

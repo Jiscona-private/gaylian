@@ -46,45 +46,55 @@
           }
          </script>
          <script src="../static/js/nav-index.js"></script>
+         <style>
+          .row {
+            --bs-gutter-x: 0rem;
+          }
+         </style>
     </head>
     <body>
         <div class="container px-4" style="padding-top: 15px;">
             <div class="row gx-5">
                 <h1>Gaylian: School - Erstelle eine Markdown</h1>
-              <div class="col" style="padding-top: 5px;">
-                <div class="shadow rounded p-3 border bg-body">
-                    <form name="schoolUpload" method="post">
-                        <textarea class="form-control me-2" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
-                        <hr>
-                        <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
-                        <hr>
-                        {% if username %}
-                          Ihre Datei wird auf dem Konto {{ username }} gespeichert.
-                        {% else %}                        
-                          <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
-                        {% endif %}
-                        <hr>
-                          <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
-                          <div class="input-group-text rounded">
-                            <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren"> Passwort setzen
-                          </div>
-                        <hr>
-                        <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
-                    </form>
-                </div>
-                <div class="shadow rounded p-3 border bg-body">
-                  <label for="md" class="form-label fw-semibold">Schreibe einfach und mit ästhetischem Layout alles mögliche. <br> Nutze Markdown!</label>
-                </div>
-              </div>
-              <div class="col" style="padding-top: 5px;">
-                <div class="shadow rounded p-3 border bg-body">
-                  <div class="overflow-auto" id="targetDiv">
-                    Umgewandelter Text...
-                  </div>
-                </div>
-              </div>
             </div>
         </div>
+        <form name="schoolUpload" method="post">
+        <div class="row">
+          <div class="col">
+            <textarea class="form-control me-2 md_textarea shadow rounded" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
+          </div>
+          <div class="col shadow rounded border bg-body md_textoutput">
+            <div class="overflow-auto" id="targetDiv">
+            Umgewandelter Text...
+            </div>
+          </div>
+        </div>
+        <div class="md_input">
+          <div class="col" style="padding-top: 15px;">
+            <div class="shadow rounded p-3 border bg-body">
+              <label for="md" class="form-label fw-semibold">Einfach und mit ästhetischem Layout: Nutze Markdown! <br> Hier kannst du Informationen zu deinem MD schreiben:</label>
+            </div>
+            <div class="shadow rounded p-3 border bg-body">
+                <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                <hr>
+                {% if username %}
+                  Ihre Datei wird auf dem Konto {{ username }} gespeichert.
+                {% else %}                        
+                  <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                {% endif %}
+                <hr>
+                  <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
+                  <div class="input-group-text rounded">
+                    <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren">
+                    <label>Passwort setzen</label>
+                  </div>
+                <hr>
+                <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
+              </form>
+            </div>
+          </div>
+        </div>
+           
         <div class="container px-4" style="padding-top: 20px;">
           <div class="row gx-5">
             <div class="col">

@@ -5,14 +5,16 @@ if (document.cookie) {
   username = document.cookie.split(";")[1].split("=")[1]
   headElement=`
   <li class="nav-item dropdown">
-    <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Hi ${username}
-    </a>
-    <ul class="dropdown-menu" style="padding-right: 5px;">
-      <li><a class="dropdown-item" href="/user/files">Meine Dateien</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>
-    </ul>
+    <div class="dropdown">
+      <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Hi ${username}
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/user/files">Meine Dateien</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>
+      </ul>
+    </div>
   </li>`
 } 
 
@@ -55,7 +57,7 @@ document.write(`
                     <a class="nav-mail btn btn_nav" href="/mail">Mail</a>
                   </li>
                 </ul>
-                <ul class="navbar-nav" style="padding-right: 5px;">
+                <ul class="navbar-nav">
                   ${headElement}
                 </ul>
                 <div style="padding-bottom: 1px;">

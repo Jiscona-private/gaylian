@@ -131,6 +131,13 @@ nav .container-fluid div ul li {
 .collapse_content {
 	background-color: #d6ebfa;
 }
+.dropdown-menu {
+	padding-right: 5px;
+	margin-left: -20px;
+}
+.navbar-nav {
+    padding-right: 10px;
+}
 .div_nav_cola {
 	padding-bottom: 20px;
 }
@@ -379,4 +386,26 @@ td {
     text-align: center;
     border: 1px solid #888888;
     border-radius: 5px;
+}
+.md_textarea {
+    position: relative;
+    padding: 10px;
+    margin: 0 20px 0 20px;
+    width: 95%;
+    height: 6em;
+}
+.md_textoutput {
+    width: auto;
+    padding: 10px;
+    padding-right: 0;
+    margin-left: -10px;
+    margin-right: 20px;
+}
+.md_p {
+    text-align: center;
+}
+.md_input {
+    width: 80%;
+    margin: auto;
+    padding-top: 15px;
 }

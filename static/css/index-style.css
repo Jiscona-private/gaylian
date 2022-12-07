@@ -131,6 +131,13 @@ nav .container-fluid div ul li {
 .collapse_content {
 	background-color: #d6ebfa;
 }
+.dropdown-menu {
+	padding-right: 5px;
+	margin-left: -20px;
+}
+.navbar-nav {
+    padding-right: 10px;
+}
 .div_nav_cola {
 	padding-bottom: 20px;
 }
@@ -205,7 +212,6 @@ nav .container-fluid div ul li {
 }
 .row {
 	padding: 30px;
-	margin: 5px;
 }
 .main_heading {
 	text-align: center;
@@ -217,24 +223,17 @@ nav .container-fluid div ul li {
 	font-size: 130%;
 	font-weight: 400;
 }
-.main_aut{
-	height: 100%;
-}
 .main_index-1 {
-	background: rgb(124,185,235);
-	background: linear-gradient(90deg, rgba(124,185,240,1) 0%, rgba(137,207,240,1) 30%, rgba(185,217,235,1) 70%, rgba(230,243,252,1) 100%);
+	background: #abe4e1;
 }
 .main_index-2 {
-	background: rgb(45,240,110);
-	background: linear-gradient(90deg, rgba(45,240,110,1) 0%, rgba(47,203,102,1) 25%, rgba(2,168,94,1) 65%, rgba(0,108,52,1) 100%);
+	background: #8cd3ce;
 }
 .main_index-3 {
-	background: rgb(240,75,45);
-	background: linear-gradient(90deg, rgba(240,75,45,1) 0%, rgba(255,99,71,1) 15%, rgba(255,160,122,1) 60%, rgba(251,206,177,1) 100%);
+	background: #69bdb7;
 }
 .main_index-4 {
-	background: rgb(251,244,177);
-	background: linear-gradient(90deg, rgba(251,244,177,1) 0%, rgba(255,242,122,1) 20%, rgba(255,244,71,1) 45%, rgba(250,203,45,1) 100%);
+	background: #4caaa4;
 }
 /*Alg Schriftkram*/
 hr {
