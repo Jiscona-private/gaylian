@@ -15,8 +15,7 @@ Der hier vorgestellte Code ("main"-Branch) ist unter gaylian.net nutzbar. Versch
 1. Clonen des Repositorys
 2. Aufsetzen einer virtuellen Umgebung mit `python -m venv venv` und Aktivieren mit  `. venv/bin/activate` (POSIX)  bzw. `. venv/Scripts/activate` (Windows)
 3. `pip install -r requirements.txt`
-4. [Setzen der Environment-Variable](https://flask.palletsprojects.com/en/2.1.x/quickstart/) auf `webpages`
-5. `flask run`
+4. `flask run`
 
 ### Production
 
