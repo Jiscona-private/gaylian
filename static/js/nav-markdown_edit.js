@@ -9,7 +9,7 @@ if (document.cookie) {
       <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Hi ${username}
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-sm-end">
         <li><a class="dropdown-item" href="/user/files">Meine Dateien</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>

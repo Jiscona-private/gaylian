@@ -1,9 +1,6 @@
 document.write(`
-    <nav class="navbar footer-scroll_down">
-        <div class="container-fluid text-center">
-            <a class="navbar-brand" href="/">
-                <img src="../static/img/gaylian_50.png" id="footerLogo" alt="Logo" width="40" height="40">
-            </a>
+    <nav class="navbar navbar-expand-sm footer-scroll_down">
+        <div class="container text-center">
             <div class="col">
                 <a class="btn btn_footer" href="/agb">Geschäftsbedingungen (AGB)</a><br>
                 <a class="btn btn_footer" href="/cookies">Cookies</a>

@@ -131,10 +131,6 @@ nav .container-fluid div ul li {
 .collapse_content {
 	background-color: #d6ebfa;
 }
-.dropdown-menu {
-	padding-right: 5px;
-	margin-left: -20px;
-}
 .navbar-nav {
     padding-right: 10px;
 }
@@ -187,7 +183,7 @@ nav .container-fluid div ul li {
 }
 .start_3 {
     opacity: 0;
-    animation: eingang_start 1.6s ease 1s 1 normal forwards;
+    animation: eingang_basiert 6s ease 2s 1 normal forwards;
 }
 @keyframes eingang_start {
 	0% {
@@ -202,6 +198,23 @@ nav .container-fluid div ul li {
 		transform: translateY(0);
 	}
 }
+@keyframes eingang_basiert {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 1;
+	}
+    50% {
+		opacity: 0;
+	}
+	75% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 /*Schriftkram*/
 .style_1 {
 	font-size: 150%; 
@@ -210,29 +223,31 @@ nav .container-fluid div ul li {
 	text-align: center;
 	margin: 25px;
 }
-.row {
-	padding: 30px;
-}
 .main_heading {
 	text-align: center;
 	font-size: 250%;
 	font-weight: 500;
 }
 .main_text {
+    text-align: center;
 	margin: 5px;
 	font-size: 130%;
 	font-weight: 400;
 }
 .main_index-1 {
+    padding: 15px;
 	background: #abe4e1;
 }
 .main_index-2 {
+    padding: 15px;
 	background: #8cd3ce;
 }
 .main_index-3 {
+    padding: 15px;
 	background: #69bdb7;
 }
 .main_index-4 {
+    padding: 15px;
 	background: #4caaa4;
 }
 /*Alg Schriftkram*/
