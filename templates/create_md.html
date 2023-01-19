@@ -7,6 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" href="../static/css/defaultstyle.css">
+        <link rel="stylesheet" href="../static/css/markdown-edit_create.css">
         <script src="https://cdn.rawgit.com/showdownjs/showdown/1.9.1/dist/showdown.min.js"></script>
         <script>
           //making sure user wants to leave
@@ -16,41 +17,26 @@
 
           // markdown conversion
           function convert() {
+
             var text = document.getElementById('markdown').value,
             target = document.getElementById('targetDiv'),
             converter = new showdown.Converter(),
             html = converter.makeHtml(text);
-              
             target.innerHTML = html;
+            document.getElementById('targetDiv-mobile').innerHTML = html;
+            document.getElementById('markdown-mobile').value = text;
+          }
+          function convert_mobile() {
+            var text = document.getElementById('markdown-mobile').value,
+            target = document.getElementById('targetDiv-mobile'),
+            converter = new showdown.Converter(),
+            html = converter.makeHtml(text);
+            target.innerHTML = html;
+            document.getElementById('targetDiv').innerHTML = html;
+            document.getElementById('markdown').value = text;
           }
         </script>
-      
-        <!-- Enabling tabs -->
-        <script type="text/javascript">
-          var input = document.getElementById("markdown");
-          if(input.addEventListener) {
-            input.addEventListener('keydown',this.keyHandler,false);
-          } else if(input.attachEvent ) {
-            input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
-          }
-      
-          function keyHandler(e) {
-              var TABKEY = 9;
-              if(e.keyCode == TABKEY) {
-                  this.value += "    ";
-                  if(e.preventDefault) {
-                      e.preventDefault();
-                  }
-                  return false;
-              }
-          }
-         </script>
          <script src="../static/js/nav-index.js"></script>
-         <style>
-          .row {
-            --bs-gutter-x: 0rem;
-          }
-         </style>
     </head>
     <body>
         <div class="container px-4" style="padding-top: 15px;">
@@ -59,16 +45,41 @@
             </div>
         </div>
         <form name="schoolUpload" method="post">
-        <div class="row">
-          <div class="col">
-            <textarea class="form-control me-2 md_textarea shadow rounded" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
-          </div>
-          <div class="col shadow rounded border bg-body md_textoutput">
-            <div class="overflow-auto" id="targetDiv">
-            Umgewandelter Text...
+          <div class="textarea-normal">
+            <div class="row">
+              <div class="col">
+                <textarea class="form-control me-2 md_textarea shadow rounded" name="markdown" id="markdown" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert()">{{ mdContent }}</textarea>
+              </div>
+              <div class="col shadow rounded border bg-body md_textoutput">
+                <div class="overflow-auto" id="targetDiv">
+                  Umgewandelter Text...
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="textarea-mobile">
+            <div class="row">
+              <div class="col">
+                <textarea class="form-control me-2 md_textarea-mobile shadow rounded" name="markdown-mobile" id="markdown-mobile" placeholder="Text in Markdown-Syntax" maxlength="32000" oninput="convert_mobile()" style="height: 400px;">{{ mdContent }}</textarea>
+              </div>
+            </div>
+              <div class="md-preview-style">
+                <p>
+                  <a class="btn btn-warning" data-bs-toggle="collapse" href="#md-preview" role="button" aria-expanded="false" aria-controls="md-preview">
+                    Markdown Vorschau anzeigen
+                  </a>
+                </p>
+                <div class="collapse" id="md-preview">
+                  <div class="row">
+                    <div class="col shadow rounded border bg-body md_textoutput-mobile">
+                      <div class="overflow-auto" id="targetDiv-mobile">
+                        Umgewandelter Text...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
         <div class="md_input">
           <div class="col" style="padding-top: 15px;">
             <div class="shadow rounded p-3 border bg-body">
@@ -86,7 +97,7 @@
                   <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
                   <div class="input-group-text rounded">
                     <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren">
-                    <label>Passwort setzen</label>
+                    <label><i class="form-check-input-text">Passwort setzen</i></label>
                   </div>
                 <hr>
                 <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
@@ -127,7 +138,26 @@
             </div>
           </div>
         </div>
-        <script>convert()</script>
+        <!-- Enabling tabs -->
+        <script type="text/javascript">
+          var input = document.getElementById("markdown");
+          if(input.addEventListener) {
+            input.addEventListener('keydown',this.keyHandler,false);
+          } else if(input.attachEvent ) {
+            input.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+          }
+      
+          function keyHandler(e) {
+              var TABKEY = 9;
+              if(e.keyCode == TABKEY) {
+                  this.value += "    ";
+                  if(e.preventDefault) {
+                      e.preventDefault();
+                  }
+                  return false;
+              }
+          }
+          </script>
         <input type="text" id="error" value="{{ error }}" hidden>
         <script src="../static/js/toast-error-std.js"></script>
         <script src="../static/js/footer-scroll_down.js"></script>

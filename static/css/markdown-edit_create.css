@@ -1,0 +1,57 @@
+.row {
+    --bs-gutter-x: 0rem;
+}
+.md_textarea {
+    position: relative;
+    padding: 10px;
+    margin: 0 0 0 20px;
+    width: 97%;
+}
+.md_textoutput {
+    width: auto;
+    padding: 10px;
+    padding-right: 0;
+    margin-left: 5px;
+    margin-right: 20px;
+}
+.md_p {
+    text-align: center;
+}
+.textarea-normal {
+    display: none;
+}
+.md-preview-style {
+    padding-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+@media only screen and (min-width: 1201px) {
+    .textarea-normal {
+        display: block;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .footer-normal {
+        display: none;
+    }
+}
+@media only screen and (min-width: 1201px) {
+    .textarea-mobile {
+        display: none;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .footer-mobile {
+        display: block;
+    }
+    .md_textoutput-mobile {
+        padding: 10px;
+        padding-right: 0;
+        width: 95%;
+    }
+    .md_textarea-mobile {
+        position: relative;
+        padding: 10px;
+        width: 100%;
+    }
+}
