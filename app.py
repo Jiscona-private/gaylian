@@ -12,6 +12,8 @@ from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
+import chat
+
 # general preparation
 bcrypt = Bcrypt()
 
@@ -436,10 +438,6 @@ def delete_file(code):
             return render_template('sucess.html', goal="delete")
         return render_template('delete_file.html', name=file.filename)
     return render_template('login.html', error="Hierfür musst du angemeldet sein.")
-    
-
-
-    
 
 # notes
 @app.route('/notes/new', methods=['GET', 'POST'])
@@ -580,6 +578,7 @@ def mailStart():
 @app.route('/price')
 def priceConfig():
     return render_template('price_configurator.html')
+
 @app.route('/cookies')
 def cookiesInform():
     return render_template('cookies.html')
@@ -599,6 +598,25 @@ def mission():
 @app.route('/impressum')
 def imprint():
     return render_template('wip.html')
+
+# GTC
+@app.route('/chat/join', methods=["POST","GET"])
+@app.route('/gtc/join', methods=["POST","GET"])
+async def joinChat():
+    if request.method == "POST":
+        await chat.join(token=request.form['roomToken'], username=request.form['username'])
+        return render_template('chatInterface.html')
+    return render_template('chatJoin.html')
+
+@app.route('/chat/create', methods=["POST","GET"])
+@app.route('/gtc/create', methods=["POST","GET"])
+async def createChat():
+    if request.method == "POST":
+        await chat.create(token=request.form['roomToken'], username=request.form['username'])
+        return render_template('chatInterface.html')
+    return render_template('chatCreate.html')
+
+
 ## === ERROR HANDLER ===
 
 @app.errorhandler(404)
