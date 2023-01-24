@@ -5,14 +5,16 @@ if (document.cookie) {
   username = document.cookie.split(";")[1].split("=")[1]
   headElement=`
   <li class="nav-item dropdown">
-    <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Hi ${username}
-    </a>
-    <ul class="dropdown-menu" style="padding-right: 5px;">
-      <li><a class="dropdown-item" href="/user/files">Meine Dateien</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>
-    </ul>
+    <div class="dropdown">
+      <a class="nav-coming btn btn_nav dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Hi ${username}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-sm-end">
+        <li><a class="dropdown-item" href="/user/files">Meine Dateien</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="/user/logout?username=${username}" data-bs-target="logout">Logout</a></li>
+      </ul>
+    </div>
   </li>`
 } 
 
@@ -52,10 +54,10 @@ document.write(`
                     <a class="nav-school btn btn_nav2" href="/school">School-Suche</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-mail btn btn_nav" href="/mail">Mail</a>
+                    <a class="nav-mail btn btn_nav" href="/mail">gtc</a>
                   </li>
                 </ul>
-                <ul class="navbar-nav" style="padding-right: 5px;">
+                <ul class="navbar-nav">
                   ${headElement}
                 </ul>
                 <div style="padding-bottom: 1px;">
@@ -99,26 +101,34 @@ document.write(`
             </div>
           </div>
           <hr>
-          <div class="container text-center div_nav_cola">
-            <div class="row align-items-center">
-              <div class="col">
-                <a class="btn btn_footer" href="/agb">Geschäftsbedingungen (AGB)</a><br>
-                <a class="btn btn_footer btn_footer_p" href="/cookies">Cookies</a>
-              </div>
-              <div class="col">
-                © 2022 by Bonarium Holdings. Alle Rechte sind reserviert. <br>
-                gaylian.net ist ein Service von Bonarium Holdings.
-              </div>
-              <div class="col">
-                <a class="btn btn_footer" href="/mission">Auftrag</a><br>
-                <a class="btn btn_footer btn_footer_p" href="/impressum">Impressum</a>
-              </div>
-              <hr style="margin-top: 10px;">
-              <div class="p-2">
-                basiert. basierter. gaylian.
-              </div>
-              <div class="col">
-              Version: ALPHA <span style='font-size:30px;'>&#128074;</span>
+          <div class="nav-mobile-footer">
+            <ul class="nav justify-content-center text-center">
+              <li class="nav-item footer-middle">
+                <a class="btn btn_footer" href="/agb">AGB</a>
+              </li>
+              <li class="nav-item footer-middle">
+                <a class="btn btn_footer" href="/cookies">Cookies</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">© 2022 by Bonarium Holdings. Alle Rechte sind reserviert.<br>
+                  gaylian.net ist ein Service von Bonarium Holdings.</a>
+              </li>
+              <li class="nav-item footer-middle">
+                <a class="btn btn_footer" href="/mission">Auftrag</a>
+              </li>
+              <li class="nav-item footer-middle">
+                <a class="btn btn_footer" href="/impressum">Impressum</a>
+              </li>
+            </ul>
+            <div class="container text-center">
+              <div class="row align-items-center">
+                <hr style="margin-top: 10px;">
+                <div class="p-2">
+                  basiert. basierter. gaylian.
+                </div>
+                <div class="col" style="padding-bottom: 10px;">
+                  Version: ALPHA <span style='font-size: 20px;'>&#128074;</span>
+                </div>
               </div>
             </div>
           </div>

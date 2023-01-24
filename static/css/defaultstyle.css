@@ -2,6 +2,7 @@ body{
     font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
     background-color: #F4F9F9;
     animation: body-start 0.75s ease 0s 1 normal forwards;
+    padding-bottom: 5px;
 }
 @keyframes body-start {
 	0% {
@@ -73,11 +74,6 @@ nav:hover {
 nav .container-fluid div ul {
     font-size: larger;
 }
-nav .container-fluid div ul li {
-	padding-left: 5px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
 .btn_nav {
 	--bs-btn-color: #002a3d;
     --bs-btn-bg: transparent;
@@ -131,8 +127,14 @@ nav .container-fluid div ul li {
 .collapse_content {
 	background-color: #d6ebfa;
 }
-.div_nav_cola {
-	padding-bottom: 20px;
+.navbar-nav {
+    padding-right: 10px;
+}
+.nav-mobile-footer {
+    display: block;
+}
+.col_nav {
+    padding: 20px;
 }
 .btn-outline-dark {
 	--bs-btn-color: #161616;
@@ -143,26 +145,47 @@ nav .container-fluid div ul li {
     --bs-btn-hover-border-color: #000000;
 }
 /*Footer Kram*/
-.footer-scroll_down {
-	box-shadow: 4px -3px 8px 1px #a3a3a3;
-    margin-top: 10px;
-    background-color: #d6ebfa;
-	position: relative;
-	bottom: 0;
-    width: 100%;
+    /*only_down*/
+@media only screen and (min-width: 1201px) {
+    .footer-only_down {
+        box-shadow: 4px -3px 8px 1px #a3a3a3;
+        position: fixed;
+        background-color: #d6ebfa;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+    }
 }
-.footer-only_down {
-	box-shadow: 4px -3px 8px 1px #a3a3a3;
-    margin-top: 10px;
-    background-color: #d6ebfa;
-	position: fixed;
-	bottom: 0;
-    width: 100%;
+@media only screen and (max-width: 1201px) {
+    .footer-only_down {
+        display: none;
+    }
+}
+    /*scroll*/
+@media only screen and (min-width: 1201px) {
+    .footer-scroll_down {
+        box-shadow: 4px -3px 8px 1px #a3a3a3;
+        position: relative;
+        background-color: #d6ebfa;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .footer-scroll_down {
+        display: none;
+    }
+}
+.footer-middle {
+    padding-top: 8px;
 }
 .btn_footer {
+    margin: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
 	--bs-btn-color: #002a3d;
-    --bs-btn-bg: #e3f2fd;
-    --bs-btn-border-color: #e3f2fd;
+    --bs-btn-bg: #d6ebfa;
+    --bs-btn-border-color: #d6ebfa;
     --bs-btn-hover-color: #030303;	
     --bs-btn-hover-bg: #e3f2fd;
     --bs-btn-hover-border-color: #8d8d8d;
@@ -172,10 +195,6 @@ nav .container-fluid div ul li {
     --bs-btn-padding-x: 0.3rem;
     --bs-btn-font-size: 1rem;
     --bs-btn-border-radius: 0.4rem;
-	margin: 5px;
-}
-.text_footer {
-	font-size: 95%;
 }
 /*Schriftkram*/
 .überschrift {
@@ -238,11 +257,6 @@ hr {
     --bs-btn-font-size: 1.25rem;
     --bs-btn-border-radius: 0.5rem;
 }
-.dwl-button {
-    position: relative;
-    margin-bottom: -20px;
-    padding-top: 20px;
-}
 .btn-files_delete {
     --bs-btn-color: #ee2222;
     --bs-btn-bg: #ffffff;
@@ -304,7 +318,21 @@ td {
     vertical-align: middle;
     height: 20px;
 }
+@media only screen and (min-width: 1201px) {
+    .overflow-mobile {
+        overflow-x: auto;
+        table-layout: fixed;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .overflow-mobile {
+        overflow-x: scroll;
+    }
+}
 /*Toasts/Fehlermeldungen/Forms*/
+.form-check-input-text {
+    padding-left: 5px;
+}
 .reset_button {
     align-content: flex-end;
 }
@@ -356,10 +384,52 @@ td {
         transform: translateY(-10px);
 	}
 }
-.dwl-symbol {
-    text-align: left;
-    padding-bottom: 10px;
-    padding-right: 5px;
+@media only screen and (min-width: 891px) {
+    .dwl-text {
+        color: black;
+        font-size: 2.4rem!important;
+        padding: 50px 0 0 20px;
+    }
+    .dwl-symbol {
+        text-align: left;
+        padding-bottom: 15px;
+        width: 12%;
+    }
+    .dwl-button {
+        padding: 20px 8px 10px 8px;
+        width: auto;
+        margin: 0 15px -15px 15px;
+        background-color: #198754;
+        --bs-btn-padding-x: 0rem;
+        --bs-btn-padding-y: 0rem;
+    }
+    .dwl-space-mobile {
+        display: none;
+    }
+}
+@media only screen and (max-width: 890px) {
+    .dwl-text {
+        display: none;
+    }
+    .dwl-symbol {
+        display: none;
+    }
+    .dwl-button {
+        display: none;
+    }
+    .dwl-space-mobile {
+        text-align: center;
+    }
+    .dwl-text-mobile {
+        display: block;
+    }
+    .dwl-button-mobile {
+        display: block;
+    }
+    .dwl-symbol-mobile {
+        padding: 2px 0 5px 0;
+        width: 15%;
+    }
 }
 .form-control-sm {
     padding: .375rem 0.75rem;
@@ -379,4 +449,9 @@ td {
     text-align: center;
     border: 1px solid #888888;
     border-radius: 5px;
+}
+.md_input {
+    width: 80%;
+    margin: auto;
+    padding-top: 15px;
 }

@@ -6,15 +6,6 @@
         <link rel="icon" href="../static/img/gaylian_50.png">
         <link rel="stylesheet" href="../static/css/defaultstyle.css">
         <script src="../static/js/nav-index.js"></script>
-        <style>
-            .btn_sucess {
-                background-color: #198754;
-            }
-            .dwl-text {
-                color: black;
-                text-decoration: solid 0.7px;
-            }
-        </style>
         <script type="text/javascript" src="../static/js/files-ltrim.js"></script>
         <script type="text/javascript" src="../static/js/files-sort_table.js"></script>
         <script type="text/javascript" >
@@ -35,8 +26,8 @@
               <h1>Gaylian: Cloud - Dateidownload</h1>
               <div class="col offer">
                 <div class="shadow rounded p-3 border bg-body fw-semibold">
-                  <div style="overflow-x:auto;">
-                    <table class="sortable table table-hover table-sm" style="table-layout: fixed;">
+                  <div class="overflow-mobile">
+                    <table class="sortable table table-hover table-sm">
                       <thead>
                         <tr>
                             <th title="ignore_case" style="width: 50%;">Name der Datei</th>
@@ -62,12 +53,18 @@
                   </div>
                 </div>
                 <hr>
-                <div class="shadow rounded p-3 border bg-body fw-semibold">
+                <div class="shadow rounded p-3 border bg-body fw-light">
                     <form method="post">
-                    <div class="d-grid col-4 mx-auto">
+                      <div class="col-6 mx-auto">
                         <button class="btn btn-success dwl-button" type="submit" name="downloadAll">
-                            <img class="dwl-symbol" src="../static/img/gaylian-download_webs.png" alt="download" width="15%">
-                            <b class="fs-4 dwl-text" name="downloadAll">Alle herunterladen</b>
+                          <img class="dwl-symbol" src="../static/img/gaylian-download.png" alt="download">
+                          <span class="dwl-text" name="downloadAll">Alle herunterladen</span>
+                        </button>
+                      </div>
+                      <div class="dwl-space-mobile">
+                        <span class="fs-4 dwl-text-mobile" name="downloadAll">Alle herunterladen</span><br>
+                        <button class="btn btn-success dwl-button-mobile" type="submit" name="downloadAll">
+                          <img class="dwl-symbol-mobile" src="../static/img/gaylian-download.png" alt="download">
                         </button>
                       </div>
                     </form>

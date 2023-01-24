@@ -54,3 +54,6 @@ a {
     text-decoration: none;
     color: rgb(0, 132, 255);
 }
+.last-page {
+    margin-top: 5px;
+}

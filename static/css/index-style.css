@@ -2,6 +2,7 @@ body{
     font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
     background-color: #F4F9F9;
     animation: body-start 0.75s ease 0s 1 normal forwards;
+    padding-bottom: 5px;
 }
 @keyframes body-start {
 	0% {
@@ -73,11 +74,6 @@ nav:hover {
 nav .container-fluid div ul {
     font-size: larger;
 }
-nav .container-fluid div ul li {
-	padding-left: 5px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
 .btn_nav {
 	--bs-btn-color: #002a3d;
     --bs-btn-bg: transparent;
@@ -131,8 +127,14 @@ nav .container-fluid div ul li {
 .collapse_content {
 	background-color: #d6ebfa;
 }
-.div_nav_cola {
-	padding-bottom: 20px;
+.navbar-nav {
+    padding-right: 10px;
+}
+.nav-mobile-footer {
+    display: block;
+}
+.col_nav {
+    padding: 20px;
 }
 .btn-outline-dark {
 	--bs-btn-color: #161616;
@@ -143,20 +145,33 @@ nav .container-fluid div ul li {
     --bs-btn-hover-border-color: #000000;
 }
 /*Footer Kram*/
-.footer-scroll_down {
-	box-shadow: 4px -3px 8px 1px #a3a3a3;
-    margin-top: 10px;
-    background-color: #d6ebfa;
-	position: relative;
-	bottom: 0;
-    width: 100%;
+    /*scroll*/
+@media only screen and (min-width: 1201px) {
+    .footer-scroll_down {
+        box-shadow: 4px -3px 8px 1px #a3a3a3;
+        position: relative;
+        background-color: #d6ebfa;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .footer-scroll_down {
+        display: none;
+    }
+}
+.footer-middle {
+    padding-top: 8px;
 }
 .btn_footer {
+    margin: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
 	--bs-btn-color: #002a3d;
     --bs-btn-bg: #d6ebfa;
     --bs-btn-border-color: #d6ebfa;
     --bs-btn-hover-color: #030303;	
-    --bs-btn-hover-bg: #d6ebfa;
+    --bs-btn-hover-bg: #e3f2fd;
     --bs-btn-hover-border-color: #8d8d8d;
     --bs-btn-focus-shadow-rgb: 130,138,145;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -164,10 +179,6 @@ nav .container-fluid div ul li {
     --bs-btn-padding-x: 0.3rem;
     --bs-btn-font-size: 1rem;
     --bs-btn-border-radius: 0.4rem;
-	margin: 5px;
-}
-.text_footer {
-	font-size: 95%;
 }
 /*Animationen*/
 .start_1 {
@@ -180,7 +191,7 @@ nav .container-fluid div ul li {
 }
 .start_3 {
     opacity: 0;
-    animation: eingang_start 1.6s ease 1s 1 normal forwards;
+    animation: eingang_basiert 6s ease 2s 1 normal forwards;
 }
 @keyframes eingang_start {
 	0% {
@@ -195,7 +206,30 @@ nav .container-fluid div ul li {
 		transform: translateY(0);
 	}
 }
+@keyframes eingang_basiert {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 1;
+	}
+    50% {
+		opacity: 0;
+	}
+	75% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 /*Schriftkram*/
+.row {
+    --bs-gutter-x: 0rem; 
+}
+.col {
+    --bs-gutter-x: 1.5rem;
+}
 .style_1 {
 	font-size: 150%; 
 }
@@ -203,38 +237,32 @@ nav .container-fluid div ul li {
 	text-align: center;
 	margin: 25px;
 }
-.row {
-	padding: 30px;
-	margin: 5px;
-}
 .main_heading {
 	text-align: center;
 	font-size: 250%;
 	font-weight: 500;
 }
 .main_text {
+    text-align: center;
 	margin: 5px;
 	font-size: 130%;
 	font-weight: 400;
 }
-.main_aut{
-	height: 100%;
-}
 .main_index-1 {
-	background: rgb(124,185,235);
-	background: linear-gradient(90deg, rgba(124,185,240,1) 0%, rgba(137,207,240,1) 30%, rgba(185,217,235,1) 70%, rgba(230,243,252,1) 100%);
+    padding: 15px;
+	background: #abe4e1;
 }
 .main_index-2 {
-	background: rgb(45,240,110);
-	background: linear-gradient(90deg, rgba(45,240,110,1) 0%, rgba(47,203,102,1) 25%, rgba(2,168,94,1) 65%, rgba(0,108,52,1) 100%);
+    padding: 15px;
+	background: #8cd3ce;
 }
 .main_index-3 {
-	background: rgb(240,75,45);
-	background: linear-gradient(90deg, rgba(240,75,45,1) 0%, rgba(255,99,71,1) 15%, rgba(255,160,122,1) 60%, rgba(251,206,177,1) 100%);
+    padding: 15px;
+	background: #69bdb7;
 }
 .main_index-4 {
-	background: rgb(251,244,177);
-	background: linear-gradient(90deg, rgba(251,244,177,1) 0%, rgba(255,242,122,1) 20%, rgba(255,244,71,1) 45%, rgba(250,203,45,1) 100%);
+    padding: 15px;
+	background: #4caaa4;
 }
 /*Alg Schriftkram*/
 hr {

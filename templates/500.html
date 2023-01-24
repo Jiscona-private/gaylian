@@ -10,10 +10,10 @@
     <body>
         <nav class="navbar fixed-top navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="https://gaylian.net">
+                <a class="navbar-brand" href="/">
                 <img src="../static/img/gaylian_50_red.png" id="500Logo" alt="Logo" width="40" height="40">
                 </a>
-                <a class="navbar-brand fs-3 nav-shadow" href="https://gaylian.net" style="padding-bottom: 10px;">gaylian.net</a>
+                <a class="navbar-brand fs-3 nav-shadow" href="/" style="padding-bottom: 10px;">gaylian.net</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -28,11 +28,11 @@
             <b class="opps fs-1">Oops!</b><hr>
             <h2>Es gab ein Problem mit dem Server. <br> Bitte kontaktieren sie das Gaylian-Supportteam unter <a href="mailto:gaylian@protonmail.com">gaylian@protonmail.com</a>.</h2>
             <h4>Oder direkt über die gaylian Mail: <a href="https://gayliannet/mail/error">gaylian@protonmail.com</a>.</h4><hr>
-            <button type="button" class="btn btn-404"><a href="https://gaylian.net">Zurück zu gaylian.net</a></button><hr>
+            <button type="button" class="btn btn-404"><a href="/">Zurück zu gaylian.net</a></button><hr>
             <button class="btn btn-404" onclick="javascript:window.history.back();">Zurück zur letzten Seite</button>
         </div>
         <script>
-            document.getElementById("500Logo").src="{{ url_for('static', filename='img/gaylian_50.png') }}";
+            document.getElementById("500Logo").src="{{ url_for('static', filename='img/gaylian_50_red.png') }}";
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
