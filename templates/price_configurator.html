@@ -11,8 +11,8 @@
             function refresh() {
                 console.log(document.getElementById("storage").value)
                 document.getElementById("storageCount").value = document.getElementById("storage").value;
-                document.getElementById("mailCount").value = document.getElementById("mails").value;
-                document.getElementById("price").value = Math.ceil((document.getElementById("mailCount").value * 0.8 + document.getElementById("storageCount").value * 0.1 + document.getElementById("plus").value * 1)*2)/2;
+                //document.getElementById("mailCount").value = document.getElementById("mails").value;
+                document.getElementById("price").value = Math.ceil((document.getElementById("storageCount").value * 0.1 + document.getElementById("plus").value * 1)*2)/2; //document.getElementById("mailCount").value * 0.8 + 
             }
             refresh()
         </script>
@@ -31,11 +31,11 @@
                                     <input id="storage" class="form-range" type="range" value="5" min="0" max="50" oninput="refresh()">
                                     <span class="output_price"><output id="storageCount">5</output> GB</span>
                                 </div>
-                                <div class="col">
+                                <!--<div class="col">
                                     <label for="mails" class="form-label">Anzahl an @gaylian.net Mails:</label>
                                     <input id="mails" class="form-range" type="range" value="1" min="0" max="10" oninput="refresh()">
                                     <span class="output_price"><output id="mailCount">1</output> Mail(s)</span>
-                                </div>
+                                </div>!-->
                             </div>
                         </div>
                         <div class="shadow rounded p-3 border bg-body">

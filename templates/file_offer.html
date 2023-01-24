@@ -39,7 +39,7 @@
                         {% for i in range(filenames|length) %}
                         <tr>
                           <td>{{ filenames[i] }}</td>
-                          <td>{{ fileSizes[i] }} Byte</td>
+                          <td class="bytes">{{ fileSizes[i] }}</td>
                           <td>
                             <form class="padding_delete" method="post">
                               <input class="btn btn-dwl_delete" name="download" type="submit" value="Herunterladen">
@@ -73,6 +73,26 @@
             </div>
         </div>
         <input type="text" id="error" value="{{ error }}" hidden>
+        <script>
+          function scaleByte(byte) {
+                    if (byte < 1000) {
+                        return byte + " Byte";
+                    }
+                    if (byte / 1000 < 1000) {
+                        return Math.round((byte / 1000) * 10) / 10  + "KB";
+                    }
+                    if (byte / 1000000 < 1000) {
+                        return Math.round((byte / 1000000) * 10) / 10  + "MB";
+                    }
+                    
+                    return Math.round((byte / 1000000000) * 10) / 10 + "GB";
+                    
+                }
+                
+          for (i=0;i<document.getElementsByClassName('bytes').length;i++) {
+            document.getElementsByClassName('bytes')[i].innerHTML = scaleByte(document.getElementsByClassName('bytes')[i].innerHTML)
+          }
+        </script>
         <script src="../static/js/toast-error-std.js"></script>
         <script src="../static/js/footer-only_down.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>

@@ -50,8 +50,8 @@
                                     {% for file in files %}
                                     <tr>
                                         <td>{{file.filename}}</td>
-                                        <td>{{file.uploadTime}}</td>
-                                        <td>{{file.size}} Byte</td>
+                                        <td class="time">{{file.uploadTime}}</td>
+                                        <td class="bytes">{{file.size}}</td>
                                         <td><a href="/cloud/{{file.fileCode}}" target="_blank">{{file.fileCode}}</a></td>
                                         <td>
                                             <form class="padding_delete" action="/cloud/{{file.fileCode}}/delete" target="_blank" method="get">
@@ -87,8 +87,8 @@
                                     {% for doc in docs %}
                                     <tr>
                                         <td>{{doc.fileCode}}</td>
-                                        <td>{{doc.uploadTime}}</td>
-                                        <td>{{doc.size}} Byte</td>
+                                        <td class="time">{{doc.uploadTime}}</td>
+                                        <td class="bytes">{{doc.size}}</td>
                                         <td><a href="/doc/{{doc.fileCode}}" target="_blank">{{doc.fileCode}}</a></td>
                                         <td>
                                             <form class="padding_delete" action="/doc/{{doc.fileCode}}/delete" target="_blank" method="get">
@@ -138,14 +138,25 @@
                     return byte + " Byte";
                 }
                 if (byte / 1000 < 1000) {
-                    return Math.round((byte / 1000) * 10) / 10  + " KB";
+                    return Math.round((byte / 1000) * 10) / 10  + "KB";
                 }
                 if (byte / 1000000 < 1000) {
-                    return Math.round((byte / 1000000) * 10) / 10  + " MB";
+                    return Math.round((byte / 1000000) * 10) / 10  + "MB";
                 }
                 
-                return Math.round((byte / 1000000000) * 10) / 10 + " GB";
+                return Math.round((byte / 1000000000) * 10) / 10 + "GB";
                 
+            }
+
+            function formatTime(date) {
+                jsDate = new Date(date)
+                return String("0" + (jsDate.getMonth() + 1)).slice(-2) + "." + String("0" + (jsDate.getDate() + 1)).slice(-2) + "." + jsDate.getFullYear();
+            }
+
+            //scaling file sizes and dates
+            for (i=0;i<document.getElementsByClassName('bytes').length;i++) {
+                document.getElementsByClassName('bytes')[i].innerHTML = scaleByte(document.getElementsByClassName('bytes')[i].innerHTML)
+                document.getElementsByClassName('time')[i].innerHTML = formatTime(document.getElementsByClassName('time')[i].innerHTML)
             }
     
             function drawLine(ctx, startX, startY, endX, endY, color) {
