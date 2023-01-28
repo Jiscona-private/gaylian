@@ -96,7 +96,7 @@ def schoolDoc(code):
 
     if request.method == 'POST':
         if bcrypt.check_password_hash(file.filePass, request.form['password']):
-            with open(app.config["MD_FOLDER"]+str(docId)+'.md', 'r', encoding='utf-8') as f:
+            with open(app.config["MD_FOLDER"]+'/'+str(docId)+'.md', 'r', encoding='utf-8') as f:
                 lines = f.read()
             return render_template('markdown.html', content=lines)
         return render_template('pw_input.html', error="Falsches Password")
@@ -134,61 +134,66 @@ def upload_md():
         md = request.form['markdown']
         fileCode = request.form['filecode']
 
-        if fileCode:
-            if fileCode == "new":
-                return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")
+        if not fileCode:
+            corpusFile = open("static/dictionary.txt")
+            corpus = corpusFile.readlines()
+            corpusFile.close()
+            for i in range(3):
+                fileCode += corpus[random.randrange(len(corpus))][:-1].capitalize()
 
-            if session.get('user') or verify(request.form['authCode']) == True:
-                if md:
-                    from app import Markdowns
+        if fileCode == "new":
+            return render_template('create_md.html', error="OH MEIN GÖTT!!!! häckerangriff 🤯🤯🤯!!1! Nein, aber mal ehrlich: sehen wir wirklich so dumm aus?")
 
-                    # get storageUsed and add filesize
-                    uploadUser = None
-                    if (session.get('user')):
-                        uploadUser = Users.query.filter_by(id = session.get('user')).first()
-                    
-                    else:
-                        uploadUser = getCodeUser(request.form['authCode'])
+        if session.get('user') or verify(request.form['authCode']) == True:
+            if md:
+                from app import Markdowns
 
-                    if uploadUser.storageOwned < uploadUser.storageUsed:
-                        return render_template('create_md.html', error="Ihr Speicher ist voll.", mdContent = md)            
+                # get storageUsed and add filesize
+                uploadUser = None
+                if (session.get('user')):
+                    uploadUser = Users.query.filter_by(id = session.get('user')).first()
+                
+                else:
+                    uploadUser = getCodeUser(request.form['authCode'])
 
-                    # check if code is already used
-                    codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
-                    if codeUsed:
-                        return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.", mdContent = md)
-                    # set filePass
-                    filePass = None
-                    if (request.form.getlist('setNewFilepass') and request.form['filePass']):
-                        filePass = bcrypt.generate_password_hash(request.form['filePass'])
+                if uploadUser.storageOwned < uploadUser.storageUsed:
+                    return render_template('create_md.html', error="Ihr Speicher ist voll.", mdContent = md)            
 
-                    # adding link to database
-                    
-                    newMD = Markdowns(fileCode = fileCode, filePass=filePass, uploadUser=uploadUser.id)
-                    db.session.add(newMD)
-                    db.session.commit()
-                    db.session.refresh(newMD)
-                    insertedId= newMD.id
-                    
-                    with open(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md', 'w', encoding='utf-8') as f:
-                        f.write(md)
+                # check if code is already used
+                codeUsed = Markdowns.query.filter_by(fileCode = fileCode).first()
+                if codeUsed:
+                    return render_template('create_md.html', error="Der Datei-Code wird bereits genutzt.", mdContent = md)
+                # set filePass
+                filePass = None
+                if (request.form.getlist('setNewFilepass') and request.form['filePass']):
+                    filePass = bcrypt.generate_password_hash(request.form['filePass'])
 
-                    filesize = os.stat(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md').st_size
+                # adding link to database
+                
+                newMD = Markdowns(fileCode = fileCode, filePass=filePass, uploadUser=uploadUser.id)
+                db.session.add(newMD)
+                db.session.commit()
+                db.session.refresh(newMD)
+                insertedId= newMD.id
+                
+                with open(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md', 'w', encoding='utf-8') as f:
+                    f.write(md)
 
-                    # save size
-                    uploadedFile = Markdowns.query.filter_by(id = insertedId).first()
-                    uploadedFile.size = filesize
+                filesize = os.stat(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md').st_size
 
-                    uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
-                    db.session.commit()
+                # save size
+                uploadedFile = Markdowns.query.filter_by(id = insertedId).first()
+                uploadedFile.size = filesize
 
-                    if uploadUser.storageOwned < uploadUser.storageUsed :
-                        os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
-                        return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
-                    return redirect(url_for('schoolDoc', code=fileCode))
-                return render_template('create_md.html', error="Du...Du musst schon was eingeben.", mdContent = md)
-            return render_template('create_md.html', error="Code ungültig!", mdContent = md)
-        return render_template('create_md.html', error="Gib bitte einen Code ein!", mdContent = md)
+                uploadUser.storageUsed = (uploadUser.storageUsed + filesize)
+                db.session.commit()
+
+                if uploadUser.storageOwned < uploadUser.storageUsed :
+                    os.remove(app.config["MD_FOLDER"]+'/'+str(insertedId)+'.md') 
+                    return render_template('file_upload.html', error="Ihr Speicherplatz reicht nicht mehr aus.", mdContent = md)
+                return redirect(url_for('schoolDoc', code=fileCode))
+            return render_template('create_md.html', error="Du...Du musst schon was eingeben.", mdContent = md)
+        return render_template('create_md.html', error="Code ungültig!", mdContent = md)
     return render_template('create_md.html', username=session.get('username'))
 
 @app.route("/school/<code>/edit", methods=['GET', 'POST'])
@@ -217,7 +222,7 @@ def edit_md(code):
         userId = file.uploadUser
         uploadUser = Users.query.filter_by(id=userId).first()      
 
-        if (int(session.get('user'))  == uploadUser.id) or ("authCode" in request.form and request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
+        if (session.get('user') and int(session.get('user'))  == uploadUser.id) or ("authCode" in request.form and request.form['authCode'][0] == uploadUser.authDigit and bcrypt.check_password_hash(uploadUser.authHash, request.form['authCode'][1:])):
             md = request.form['markdown']
             fileCode = request.form['filecode']
 
@@ -447,6 +452,8 @@ def write_note():
     if request.method == 'POST':
         if len(request.form['content']) > 1000:
             return render_template('write_note.html', error="Zu lang!", note=request.form['content'])
+        elif len(request.form['content']) == 0:
+            return render_template('write_note.html', error="Zu kurz!", note=request.form['content'])
         # checking if IP already had to many requests
         from app import Notes
         writtenNotes = Notes.query.filter_by(ipAdr=request.remote_addr).count()

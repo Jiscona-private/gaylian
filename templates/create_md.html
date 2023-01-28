@@ -35,6 +35,15 @@
             document.getElementById('targetDiv').innerHTML = html;
             document.getElementById('markdown').value = text;
           }
+
+          function generateFileCode() {
+            var choice = "abcdefghijklmnopqrstuvwkyzABCDEFGHIJKLMNOPQRRSTUVWXYZ0123456789"
+            var code = ""
+            for (i=0;i<30;i++) {
+              code += choice.charAt(Math.random()*choice.length)
+            }
+            document.getElementById("filecode").value=code
+          }
         </script>
          <script src="../static/js/nav-index.js"></script>
     </head>
@@ -87,6 +96,7 @@
             </div>
             <div class="shadow rounded p-3 border bg-body">
                 <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                <input type="button" name="generateCode" id="generateCode" value="" onclick="generateFileCode()">
                 <hr>
                 {% if username %}
                   Ihre Datei wird auf dem Konto {{ username }} gespeichert.
