@@ -98,7 +98,7 @@ document.write(`
               <a class="btn btn_footer" href="/cookies">Cookies</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled">© 2022 by Bonarium Holdings. Alle Rechte sind reserviert.<br>
+              <a class="nav-link disabled">© 2023 by Bonarium Holdings. Alle Rechte sind reserviert.<br>
                 gaylian.net ist ein Service von Bonarium Holdings.</a>
             </li>
             <li class="nav-item footer-middle">
@@ -115,7 +115,7 @@ document.write(`
                 basiert. basierter. gaylian.
               </div>
               <div class="col" style="padding-bottom: 10px;">
-                Version: ALPHA <span style='font-size: 20px;'>&#128074;</span>
+                ALPHA-Version (0.1) <span style='font-size: 20px;'>&#128074;</span>
               </div>
             </div>
           </div>
@@ -123,3 +123,21 @@ document.write(`
       </div>
     </div>
   `)
+function pwToggle() {
+  var temp = document.getElementById("password","authCode");
+  if (temp.type === "password") {
+      temp.type = "text";
+  }
+  else {
+      temp.type = "password";
+  }
+}
+function pwToggleCode() {
+  var temp = document.getElementById("authCode");
+  if (temp.type === "password") {
+      temp.type = "text";
+  }
+  else {
+      temp.type = "password";
+  }
+}

@@ -32,9 +32,17 @@
                 <form role="search" method="post">
                   <textarea class="form-control me-2" name="content" placeholder="Notiz" maxlength="1000"></textarea>
                   <hr>
-                    <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
-                    <div class="input-group-text rounded">
-                      <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren"><i class="form-check-input-text">Passwort setzen</i>
+                    <div class="input-group mb-3">
+                      <div class="input-group-text">
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" role="switch" name="setNewFilepass" value="Aktivieren" id="SwitchCheckDefault">
+                          <label class="form-check-label" for="SwitchCheckDefault">Passwort setzen</label>
+                        </div>
+                      </div>
+                      <input class="form-control" type="password" id="password" name="filePass" maxlength="32" placeholder="Optionales Passwort">
+                      <div class="input-group-text">
+                        <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggle()">
+                      </div>
                     </div>
                   <hr>
                   <input type="submit" class="btn btn-outline-dark" value="Notiz speichern">

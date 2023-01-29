@@ -601,7 +601,7 @@ def tos():
 
 @app.route('/mission')
 def mission():
-    return render_template('wip.html')
+    return render_template('why_us.html')
 
 @app.route('/impressum')
 def imprint():

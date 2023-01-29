@@ -41,7 +41,7 @@
                           <td>{{ filenames[i] }}</td>
                           <td class="bytes">{{ fileSizes[i] }}</td>
                           <td>
-                            <form class="padding_delete" method="post">
+                            <form class="padding_delete" method="post" target="_blank">
                               <input class="btn btn-dwl_delete" name="download" type="submit" value="Herunterladen">
                               <input type="hidden" name="fileId" value="{{fileIds[i]}}">
                             </form>
@@ -55,7 +55,7 @@
                 <hr>
                 <div class="shadow rounded p-3 border bg-body fw-light">
                     <form method="post">
-                      <div class="col-6 mx-auto">
+                      <div class="col-4 mx-auto">
                         <button class="btn btn-success dwl-button" type="submit" name="downloadAll">
                           <img class="dwl-symbol" src="../static/img/gaylian-download.png" alt="download">
                           <span class="dwl-text" name="downloadAll">Alle herunterladen</span>
@@ -63,7 +63,7 @@
                       </div>
                       <div class="dwl-space-mobile">
                         <span class="fs-4 dwl-text-mobile" name="downloadAll">Alle herunterladen</span><br>
-                        <button class="btn btn-success dwl-button-mobile" type="submit" name="downloadAll">
+                        <button class="btn btn-success dwl-button-mobile mx-auto" type="submit" name="downloadAll">
                           <img class="dwl-symbol-mobile" src="../static/img/gaylian-download.png" alt="download">
                         </button>
                       </div>

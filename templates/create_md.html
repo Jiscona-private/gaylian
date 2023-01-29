@@ -95,19 +95,35 @@
               <label for="md" class="form-label fw-semibold">Einfach und mit ästhetischem Layout: Nutze Markdown! <br> Hier kannst du Informationen zu deinem MD schreiben:</label>
             </div>
             <div class="shadow rounded p-3 border bg-body">
-                <input class="padding form-control me-2" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
-                <input type="button" name="generateCode" id="generateCode" value="" onclick="generateFileCode()">
+                <div class="input-group mb-3">
+                  <input class="form-control" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                  <div class="input-group-text">
+                    <input class="btn btn-outline-dark" type="button" name="generateCode" id="generateCode" value="Zufallscode generieren" onclick="generateFileCode()">
+                  </div>
+                </div>
                 <hr>
                 {% if username %}
                   Ihre Datei wird auf dem Konto {{ username }} gespeichert.
-                {% else %}                        
-                  <input class="padding form-control me-2" type="password" name="authCode" id="authCode" placeholder="Gaylian-Nutzer-Code">
+                {% else %}
+                  <div class="input-group mb-3">
+                    <input class="form-control" type="password" id="authCode" name="authCode" placeholder="Gaylian-Nutzer-Code">
+                    <div class="input-group-text">
+                      <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggleCode()">
+                    </div>
+                  </div>
                 {% endif %}
                 <hr>
-                  <input class="padding form-control me-2" type="text" name="filePass" maxlength="32" placeholder="Optionales Password">
-                  <div class="input-group-text rounded">
-                    <input class="form-check-input mt-0" type="checkbox" name="setNewFilepass" value="Aktivieren">
-                    <label><i class="form-check-input-text">Passwort setzen</i></label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="setNewFilepass" value="Aktivieren" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Passwort setzen</label>
+                      </div>
+                    </div>
+                    <input class="form-control" type="password" id="password" name="filePass" maxlength="32" placeholder="Optionales Passwort">
+                    <div class="input-group-text">
+                      <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggle()">
+                    </div>
                   </div>
                 <hr>
                 <input type="submit" class="padding btn btn-outline-success" value="Hochladen">
