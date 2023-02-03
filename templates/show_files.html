@@ -134,17 +134,17 @@
             var ctx = pieCanvas.getContext("2d");
     
             function scaleByte(byte) {
-                if (byte < 1000) {
+                if (byte < 1024) {
                     return byte + " Byte";
                 }
-                if (byte / 1000 < 1000) {
-                    return Math.round((byte / 1000) * 10) / 10  + "KB";
+                if (byte / 1024 < 1024) {
+                    return Math.round((byte / 1024) * 10) / 10  + "KB";
                 }
-                if (byte / 1000000 < 1000) {
-                    return Math.round((byte / 1000000) * 10) / 10  + "MB";
+                if (byte / (1024*1024) < 1024) {
+                    return Math.round((byte / (1024*1024)) * 10) / 10  + "MB";
                 }
                 
-                return Math.round((byte / 1000000000) * 10) / 10 + "GB";
+                return Math.round((byte / (1024*1024*1024)) * 10) / 10 + "GB";
                 
             }
 
