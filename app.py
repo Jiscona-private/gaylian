@@ -6,6 +6,11 @@ import shutil
 from time import sleep
 from zipfile import ZipFile
 
+# Email
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory, session, make_response
 #from flask.ext.session import Session
 from werkzeug.utils import secure_filename
@@ -21,12 +26,14 @@ NOTES_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/not
 MD_FOLDER = 'F:\Dokumente\Dokumente\Jakob\Gaylian Net\Code\github\gaylian/markdowns'
 ADMIN_PW = "GdSk1cktawyo"
 SESSION_TYPE = 'redis'
+EMAIL_PW = "password"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['NOTES_FOLDER'] = NOTES_FOLDER
 app.config['MD_FOLDER'] = MD_FOLDER
 app.config['ADMIN_PW'] = ADMIN_PW
+app.config['EMAIL_PW'] = EMAIL_PW
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gaylian.db'
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
 app.config.from_object(__name__)
@@ -43,6 +50,21 @@ class Users(db.Model):
     authHash = db.Column(db.String(120), nullable=False)
     storageUsed = db.Column(db.Integer, nullable=False)
     storageOwned = db.Column(db.Integer, nullable=False)
+    created = db.Column(db.DateTime(), default=datetime.datetime.now()) 
+
+class Requests(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(80), unique=False, nullable=False)
+    lastname = db.Column(db.String(80), unique=False, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    authDigit = db.Column(db.String(1), nullable=False)
+    authHash = db.Column(db.String(120), nullable=False)
+    storageUsed = db.Column(db.Integer, nullable=False)
+    storageOwned = db.Column(db.Integer, nullable=False)
+    plus = db.Column(db.Integer, nullable=True)
+    verificationCode = db.Column(db.String(50), unique=False, nullable=False)
+    verified = db.Column(db.Boolean, unique=False, default=False)
+    requested = db.Column(db.DateTime(), default=datetime.datetime.now()) 
 
 class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -581,6 +603,82 @@ def createUser():
 @app.route('/mail')
 def mailStart():
     return render_template('wip.html')
+
+# ACCOUNTS
+@app.route('/account/request', methods=["POST","GET"])
+def request_account():
+    if request.method == "POST":
+        # generate verification code
+        alphabet = "abcdefghijklmnopqrestuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        verificationCode = ""
+        for i in range(50):
+            verificationCode += alphabet[random.randrange(0, len(alphabet))]
+        # make db entry
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        username = request.form['username']
+        password = request.form['password']
+        storage = int(request.form['storage'])
+        plus = int(request.form['plus'])
+            
+
+        newRequest = Requests(firstname=firstname, lastname=lastname, username=username, 
+                            authDigit=password[0], authHash=bcrypt.generate_password_hash(password[1:]), 
+                            verificationCode=verificationCode, 
+                            storageUsed=0, storageOwned=(storage * 1024 * 1024),
+                            plus = plus)
+        db.session.add(newRequest)
+        db.session.commit()
+        db.session.refresh(newRequest)
+        
+        # send email
+        sender_email = "admin@gaylian.net"
+        receiver_email = f'{lastname.lower()}.{firstname.lower()}@gykl.lernsax.de'
+        
+
+        message = MIMEMultipart("alternative")
+        message["Subject"] = f'Aktiverung des gaylian-Accounts für {firstname} {lastname}'
+        message["From"] = sender_email
+        message["To"] = receiver_email
+
+        # Create the plain-text and HTML version of your message
+        html = f"""\
+        <html>
+        <body>
+            <p>Guten Tag {firstname} {lastname},<br>
+                <a href="https://gaylian.net/account/verify/{verificationCode}">hier</a> können Sie ihren gaylian-Account aktivieren.
+                <br>
+                Mit freundlichen Grüßen<br>
+                Ihre BT von <a href="https://gaylian.net">gaylian.net</a>
+        </body>
+        </html>
+        """
+
+        message.attach(MIMEText(html, "html"))
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.ionos.de", 465, context=context) as server:
+            server.login(sender_email, app.config['EMAIL_PW'])
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )
+        return render_template('sucess.html', goal="newAccount")
+    return render_template('account_configurator.html')
+
+@app.route('/account/verify/<code>', methods=["GET"])
+def verify_account(code):
+    toVerify = Requests.query.filter_by(verificationCode=code).first()
+    print(toVerify.verified)
+    toVerify.verified = True
+    db.session.commit()
+    return redirect("/account/verified")
+
+@app.route('/account/verified', methods=["GET"])
+def verification_sucess():
+    return render_template("verification_sucess.html")
+
+
 
 
 # user information
