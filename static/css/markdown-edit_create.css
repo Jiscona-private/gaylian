@@ -6,6 +6,7 @@
     padding: 10px;
     margin: 0 0 0 20px;
     width: 97%;
+    height: 250px;
 }
 .md_textoutput {
     width: auto;
@@ -53,5 +54,6 @@
         position: relative;
         padding: 10px;
         width: 100%;
+        height: 470px;
     }
 }

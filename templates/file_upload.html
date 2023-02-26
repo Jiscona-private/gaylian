@@ -16,15 +16,15 @@
               <div class="shadow rounded p-3 border bg-body fw-semibold">Der Cloudservice von gaylian.net ermöglicht ihnen das Hochladen jeglicher Dateien</div>
                 <div class="shadow rounded p-3 border bg-body">
                   <form method="post" enctype=multipart/form-data>
-                      <input class="padding form-control" type="file" id="file[]" name="file[]" multiple="">
+                      <input class="padding form-control" type="file" id="file[]" name="file[]" multiple="" required>
                       <hr>
-                      <input class="padding form-control me-2" maxlength="32" type="text" name="filecode" id="filecode" placeholder="Code der Datei">
+                      <input class="padding form-control me-2" maxlength="32" type="text" name="filecode" id="filecode" placeholder="Code der Datei" required>
                       <hr>
                       {% if username %}
                         Ihre Datei wird auf dem Konto {{ username }} gespeichert.
                       {% else %}                        
                         <div class="input-group mb-3">
-                          <input class="form-control" type="password" id="authCode" name="authCode" placeholder="Gaylian-Nutzer-Code">
+                          <input class="form-control" type="password" id="authCode" name="authCode" placeholder="Gaylian-Nutzer-Code" minlength="5" required>
                           <div class="input-group-text">
                             <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggleCode()">
                           </div>

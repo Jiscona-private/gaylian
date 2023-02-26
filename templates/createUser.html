@@ -16,20 +16,20 @@
                 <div class="col based1">
                     <div class="shadow rounded p-3 border bg-body fw-semibold">
                         <form name="userInfo" method="post">
-                            <input class="form-control me-2" type="text" name="uname" id="uname" placeholder="Nutzername">
+                            <input class="form-control me-2" type="text" name="uname" id="uname" placeholder="Nutzername" minlength="5" required>
                             <hr>
                             <div class="input-group mb-3">
-                                <input class="form-control" type="password" id="password" name="password" placeholder="Nutzer-Passwort">
+                                <input class="form-control" type="password" id="password" name="password" placeholder="Nutzer-Passwort" minlength="5" required>
                                 <div class="input-group-text">
                                   <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggle()">
                                 </div>
                             </div>   
                             <hr>
-                            <input class="form-control me-2" type="number" name="storage" id="storage" placeholder="Verfügbarer Speicher in MB">
+                            <input class="form-control me-2" type="number" name="storage" id="storage" placeholder="Verfügbarer Speicher in GB" required>
                             <hr>    
-                            <input class="form-control me-2" type="text" name="adminName" id="adminName" placeholder="gaylian-Admin-Name">
+                            <input class="form-control me-2" type="text" name="adminName" id="adminName" placeholder="gaylian-Admin-Name" required>
                             <hr>
-                            <input class="form-control me-2" type="password" name="adminPassword" id="adminPassword" placeholder="gaylian-Admin-Passwort">
+                            <input class="form-control me-2" type="password" name="adminPassword" id="adminPassword" placeholder="gaylian-Admin-Passwort" required>
                             <hr>
                             <input class="btn btn-outline-success" type="submit" value="Speichern">
                             <input class="btn btn-sm btn-outline-dark" type="reset">

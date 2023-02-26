@@ -115,7 +115,7 @@ document.write(`
                 basiert. basierter. gaylian.
               </div>
               <div class="col" style="padding-bottom: 10px;">
-                ALPHA-Version (0.1) <span style='font-size: 20px;'>&#128074;</span>
+                ALPHA-Version (0.1.1) <span style='font-size: 20px;'>&#128074;</span>
               </div>
             </div>
           </div>
@@ -125,6 +125,13 @@ document.write(`
   `)
 function pwToggle() {
   var temp = document.getElementById("password","authCode");
+  if (temp.type === "password") {
+      temp.type = "text";
+  }
+  else {
+      temp.type = "password";
+  }
+  var temp = document.getElementById("passwordCheck");
   if (temp.type === "password") {
       temp.type = "text";
   }

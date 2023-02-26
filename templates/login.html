@@ -18,10 +18,10 @@
                     <div class="shadow rounded p-3 border bg-body fw-semibold">Loggen sie sich bitte mit ihrem Nutzernamen und dazugehörigen Passwort ein.</div>
                       <div class="shadow rounded p-3 border bg-body">
                         <form action="/user/login" method="post">
-                            <input class="padding form-control me-2" type="text" name="uname" placeholder="Nutzername">
+                            <input class="padding form-control me-2" type="text" name="uname" placeholder="Nutzername" minlength="5" required>
                             <hr>
                             <div class="input-group mb-3">
-                              <input class="form-control" type="password" id="password" name="password" placeholder="Passwort">
+                              <input class="form-control" type="password" id="password" name="password" placeholder="Passwort" minlength="5" required>
                               <div class="input-group-text">
                                 <input class="form-check-input mt-0 checkbox-color" type="checkbox" value="Aktivieren" onclick="pwToggle()">
                               </div>

@@ -591,7 +591,7 @@ def createUser():
             storage = int(request.form['storage'])
             
 
-            newUser = Users(username=username, authDigit=pw[0], authHash=bcrypt.generate_password_hash(pw[1:]), storageUsed=0, storageOwned=(storage * 1024 * 1024))
+            newUser = Users(username=username, authDigit=pw[0], authHash=bcrypt.generate_password_hash(pw[1:]), storageUsed=0, storageOwned=(storage * 1024 * 1024 * 1024))
             db.session.add(newUser)
             db.session.commit()
             db.session.refresh(newUser)
@@ -625,7 +625,7 @@ def request_account():
         newRequest = Requests(firstname=firstname, lastname=lastname, username=username, 
                             authDigit=password[0], authHash=bcrypt.generate_password_hash(password[1:]), 
                             verificationCode=verificationCode, 
-                            storageUsed=0, storageOwned=(storage * 1024 * 1024),
+                            storageUsed=0, storageOwned=(storage * 1024 * 1024 * 1024),
                             plus = plus)
         db.session.add(newRequest)
         db.session.commit()

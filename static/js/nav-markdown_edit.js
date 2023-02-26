@@ -127,7 +127,7 @@ document.write(`
                   basiert. basierter. gaylian.
                 </div>
                 <div class="col" style="padding-bottom: 10px;">
-                  ALPHA-Version (0.1) <span style='font-size: 20px;'>&#128074;</span>
+                  ALPHA-Version (0.1.1) <span style='font-size: 20px;'>&#128074;</span>
                 </div>
               </div>
             </div>
